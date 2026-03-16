@@ -1,0 +1,9 @@
+{
+  "name": "abivian-auth-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for Abivian WorkOS authentication",
+  "dependencies": {
+    "@workos-inc/node": "^7.0.0",
+    "jsonwebtoken": "^9.0.0"
+  }
+}

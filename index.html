@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abivian - The AI Compliance Reasoning Engine</title>
+<meta name="description" content="Abivian transforms months of compliance work into hours with deterministic AI reasoning. From regulation to audit-ready proof, automatically.">
+<meta property="og:title" content="Abivian - The AI Compliance Reasoning Engine">
+<meta property="og:description" content="From regulation to audit-ready proof. Automatically.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.abivian.com">
+<link rel="canonical" href="https://www.abivian.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAFAFA;--card:#fff;--subtle:#F8F8F8;--hover:#F5F5F5;--muted:#F2F2F2;--border:#F0F0F0;--border-h:#E8E8E8;--border-s:#F4F4F4;--text:#2A2A2A;--text-l:#8A8A8A;--text-m:#666;--green:#7A9E7A;--green-h:#6B8F6B;--green-bg:#F8FCF8;--green-b:#E8F0E8;--red:#DC3545}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+*{box-shadow:none!important}
+.container{max-width:1200px;margin:0 auto;padding:0 clamp(1.5rem,4vw,3rem)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+/* Section animations */
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+@keyframes borderGlow{0%{border-color:var(--border)}50%{border-color:var(--green-b)}100%{border-color:var(--border)}}
+@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes subtleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ROI number count-up animation */
+.roi-val{transition:opacity .6s ease,transform .6s ease}
+.roi-card.visible .roi-val{animation:countPulse .5s ease .6s both}
+
+/* Crisis stats - sequential red flash on reveal */
+.c-stat.visible .c-stat-val{animation:borderGlow 1.5s ease .3s both}
+
+/* Solution steps - icon float on hover */
+.sol-step:hover .sn{animation:subtleFloat 2s ease-in-out infinite}
+
+/* Platform cards - staggered border glow on scroll */
+.plat-card.visible{animation:borderGlow 2s ease both}
+.plat-card:nth-child(1).visible{animation-delay:.1s}
+.plat-card:nth-child(2).visible{animation-delay:.2s}
+.plat-card:nth-child(3).visible{animation-delay:.3s}
+.plat-card:nth-child(4).visible{animation-delay:.4s}
+.plat-card:nth-child(5).visible{animation-delay:.5s}
+.plat-card:nth-child(6).visible{animation-delay:.6s}
+.plat-card:nth-child(7).visible{animation-delay:.7s}
+.plat-card:nth-child(8).visible{animation-delay:.8s}
+.plat-card:nth-child(9).visible{animation-delay:.9s}
+
+/* Approach cards - icon pulse on hover */
+.appr-card:hover .plat-icon{animation:subtleFloat 2s ease-in-out infinite}
+
+/* Hero animations */
+@keyframes heroFadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes heroWordReveal{from{opacity:0;transform:translateY(40px) rotateX(40deg);filter:blur(6px)}to{opacity:1;transform:translateY(0) rotateX(0);filter:blur(0)}}
+@keyframes heroImgReveal{from{opacity:0;transform:scale(.92) translateY(24px);filter:blur(4px)}to{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}}
+@keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+@keyframes heroShimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes accentGlow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 30px rgba(122,158,122,.25)}}
+.hero-label-anim{animation:heroFadeUp .7s ease .15s both}
+.hero-word{display:inline-block;opacity:0;animation:heroWordReveal .7s cubic-bezier(.23,1,.32,1) both;transform-origin:bottom center}
+.hero-word:nth-child(1){animation-delay:.3s}
+.hero-word:nth-child(2){animation-delay:.42s}
+.hero-word:nth-child(3){animation-delay:.54s}
+.hero-word:nth-child(4){animation-delay:.66s}
+.hero-word .accent{background:linear-gradient(90deg,var(--green),#92B892,var(--green));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:heroShimmer 4s ease 1.4s both,accentGlow 3s ease-in-out 2.5s infinite}
+.hero-auto{display:block;opacity:0;animation:heroWordReveal .7s cubic-bezier(.23,1,.32,1) .85s both;color:var(--text-l);font-weight:300;font-size:clamp(1.4rem,3vw,2.2rem);margin-top:.15rem;letter-spacing:-.01em}
+.hero-sub-anim{animation:heroFadeUp .7s ease 1.05s both}
+.hero-cta-anim{animation:heroFadeUp .7s ease 1.2s both}
+.hero-metrics-anim{animation:heroFadeUp .7s ease 1.4s both}
+.hero-img-wrap{perspective:1000px}
+.hero-img-anim{animation:heroImgReveal .9s cubic-bezier(.23,1,.32,1) .6s both;transition:transform .4s ease}
+.hero-img-anim:hover{transform:scale(1.02);transition:transform .35s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 0;background:rgba(250,250,250,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:padding .3s}
+nav.scrolled{padding:.65rem 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:inline-flex;align-items:center;text-decoration:none}
+.nav-logo img{height:20px;width:auto}
+.hero-logo{text-align:center;margin-bottom:1.5rem;animation:heroFadeUp .7s ease .05s both}
+.hero-logo img{height:76px;width:auto}
+.hero-tagline{font-size:.85rem;color:var(--text-l);letter-spacing:.08em;text-transform:uppercase;font-weight:400;margin-top:.6rem;animation:heroFadeUp .7s ease .2s both}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{text-decoration:none;color:var(--text-l);font-size:.8rem;font-weight:400;letter-spacing:.02em;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn-nav{background:var(--green)!important;color:#fff!important;padding:.5rem 1.25rem;border-radius:4px;font-size:.8rem!important;font-weight:500!important;transition:background .2s!important;border:none}
+.btn-nav:hover{background:var(--green-h)!important}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.nav-toggle span{display:block;width:20px;height:1.5px;background:var(--text);margin:4px 0;transition:all .3s}
+
+/* SECTION */
+.s-label{color:var(--text-m);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem}
+.s-title{font-size:clamp(1.75rem,3.5vw,2.5rem);color:var(--text);font-weight:500;letter-spacing:-.01em;line-height:1.2;max-width:650px}
+.s-sub{font-size:.95rem;color:var(--text-l);max-width:520px;line-height:1.7;margin-top:1rem;font-weight:300}
+
+/* HERO */
+.hero{display:flex;align-items:center;background:var(--bg);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;left:-20%;right:-20%;height:80%;opacity:0;background:
+  radial-gradient(ellipse 60% 50% at 20% 50%,rgba(122,158,122,.15) 0%,transparent 70%),
+  radial-gradient(ellipse 50% 60% at 50% 40%,rgba(110,160,140,.12) 0%,transparent 70%),
+  radial-gradient(ellipse 55% 45% at 80% 50%,rgba(100,150,170,.1) 0%,transparent 70%);
+  filter:blur(60px);animation:auroraIn 2.5s ease .1s forwards,aurora 12s ease-in-out 2.6s infinite alternate;pointer-events:none;z-index:0}
+.hero::after{content:'';position:absolute;top:-30%;left:-10%;right:-10%;height:70%;opacity:0;background:
+  radial-gradient(ellipse 45% 55% at 35% 60%,rgba(130,170,130,.1) 0%,transparent 65%),
+  radial-gradient(ellipse 50% 40% at 70% 45%,rgba(100,140,160,.08) 0%,transparent 65%);
+  filter:blur(50px);animation:auroraIn 3s ease .5s forwards,aurora2 15s ease-in-out 3.5s infinite alternate;pointer-events:none;z-index:0}
+@keyframes auroraIn{from{opacity:0;transform:translateY(-40px) scaleX(.8)}to{opacity:1;transform:translateY(0) scaleX(1)}}
+@keyframes aurora{0%{transform:translateX(-8%) scaleY(1) rotate(-1deg);opacity:.7}50%{transform:translateX(5%) scaleY(1.15) rotate(1deg);opacity:1}100%{transform:translateX(-3%) scaleY(.95) rotate(-0.5deg);opacity:.8}}
+@keyframes aurora2{0%{transform:translateX(5%) scaleY(1.1) rotate(1deg);opacity:.6}50%{transform:translateX(-6%) scaleY(.9) rotate(-1.5deg);opacity:.9}100%{transform:translateX(3%) scaleY(1.05) rotate(0.5deg);opacity:.7}}
+.hero>.container{position:relative;z-index:1;padding-left:clamp(2rem,6vw,5rem);padding-right:clamp(2rem,6vw,5rem)}
+.hero-content{padding:6.5rem 0 3rem}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,4rem);align-items:center}
+.hero-img-col{display:flex;align-items:center;justify-content:center}
+.hero-img{width:100%;max-width:clamp(320px,32vw,520px);border-radius:6px;border:1px solid var(--border)}
+.hero h1{font-size:clamp(2.5rem,5.5vw,4rem);font-weight:500;letter-spacing:-.02em;line-height:1.1;color:var(--text);max-width:700px}
+.hero h1 .accent{color:var(--green)}
+.hero-sub{font-size:1.05rem;line-height:1.7;color:var(--text-l);max-width:520px;margin-top:1.5rem;font-weight:300}
+.hero-cta{margin-top:2.5rem;display:flex;gap:.75rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.4rem;background:var(--green);color:#fff;padding:.75rem 1.75rem;border-radius:4px;text-decoration:none;font-weight:500;font-size:.875rem;transition:background .2s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--green-h)}
+.btn-secondary{display:inline-flex;align-items:center;gap:.4rem;background:var(--subtle);color:var(--text-l);padding:.75rem 1.75rem;border-radius:4px;text-decoration:none;font-weight:400;font-size:.875rem;transition:all .2s;border:1px solid var(--border);cursor:pointer}
+.btn-secondary:hover{background:var(--muted);border-color:var(--border-h);color:var(--text)}
+.hero-metrics{display:flex;gap:1rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.hero-metric{background:var(--card);border:1px solid var(--border-s);border-radius:4px;padding:1.25rem 1.5rem;flex:1;min-width:120px}
+.hm-val{font-size:1.75rem;font-weight:600;color:var(--text);line-height:1}
+.hm-val.green{color:var(--green)}
+.hm-label{font-size:.72rem;color:var(--text-l);margin-top:.35rem;text-transform:uppercase;letter-spacing:.03em}
+.juris-slot{display:flex;gap:2px;height:2.2rem;justify-content:center}
+.flap-char{display:inline-flex;align-items:center;justify-content:center;width:1.35rem;height:2rem;background:#1a1a1a;color:#e0e0e0;font-family:'Inter',monospace;font-size:1.1rem;font-weight:600;border-radius:2px;position:relative;overflow:hidden;letter-spacing:0}
+.flap-char::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.4)}
+.flap-char.flipping{animation:flapFlip .12s ease-in-out}
+.flap-char.final{background:#1a3a1a;color:var(--green)}
+@keyframes flapFlip{0%{transform:scaleY(1)}50%{transform:scaleY(0)}100%{transform:scaleY(1)}}
+
+/* MISSION BANNER */
+.mission{padding:clamp(3rem,6vw,5rem) 0;background:#0a0a0a;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid #1a1a1a}
+.mission-title{font-size:clamp(1.5rem,3.5vw,2.4rem);font-weight:500;color:#f0f0f0;letter-spacing:-.02em;line-height:1.15;opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.mission-title .friction-wrap{display:inline-block;position:relative}
+.mission-title .friction-line{display:block;width:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);margin:6px auto 0;transition:width 1.2s ease .6s}
+.mission.visible .friction-line{width:100%}
+.mission-tagline{font-size:clamp(.85rem,1.6vw,1rem);color:rgba(255,255,255,.4);font-weight:300;margin-top:1.25rem;line-height:1.6;opacity:0;transform:translateY(20px);transition:opacity .8s ease .3s,transform .8s ease .3s}
+.mission.visible .mission-title{opacity:1;transform:translateY(0)}
+.mission.visible .mission-tagline{opacity:1;transform:translateY(0)}
+.crisis{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
+.crisis-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
+.c-stat{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem;margin-bottom:.75rem;transition:border-color .2s}
+.c-stat:hover{border-color:var(--border-h)}
+.c-stat-val{font-size:2rem;font-weight:600;color:var(--red);line-height:1}
+.c-stat-text{font-size:.85rem;color:var(--text);margin-top:.4rem;font-weight:400}
+.c-stat-sub{font-size:.75rem;color:var(--text-l);margin-top:.2rem}
+.c-case{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2rem}
+.c-case-label{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-m);margin-bottom:.75rem}
+.c-case h3{font-size:1.1rem;font-weight:500;margin-bottom:.4rem;color:var(--text)}
+.c-case-desc{color:var(--text-l);font-size:.82rem;margin-bottom:1.5rem;font-weight:300}
+.cm{display:flex;align-items:baseline;gap:1rem;padding:.85rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:4px;margin-bottom:.5rem}
+.cm-val{font-size:1.5rem;font-weight:600;color:var(--text);min-width:70px}
+.cm-label{font-size:.8rem;color:var(--text-l)}
+
+/* REGULATORY GRAPH */
+.reg-graph{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
+.reg-graph-frame{margin-top:3rem;border-radius:6px;border:1px solid var(--border);overflow:hidden;background:var(--card);position:relative}
+.reg-graph-frame iframe{display:block;width:100%;height:600px;border:none}
+.reg-graph-hint{display:flex;align-items:center;gap:.5rem;margin-top:.75rem;font-size:.72rem;color:var(--text-l);font-weight:300}
+.reg-graph-hint i{color:var(--green);font-size:.85rem}
+
+/* RADAR */
+.radar-section{padding:clamp(5rem,10vw,8rem) 0;background:#0a0a0a;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
+.radar-section .s-label{color:rgba(122,158,122,.7)}
+.radar-section .s-title{color:#f0f0f0}
+.radar-section .s-sub{color:rgba(255,255,255,.45)}
+.radar-wrap{position:relative;width:100%;max-width:700px;margin:3.5rem auto 0;aspect-ratio:1/1}
+.radar-canvas{position:absolute;inset:0;width:100%;height:100%}
+.radar-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:3}
+.radar-center-dot{width:10px;height:10px;border-radius:50%;background:var(--green);margin:0 auto 6px;box-shadow:0 0 20px rgba(122,158,122,.5),0 0 40px rgba(122,158,122,.2)!important}
+.radar-center-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(122,158,122,.8)}
+.radar-node{position:absolute;z-index:2;transform:translate(-50%,-50%);text-align:center;cursor:default;transition:opacity .3s}
+.radar-node-dot{width:5px;height:5px;border-radius:50%;background:rgba(122,158,122,.35);margin:0 auto 4px;transition:all .4s}
+.radar-node-name{font-size:.68rem;font-weight:500;color:rgba(255,255,255,.4);white-space:nowrap;transition:all .4s;letter-spacing:.01em}
+.radar-node-area{font-size:.55rem;font-weight:300;color:rgba(255,255,255,.2);white-space:nowrap;transition:all .4s}
+.radar-node.lit .radar-node-dot{background:var(--green);box-shadow:0 0 8px rgba(122,158,122,.6),0 0 16px rgba(122,158,122,.3)!important}
+.radar-node.lit .radar-node-name{color:rgba(255,255,255,.9)}
+.radar-node.lit .radar-node-area{color:rgba(122,158,122,.7)}
+.radar-node:hover .radar-node-dot{background:var(--green);box-shadow:0 0 12px rgba(122,158,122,.7)!important}
+.radar-node:hover .radar-node-name{color:#fff}
+.radar-node:hover .radar-node-area{color:rgba(122,158,122,.8)}
+.radar-stat-bar{display:flex;justify-content:center;gap:clamp(1.5rem,4vw,3rem);margin-top:2.5rem;flex-wrap:wrap}
+.radar-stat{text-align:center}
+.radar-stat-val{font-size:1.5rem;font-weight:600;color:#f0f0f0}
+.radar-stat-val span{color:var(--green)}
+.radar-stat-label{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:.2rem;text-transform:uppercase;letter-spacing:.04em}
+@keyframes rsReveal{0%{opacity:0;transform:translateY(16px) scale(.9)}60%{opacity:1;transform:translateY(-2px) scale(1.02)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes rsPulse{0%,100%{opacity:.85}50%{opacity:1}}
+@keyframes flicker{0%,100%{opacity:1}4%{opacity:.15}5%{opacity:1}6%{opacity:.3}7.5%{opacity:1}}
+.flicker{animation:flicker 6s ease-in-out 2s infinite}
+.rs-anim{opacity:0}
+.radar-stat-bar.visible .rs-anim{animation:rsReveal .7s cubic-bezier(.23,1,.32,1) var(--rs-d) both,rsPulse 4s ease-in-out calc(var(--rs-d) + 1.2s) infinite}
+
+/* SOLUTION */
+.solution{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
+.sol-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.sol-step{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;transition:all .3s}
+.sol-step:hover{border-color:#333;background:#0a0a0a}
+.sol-step:hover .st{color:#f0f0f0}
+.sol-step:hover .sd{color:rgba(255,255,255,.55)}
+.sol-step:hover .sn{background:#fff;color:#0a0a0a}
+.sn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-size:.8rem;font-weight:600;margin-bottom:1.25rem;transition:all .3s}
+.st{font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:.6rem;transition:color .3s}
+.sd{font-size:.82rem;color:var(--text-l);line-height:1.7;font-weight:300;transition:color .3s}
+.sol-results{margin-top:2rem;background:var(--green);border-radius:4px;padding:2rem;color:#fff}
+.sol-results-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.sol-results-header .sn{background:rgba(255,255,255,.2);color:#fff;flex-shrink:0}
+.sol-results-header .st{color:#fff}
+.sol-results-header .sd{color:rgba(255,255,255,.7)}
+.sol-results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.sol-result-item{display:flex;align-items:center;gap:.5rem;padding:.6rem .75rem;background:rgba(255,255,255,.12);border-radius:4px;font-size:.78rem;font-weight:400;color:#fff;transition:background .2s;line-height:1.3}
+.sol-result-item:hover{background:rgba(255,255,255,.2)}
+.sol-result-item i{font-size:.85rem;opacity:.7;flex-shrink:0}
+
+/* REACTIONS */
+.reactions{padding:clamp(4rem,8vw,6rem) 0;background:#0a0a0a;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
+.reactions::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 60% at 20% 30%,rgba(122,158,122,.12) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 80% at 80% 70%,rgba(100,140,160,.08) 0%,transparent 55%),
+  radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,255,255,.03) 0%,transparent 70%);
+  opacity:1;transition:opacity 3s ease;z-index:0;pointer-events:none}
+.reactions.settled::before{opacity:0}
+.reactions::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:0}
+.reactions>.container{position:relative;z-index:1}
+.reactions .s-label{color:rgba(255,255,255,.4)}
+.reactions .s-title{color:#fff}
+.reactions-stage{margin-top:3rem;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center}
+.reactions-quote{max-width:650px;margin:0 auto}
+.reactions-quote blockquote{font-size:clamp(1.1rem,2.5vw,1.35rem);font-weight:400;font-style:italic;color:rgba(255,255,255,.9);line-height:1.55;opacity:0;transform:translateY(8px);transition:opacity .8s ease,transform .8s ease}
+.reactions-quote blockquote.active{opacity:1;transform:translateY(0)}
+.reactions-companies{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+.reactions-co{font-size:.8rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.03em}
+.reactions-dot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;opacity:.6}
+
+/* DIFF */
+.diff{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:3rem;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.diff-col{padding:2rem}
+.diff-llm{background:var(--bg)}
+.diff-eng{background:var(--green-bg)}
+.diff-hdr{font-size:.78rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--text-m);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.diff-eng .diff-hdr{color:var(--green);border-bottom-color:var(--green-b)}
+.di{display:flex;align-items:flex-start;gap:.6rem;padding:.6rem 0;font-size:.85rem;color:var(--text);line-height:1.45;font-weight:300}
+.dx{color:var(--red);font-size:.9rem;flex-shrink:0;font-weight:500}
+.dc{color:var(--green);font-size:.9rem;flex-shrink:0;font-weight:500}
+.diff-btm{margin-top:2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem 2rem;text-align:center}
+.diff-btm p{font-size:.9rem;color:var(--text);font-weight:400}
+.hl{color:var(--green);font-weight:500}
+
+/* PLATFORM */
+.platform{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
+.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.plat-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.75rem;transition:all .3s}
+.plat-card:hover{border-color:#333;background:#0a0a0a}
+.plat-card:hover h3{color:#f0f0f0}
+.plat-card:hover p{color:rgba(255,255,255,.55)}
+.plat-card:hover .plat-icon{background:#1a1a1a;border-color:#333;color:#fff}
+.plat-icon{width:36px;height:36px;border-radius:4px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1rem;color:var(--green);transition:all .3s}
+.plat-card h3{font-size:.95rem;font-weight:500;color:var(--text);margin-bottom:.5rem;transition:color .3s}
+.plat-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300;transition:color .3s}
+
+/* ROI */
+.roi{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
+.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.roi-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;text-align:center;transition:border-color .2s}
+.roi-card:hover{border-color:var(--border-h)}
+.roi-val{font-size:3.5rem;font-weight:700;color:var(--green);line-height:1}
+.roi-unit{font-size:1.5rem;font-weight:500}
+.roi-card h3{font-size:.95rem;font-weight:500;color:var(--text);margin:.75rem 0 .4rem}
+.roi-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300}
+.roi-details{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
+.roi-detail{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:4px;transition:border-color .2s}
+.roi-detail:hover{border-color:var(--border-h)}
+.roi-detail-icon{width:40px;height:40px;border-radius:4px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;color:var(--green)}
+.roi-detail h4{font-size:.9rem;font-weight:500;color:var(--text);margin-bottom:.3rem}
+.roi-detail p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300}
+
+/* APPROACH */
+.approach{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
+.appr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.appr-card{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.75rem;transition:all .3s}
+.appr-card:hover{border-color:#333;background:#0a0a0a}
+.appr-card:hover h3{color:#f0f0f0}
+.appr-card:hover p{color:rgba(255,255,255,.55)}
+.appr-card:hover .plat-icon{background:#1a1a1a;border-color:#333;color:#fff}
+.appr-card h3{font-size:.95rem;font-weight:500;color:var(--text);margin-bottom:.5rem;transition:color .3s}
+.appr-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300;transition:color .3s}
+.appr-note{margin-top:2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem}
+.appr-note p{font-size:.78rem;color:var(--text-l);line-height:1.6;font-weight:300;font-style:italic}
+
+/* CTA */
+.cta{padding:clamp(5rem,10vw,8rem) 0;background:#0a0a0a;text-align:center;border-bottom:1px solid #1a1a1a}
+.cta .s-label{color:rgba(255,255,255,.4)}
+.cta .s-title{margin:0 auto;color:#f0f0f0}
+.cta .s-sub{margin:1rem auto 0;text-align:center;color:rgba(255,255,255,.45)}
+.cta-btns{margin-top:2.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--text-l);padding:3.5rem 0 2rem}
+.f-content{display:flex;justify-content:space-between;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--border)}
+.f-logo{margin-bottom:.75rem}.f-logo img{height:20px;width:auto}
+.f-tag{font-size:.72rem;color:var(--text-l);max-width:260px;line-height:1.5;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.f-links{display:flex;gap:3.5rem}
+.f-col h4{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-m);margin-bottom:.75rem}
+.f-col a{display:block;color:var(--text-l);text-decoration:none;font-size:.8rem;padding:.2rem 0;transition:color .2s;font-weight:300}
+.f-col a:hover{color:var(--green)}
+.f-btm{display:flex;justify-content:space-between;padding-top:1.5rem;font-size:.72rem;color:var(--text-l)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.crisis-grid,.diff-grid,.roi-grid{grid-template-columns:1fr}.sol-flow{grid-template-columns:1fr}.plat-grid{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr;gap:2rem}.hero-img{max-width:clamp(280px,50vw,420px)}.sol-results-grid{grid-template-columns:repeat(2,1fr)}.radar-wrap{max-width:500px}}
+@media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;padding:1.5rem;gap:1rem;border-bottom:1px solid var(--border)}.nav-links.open{display:flex}.nav-toggle{display:block}.hero-grid{grid-template-columns:1fr}.hero-metrics{flex-direction:column;gap:.75rem}.plat-grid,.appr-grid{grid-template-columns:1fr}.sol-results-grid{grid-template-columns:1fr}.f-content{flex-direction:column;gap:2rem}.f-links{flex-direction:column;gap:1.5rem}.f-btm{flex-direction:column;gap:.4rem}.radar-node-name{font-size:.58rem}.radar-node-area{font-size:.48rem}.radar-stat-val{font-size:1.25rem}}
+@media(prefers-reduced-motion:reduce){*,.reveal,.hero-word,.hero-auto,.hero-label-anim,.hero-sub-anim,.hero-cta-anim,.hero-metrics-anim,.hero-img-anim,.roi-val,.plat-card,.sol-step .sn,.hero::before,.hero::after{animation:none!important;transition:none!important;opacity:1!important;transform:none!important;filter:none!important}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="nav-logo"><img src="logo.png" alt="Abivian"></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#solution">Solution</a>
+      <a href="#platform">Platform</a>
+      <a href="#impact">Impact</a>
+      <a href="#approach">Approach</a>
+      <a href="#contact" class="btn-nav">Request Demo</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-logo"><img src="logo.png" alt="Abivian"><p class="hero-tagline">Deterministic AI for Compliance</p></div>
+    <div class="hero-grid">
+      <div>
+        <h1><span class="hero-word">From</span> <span class="hero-word">regulation</span> <span class="hero-word">to</span> <span class="hero-word"><span class="accent">proof.</span></span><span class="hero-auto">Automatically.</span></h1>
+        <p class="hero-sub hero-sub-anim">Abivian transforms months of manual compliance work into hours - with deterministic reasoning, full traceability, and audit-grade outputs.</p>
+        <div class="hero-cta hero-cta-anim">
+          <a href="#contact" class="btn-primary">Request a Demo <i class="bi bi-arrow-right"></i></a>
+          <a href="#solution" class="btn-secondary">See How It Works</a>
+        </div>
+      </div>
+      <div class="hero-img-wrap hero-img-col">
+        <img src="hero.image.png" alt="Abivian compliance platform interface" class="hero-img hero-img-anim">
+      </div>
+    </div>
+    <div class="hero-metrics hero-metrics-anim">
+      <div class="hero-metric"><div class="hm-val" data-count="12" data-suffix=" hrs">0 hrs</div><div class="hm-label">Not 4-6 months</div></div>
+      <div class="hero-metric"><div class="hm-val green" data-count="50" data-suffix="%+">0%+</div><div class="hm-label">Cost savings</div></div>
+      <div class="hero-metric"><div class="hm-val" data-count="100" data-suffix="K+">0K+</div><div class="hm-label">Regulations mapped</div></div>
+      <div class="hero-metric"><div class="hm-val" data-count="100" data-suffix="%">0%</div><div class="hm-label">Traceability</div></div>
+      <div class="hero-metric hero-metric-juris">
+        <div class="juris-slot" id="flapBoard"></div>
+        <div class="hm-label">All Jurisdictions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mission" id="mission">
+  <div class="container">
+    <h2 class="mission-title">We remove <span class="friction-wrap">friction<span class="friction-line"></span></span> from Compliance</h2>
+    <p class="mission-tagline">By reducing cost, complexity, time to market and risk exposure</p>
+  </div>
+</section>
+
+<section class="crisis">
+  <div class="container">
+    <div class="reveal"><p class="s-label">The Problem</p><h2 class="s-title">The $24B compliance crisis</h2><p class="s-sub">The cost is staggering. The complexity is accelerating. And it doesn't scale.</p></div>
+    <div class="crisis-grid">
+      <div>
+        <div class="c-stat reveal rd1"><div class="c-stat-val" data-count="24" data-prefix="$" data-suffix="B">$0B</div><div class="c-stat-text">Global regulatory fines in 2025</div><div class="c-stat-sub">+420% since 2014. Record year.</div></div>
+        <div class="c-stat reveal rd2"><div class="c-stat-val" data-count="8" data-prefix="3–" data-suffix="%">3–0%</div><div class="c-stat-text">Of operating budgets spent on compliance</div><div class="c-stat-sub">100,000+ regulations worldwide, ~15% change annually</div></div>
+        <div class="c-stat reveal rd3"><div class="c-stat-val" data-count="6" data-suffix=" mo">0 mo</div><div class="c-stat-text">Average compliance delay per case</div><div class="c-stat-sub">Avg. cost of delay: $1.2M per product or service launch</div></div>
+      </div>
+      <div class="c-case reveal rd2">
+        <div class="c-case-label">Real Case · AP Møller – Maersk</div>
+        <h3>One customer. One compliance area. OFAC Sanctions.</h3>
+        <p class="c-case-desc">And Maersk runs dozens of these - simultaneously, across jurisdictions.</p>
+        <div class="cm"><span class="cm-val" data-count="468">0</span><span class="cm-label">documents to process</span></div>
+        <div class="cm"><span class="cm-val" data-count="11590" data-separator="true">0</span><span class="cm-label">pages across 8 source types</span></div>
+        <div class="cm"><span class="cm-val" data-count="168">0</span><span class="cm-label">statutes (USC) alone</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reg-graph" id="reg-graph">
+  <div class="container">
+    <div class="reveal">
+      <p class="s-label">Live Example · US OFAC Sanctions</p>
+      <h2 class="s-title">See the regulatory graph in action</h2>
+      <p class="s-sub">This is a real output from Abivian - the complete US OFAC sanctions for two States regulatory landscape, mapped automatically.</p>
+    </div>
+    <div class="reg-graph-frame reveal rd1">
+      <iframe src="regulatory_graph.html" title="Abivian Regulatory Graph - US OFAC Sanctions" loading="lazy"></iframe>
+    </div>
+    <div class="reg-graph-hint reveal rd2">
+      <i class="bi bi-hand-index-thumb"></i> Click and drag nodes to explore. Click any node for details. Scroll to zoom.
+    </div>
+  </div>
+</section>
+
+<section class="radar-section" id="radar">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <p class="s-label">One Platform · All Regulations</p>
+      <h2 class="s-title" style="margin:0 auto;max-width:600px">Built for regulatory breadth.<br>What's on your radar?</h2>
+      <p class="s-sub" style="margin:.75rem auto 0;text-align:center;max-width:480px">From financial compliance to AI governance to sustainability - one deterministic engine covers the full regulatory landscape.</p>
+    </div>
+    <div class="radar-wrap reveal rd2" id="radarWrap">
+      <canvas class="radar-canvas" id="radarCanvas"></canvas>
+      <div class="radar-center">
+        <div class="radar-center-dot"></div>
+        <div class="radar-center-label">Abivian</div>
+      </div>
+    </div>
+    <div class="radar-stat-bar reveal rd3">
+      <div class="radar-stat rs-anim" style="--rs-d:0s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Frameworks</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.15s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Domains</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.3s"><div class="radar-stat-val"><span>1</span></div><div class="radar-stat-label">Engine</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.45s"><div class="radar-stat-val"><span class="flicker">0%</span></div><div class="radar-stat-label">Friction</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="solution" id="solution">
+  <div class="container">
+    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Three steps to turn regulatory complexity into audit-ready confidence.</p></div>
+    <div class="sol-flow">
+      <div class="sol-step reveal rd1"><div class="sn">1</div><h3 class="st">Law In</h3><p class="sd">Our proprietary AI reads and maps 100K+ global regulations to your company context - identifying every directive, statute, and standard that applies.</p></div>
+      <div class="sol-step reveal rd2"><div class="sn">2</div><h3 class="st">Reason</h3><p class="sd">Our deterministic AI engine builds proof chains: law → requirement → evidence. Every decision traceable to source, with full regulatory context verified.</p></div>
+      <div class="sol-step reveal rd3"><div class="sn">3</div><h3 class="st">Proof Out</h3><p class="sd">Audit-ready resolution with MET / NOT MET verdicts and full evidence trails. ISO 19011-aligned, reproducible, and legally defensible.</p></div>
+    </div>
+    <div class="sol-results reveal">
+      <div class="sol-results-header">
+        <div class="sn">✓</div>
+        <div><h3 class="st">What You Get</h3><p class="sd" style="margin-top:.2rem">Complete audit-ready outputs delivered automatically</p></div>
+      </div>
+      <div class="sol-results-grid">
+        <div class="sol-result-item"><i class="bi bi-diagram-3"></i> Regulatory Graph</div>
+        <div class="sol-result-item"><i class="bi bi-clipboard-data"></i> Regulatory Posture</div>
+        <div class="sol-result-item"><i class="bi bi-file-text"></i> Obligations Extraction</div>
+        <div class="sol-result-item"><i class="bi bi-bookmark-check"></i> Standards Identification</div>
+        <div class="sol-result-item"><i class="bi bi-patch-check"></i> Compliance Adherence Check</div>
+        <div class="sol-result-item"><i class="bi bi-sliders"></i> Controls</div>
+        <div class="sol-result-item"><i class="bi bi-check2-square"></i> Operational Controls Verification API</div>
+        <div class="sol-result-item"><i class="bi bi-blockquote-left"></i> Verbatim Traceability of Regulations, Standards &amp; Evidence</div>
+        <div class="sol-result-item"><i class="bi bi-archive"></i> Evidence Registry</div>
+        <div class="sol-result-item"><i class="bi bi-exclamation-triangle"></i> Gap Analysis</div>
+        <div class="sol-result-item"><i class="bi bi-speedometer2"></i> Risk Assessment</div>
+        <div class="sol-result-item"><i class="bi bi-currency-dollar"></i> Penalties Exposure</div>
+        <div class="sol-result-item"><i class="bi bi-wrench-adjustable"></i> Remediation &amp; Actions</div>
+        <div class="sol-result-item"><i class="bi bi-signpost-split"></i> Compliance Workflows</div>
+        <div class="sol-result-item"><i class="bi bi-journal-check"></i> Audit Trail</div>
+        <div class="sol-result-item"><i class="bi bi-broadcast"></i> Monitoring / Alerts of Regulations Changes</div>
+        <div class="sol-result-item"><i class="bi bi-chat-left-text"></i> Query your Case</div>
+        <div class="sol-result-item"><i class="bi bi-box-arrow-up-right"></i> Integrations &amp; Exports</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reactions" id="reactions">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <h2 class="s-title" style="margin:0 auto">What they said when they saw it</h2>
+      <p class="s-sub" style="margin:.75rem auto 0;text-align:center">Reactions from the Moment it Clicked</p>
+    </div>
+    <div class="reactions-stage reveal rd1">
+      <div class="reactions-quote" id="reactionsQuote">
+        <blockquote id="reactionsText"></blockquote>
+      </div>
+    </div>
+    <div class="reactions-companies reveal rd2">
+      <span class="reactions-co">Maersk</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">Volvo</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">Hoist Finance</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">Plenum</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">Reifi Consulting</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">TCI Consult</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">MLL Legal</span>
+      <span class="reactions-dot"></span>
+      <span class="reactions-co">NCC</span>
+    </div>
+  </div>
+</section>
+
+<section class="platform" id="platform">
+  <div class="container">
+    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution</h2><p class="s-sub">From case setup to continuous monitoring - everything in one platform.</p></div>
+    <div class="plat-grid">
+      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-lightning"></i></div><h3>Case Setup</h3><p>Define your product, jurisdiction, and compliance scope. Upload documentation and let Abivian auto-structure content and flag contradictions.</p></div>
+      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-search"></i></div><h3>Regulatory Discovery</h3><p>Automatically identify all applicable regulations - directives, laws, statutes, case law - verified from authoritative sources. Visualized as a living regulatory graph.</p></div>
+      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h3>Regulatory Taxonomy</h3><p>Discover and map the full regulatory taxonomy - whether US federal and state structures, EU directive hierarchies, or national frameworks - independently resolved for each jurisdiction.</p></div>
+      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-list-check"></i></div><h3>Requirements Extraction</h3><p>Extract requirements from hundreds of regulations, intelligently clustered into thematic groups so teams navigate what matters fast.</p></div>
+      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-check-circle"></i></div><h3>Resolution &amp; Verification</h3><p>Triangulate context, regulations, and standards to deliver complete outcomes - MET or NOT MET, with verbatim regulatory text and evidence.</p></div>
+      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-wrench-adjustable"></i></div><h3>Remediation</h3><p>Turn open gaps into a governed remediation plan. Prioritize by compounded risk score, severity, and penalty exposure, then assign owners, actions, and due dates - with lifecycle tracking and residual risk documented to closure.</p></div>
+      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-shield-check"></i></div><h3>Controls &amp; Risk</h3><p>Atomized controls from your regulatory graph, each linked to multi-layered risk assessments with compounded scores and penalty exposure.</p></div>
+      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-journal-check"></i></div><h3>Audit Trail</h3><p>ISO 19011-aligned audit trails that document every decision, every source, and every evidence link. Complete traceability from regulation to resolution, ready for regulators on demand.</p></div>
+      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h3>Continuous Monitoring</h3><p>Real-time regulatory monitoring that catches legislative changes, amendments, and new requirements before they impact your compliance posture. Verified change reports delivered automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="roi" id="impact">
+  <div class="container">
+    <div class="reveal"><p class="s-label">ROI & Impact</p><h2 class="s-title">Measurable results from day one</h2><p class="s-sub">Abivian doesn't just automate compliance - it transforms how your team spends time, money, and attention.</p></div>
+    <div class="roi-grid">
+      <div class="roi-card reveal rd1">
+        <div class="roi-val" data-count="90" data-suffix="%">0<span class="roi-unit">%</span></div>
+        <h3>Faster Time to Compliance</h3>
+        <p>What used to take 2–4 months of manual work is completed in 12–24 hours. Your team moves from reactive to proactive.</p>
+      </div>
+      <div class="roi-card reveal rd2">
+        <div class="roi-val" data-count="50" data-suffix="%+">0<span class="roi-unit">%+</span></div>
+        <h3>Reduction in Compliance Cost</h3>
+        <p>Less manual research, fewer external consultants, and no redundant work across jurisdictions. Budget freed for strategic priorities.</p>
+      </div>
+      <div class="roi-card reveal rd3">
+        <div class="roi-val" data-count="100" data-suffix="%">0<span class="roi-unit">%</span></div>
+        <h3>Audit Traceability</h3>
+        <p>Every requirement mapped to source with page-level citations. No gaps, no guesswork - ready for regulators on demand.</p>
+      </div>
+    </div>
+    <div class="roi-details">
+      <div class="roi-detail reveal rd1">
+        <div class="roi-detail-icon"><i class="bi bi-clock-history"></i></div>
+        <div><h4>Eliminate compliance bottlenecks</h4><p>Product launches delayed by regulatory reviews? Abivian runs full compliance assessments in parallel - removing the 6-month delays that stall go-to-market.</p></div>
+      </div>
+      <div class="roi-detail reveal rd2">
+        <div class="roi-detail-icon"><i class="bi bi-people"></i></div>
+        <div><h4>Free your experts for high-value work</h4><p>Stop spending senior talent on manual document review. Abivian handles the heavy lifting so your compliance team focuses on judgment, strategy, and stakeholder engagement.</p></div>
+      </div>
+      <div class="roi-detail reveal rd3">
+        <div class="roi-detail-icon"><i class="bi bi-graph-down-arrow"></i></div>
+        <div><h4>Reduce regulatory risk exposure</h4><p>Continuous monitoring catches regulatory changes before they become violations. No more discovering gaps during audits - Abivian finds them first.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="diff" id="differentiator">
+  <div class="container">
+    <div class="reveal"><p class="s-label">Why It's Different</p><h2 class="s-title">Deterministic reasoning. Not probabilistic guessing.</h2></div>
+    <div class="diff-grid reveal">
+      <div class="diff-col diff-llm">
+        <div class="diff-hdr">Generic LLMs</div>
+        <div class="di"><span class="dx">✕</span> Hallucinate legal interpretations</div>
+        <div class="di"><span class="dx">✕</span> Can't trace reasoning to source</div>
+        <div class="di"><span class="dx">✕</span> Knowledge cutoff → outdated laws</div>
+        <div class="di"><span class="dx">✕</span> Context windows too small for full scope</div>
+        <div class="di"><span class="dx">✕</span> Outputs not reproducible or auditable</div>
+      </div>
+      <div class="diff-col diff-eng">
+        <div class="diff-hdr">Abivian Reasoning Engine</div>
+        <div class="di"><span class="dc">✓</span> Deterministic proof chains</div>
+        <div class="di"><span class="dc">✓</span> Every decision traceable to source</div>
+        <div class="di"><span class="dc">✓</span> Real-time regulatory graph - always current</div>
+        <div class="di"><span class="dc">✓</span> Full regulatory context ingested &amp; verified</div>
+        <div class="di"><span class="dc">✓</span> ISO 19011 audit-grade output</div>
+      </div>
+    </div>
+    <div class="diff-btm reveal"><p>Built on <span class="hl">12 proprietary AI systems</span> - deterministic proof chains that produce audit-grade, legally defensible outputs.</p></div>
+  </div>
+</section>
+
+<section class="approach" id="approach">
+  <div class="container">
+    <div class="reveal"><p class="s-label">Our Approach</p><h2 class="s-title">Accuracy and reliability by design</h2><p class="s-sub">Built like institutional research - multi-layered verification at every step, not just at the end.</p></div>
+    <div class="appr-grid">
+      <div class="appr-card reveal rd1">
+        <div class="plat-icon"><i class="bi bi-diagram-3"></i></div>
+        <h3>Multi-Source Triangulation</h3>
+        <p>The system triangulates information from multiple independent sources, automatically refines searches when initial results are insufficient, and uses branching logic that breaks complex compliance questions into sub-questions to guarantee complete coverage.</p>
+      </div>
+      <div class="appr-card reveal rd2">
+        <div class="plat-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+        <h3>Source-Level Document Verification</h3>
+        <p>Every regulation is downloaded as an official PDF directly from the source. Computer vision verifies document authenticity and extracts visual information - technical diagrams, certification marks, and complex tables that traditional text extraction misses.</p>
+      </div>
+      <div class="appr-card reveal rd3">
+        <div class="plat-icon"><i class="bi bi-layers"></i></div>
+        <h3>Zero Information Loss</h3>
+        <p>Every byte of content is preserved through semantic segmentation with intentional overlaps, ensuring no critical information falls through the cracks between processing stages.</p>
+      </div>
+      <div class="appr-card reveal rd1">
+        <div class="plat-icon"><i class="bi bi-link-45deg"></i></div>
+        <h3>Complete Traceability</h3>
+        <p>Every identified compliance requirement traces back to its exact source with page number and citation context. The system assigns confidence scores and explicitly documents reasoning for every decision.</p>
+      </div>
+      <div class="appr-card reveal rd2">
+        <div class="plat-icon"><i class="bi bi-arrow-repeat"></i></div>
+        <h3>Transparent Uncertainty Handling</h3>
+        <p>When ambiguities arise, the system doesn't hide them. It transparently indicates the uncertainty level and automatically initiates follow-up research loops - exactly as a careful team of experts would double-check critical interpretations.</p>
+      </div>
+      <div class="appr-card reveal rd3">
+        <div class="plat-icon"><i class="bi bi-shield-lock"></i></div>
+        <h3>Built-In Quality Assurance</h3>
+        <p>Automatic quality controls at every decision point - from initial document verification to final requirement mapping. A complete audit trail documents not only what was decided, but how and why.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="reveal"><p class="s-label">Get Started</p><h2 class="s-title">See Abivian in action</h2><p class="s-sub">Discover how Abivian turns regulation into audit-ready proof - in hours, not months.</p></div>
+    <div class="cta-btns reveal rd1">
+      <a href="mailto:info@abivian.com" class="btn-primary">Request a Demo <i class="bi bi-arrow-right"></i></a>
+      <a href="mailto:info@abivian.com" class="btn-secondary">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="f-content">
+      <div><div class="f-logo"><img src="logo.png" alt="Abivian"></div><p class="f-tag">Deterministic AI for Compliance</p></div>
+      <div class="f-links">
+        <div class="f-col"><h4>Product</h4><a href="#solution">Solution</a><a href="#platform">Platform</a><a href="#differentiator">Technology</a></div>
+        <div class="f-col"><h4>Company</h4><a href="#approach">Approach</a><a href="#impact">Impact</a></div>
+        <div class="f-col"><h4>Contact</h4><a href="mailto:info@abivian.com">info@abivian.com</a></div>
+      </div>
+    </div>
+    <div class="f-btm"><span>© 2026 Abivian AB. All rights reserved.</span><span>Stockholm, Sweden</span></div>
+  </div>
+</footer>
+
+<script>
+const reveals=document.querySelectorAll('.reveal,.roi-card,.plat-card,.c-stat,.mission');
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+reveals.forEach(el=>obs.observe(el));
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
+const navT=document.getElementById('navToggle'),navL=document.getElementById('navLinks');
+navT.addEventListener('click',()=>navL.classList.toggle('open'));
+navL.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navL.classList.remove('open')));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// Count-up animation for all numbers
+function animateCount(el){
+  const target=parseInt(el.dataset.count);
+  const suffix=el.dataset.suffix||'';
+  const prefix=el.dataset.prefix||'';
+  const useSep=el.dataset.separator==='true';
+  const duration=3500;
+  const start=performance.now();
+  const ease=t=>t<.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1;
+  function fmt(n){return useSep?n.toLocaleString():String(n)}
+  function tick(now){
+    const elapsed=Math.min((now-start)/duration,1);
+    const val=Math.round(ease(elapsed)*target);
+    el.textContent=prefix+fmt(val)+suffix;
+    if(elapsed<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const counters=document.querySelectorAll('[data-count]');
+const cObs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){animateCount(en.target);cObs.unobserve(en.target)}
+  });
+},{threshold:.5});
+counters.forEach(el=>cObs.observe(el));
+
+// Reactions cinematic settle
+(function(){
+  const sec=document.querySelector('.reactions');
+  if(!sec)return;
+  const sObs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){setTimeout(()=>sec.classList.add('settled'),1500);sObs.disconnect()}
+  },{threshold:.2});
+  sObs.observe(sec);
+})();
+
+// Reactions quote carousel
+(function(){
+  const quotes=[
+    '"Wow, this creates a complete regulatory program!"',
+    '"I thought we\'d get a compliance summary. We got a full gap analysis grounded in our environment, with audit-grade outputs."',
+    '"This does in hours what takes us months to do manually."',
+    '"Impressive - it\'s only once you have seen it, you understand how much value this can give us."',
+    '"This is exactly what enterprise compliance has been missing."',
+    '"This does in hours, what takes us months to do manually."',
+    '"I don\'t see why a compliance officer wouldn\'t want to buy this service."',
+    '"This is a Compliance Officer\'s best friend."',
+    '"I haven\'t seen anything like this in the market."',
+    '"Finally, all the gaps in one place…"'
+  ];
+  const textEl=document.getElementById('reactionsText');
+  if(!textEl)return;
+  let idx=0;
+  function show(){
+    textEl.textContent=quotes[idx];
+    requestAnimationFrame(()=>{textEl.classList.add('active')});
+  }
+  function cycle(){
+    textEl.classList.remove('active');
+    setTimeout(()=>{idx=(idx+1)%quotes.length;show()},900);
+  }
+  const rObs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){show();setInterval(cycle,5000);rObs.disconnect()}
+  },{threshold:.3});
+  rObs.observe(document.querySelector('.reactions-stage'));
+})();
+
+// Airport split-flap board
+(function(){
+  const words=['US','EU','UK','DENMARK','SWISS','CANADA','ASIA','SWEDEN','GLOBAL'];
+  const maxLen=Math.max(...words.map(w=>w.length));
+  const board=document.getElementById('flapBoard');
+  if(!board)return;
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+  // Create flap elements
+  for(let i=0;i<maxLen;i++){
+    const el=document.createElement('span');
+    el.className='flap-char';
+    el.textContent=' ';
+    board.appendChild(el);
+  }
+  const flaps=[...board.querySelectorAll('.flap-char')];
+  let wordIdx=0;
+  function setWord(word,isFinal,cb){
+    const padded=word.padEnd(maxLen,' ');
+    let pending=0;
+    flaps.forEach((flap,i)=>{
+      const target=padded[i];
+      const current=flap.textContent;
+      if(current===target){
+        if(isFinal&&target!==' ')flap.classList.add('final');
+        return;
+      }
+      pending++;
+      const curIdx=chars.indexOf(current);
+      const tgtIdx=chars.indexOf(target);
+      let steps=[];
+      if(target===' '){steps=[' ']}
+      else if(current===' '){
+        const n=Math.min(3,tgtIdx);
+        for(let s=tgtIdx-n;s<=tgtIdx;s++)steps.push(chars[s]);
+      }else{
+        const from=Math.min(curIdx,tgtIdx);
+        const to=Math.max(curIdx,tgtIdx);
+        const n=Math.min(4,to-from);
+        for(let s=tgtIdx-n;s<=tgtIdx;s++){
+          if(s>=0)steps.push(chars[s]);
+        }
+      }
+      let si=0;
+      const baseDelay=i*40;
+      function flipNext(){
+        flap.classList.add('flipping');
+        setTimeout(()=>{
+          flap.textContent=steps[si];
+          flap.classList.remove('flipping');
+          si++;
+          if(si<steps.length){
+            setTimeout(flipNext,80);
+          }else{
+            if(isFinal&&target!==' ')flap.classList.add('final');
+            pending--;
+            if(pending<=0&&cb)cb();
+          }
+        },60);
+      }
+      setTimeout(flipNext,baseDelay);
+    });
+    if(pending===0&&cb)cb();
+  }
+  function nextWord(){
+    if(wordIdx>=words.length)return;
+    const isFinal=wordIdx===words.length-1;
+    setWord(words[wordIdx],isFinal,()=>{
+      wordIdx++;
+      if(wordIdx<words.length)setTimeout(nextWord,isFinal?0:600);
+    });
+  }
+  setTimeout(()=>{setWord(words[0],false,()=>{wordIdx=1;setTimeout(nextWord,600)})},2000);
+})();
+
+// Radar section
+(function(){
+  const wrap=document.getElementById('radarWrap');
+  const canvas=document.getElementById('radarCanvas');
+  if(!wrap||!canvas)return;
+  const ctx=canvas.getContext('2d');
+
+  const frameworks=[
+    // Inner ring - headline regulations
+    {name:'EU AI Act',area:'AI & Data',ring:0},
+    {name:'EU GDPR',area:'Data Privacy',ring:0},
+    {name:'DORA',area:'Cyber & Resilience',ring:0},
+    {name:'CSRD',area:'ESG & Sustainability',ring:0},
+    {name:'MiFID II',area:'Financial',ring:0},
+    {name:'U.S. Sanctions (OFAC)',area:'Financial Crime',ring:0},
+    {name:'SOX',area:'Accounting & Governance',ring:0},
+    // Middle ring
+    {name:'NIS2',area:'Cyber & Resilience',ring:1},
+    {name:'EU Cyber Resilience Act',area:'Cyber & Resilience',ring:1},
+    {name:'CCPA / CPRA',area:'Data Privacy',ring:1},
+    {name:'EU Data Act',area:'AI & Data',ring:1},
+    {name:'AMLD6',area:'Financial Crime',ring:1},
+    {name:'Dodd-Frank',area:'Financial',ring:1},
+    {name:'SFDR',area:'ESG & Sustainability',ring:1},
+    {name:'REACH',area:'Chemicals & Materials',ring:1},
+    {name:'FCPA',area:'Financial Crime',ring:1},
+    // Outer ring
+    {name:'CRR3 / CRD6',area:'Financial',ring:2},
+    {name:'MiCA',area:'Financial',ring:2},
+    {name:'Solvency II',area:'Financial',ring:2},
+    {name:'U.S. GAAP',area:'Accounting & Governance',ring:2},
+    {name:'Bank Secrecy Act',area:'Financial Crime',ring:2},
+    {name:'TSCA',area:'Chemicals & Materials',ring:2},
+    {name:'GPSR',area:'Product & Consumer Safety',ring:2},
+    {name:'EAR',area:'Trade & Export Controls',ring:2},
+    {name:'CBAM',area:'Trade & Sustainability',ring:2}
+  ];
+
+  const ringRadii=[0.22,0.37,0.48];
+  let nodes=[];
+  let sweepAngle=0;
+  let animId=null;
+  let running=false;
+
+  function layout(){
+    const w=wrap.offsetWidth;
+    const h=wrap.offsetHeight;
+    canvas.width=w*devicePixelRatio;
+    canvas.height=h*devicePixelRatio;
+    canvas.style.width=w+'px';
+    canvas.style.height=h+'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+
+    const cx=w/2,cy=h/2;
+    // Remove old nodes
+    wrap.querySelectorAll('.radar-node').forEach(el=>el.remove());
+    nodes=[];
+
+    const rings=[[],[],[]];
+    frameworks.forEach(f=>rings[f.ring].push(f));
+
+    rings.forEach((ring,ri)=>{
+      const r=ringRadii[ri]*Math.min(w,h);
+      ring.forEach((f,i)=>{
+        const angle=(Math.PI*2*i/ring.length)-Math.PI/2;
+        const x=cx+Math.cos(angle)*r;
+        const y=cy+Math.sin(angle)*r;
+        const el=document.createElement('div');
+        el.className='radar-node';
+        el.style.left=x+'px';
+        el.style.top=y+'px';
+        el.innerHTML='<div class="radar-node-dot"></div><div class="radar-node-name">'+f.name+'</div><div class="radar-node-area">'+f.area+'</div>';
+        wrap.appendChild(el);
+        nodes.push({x,y,angle,el,ring:ri});
+      });
+    });
+  }
+
+  function draw(){
+    const w=canvas.width/devicePixelRatio;
+    const h=canvas.height/devicePixelRatio;
+    const cx=w/2,cy=h/2;
+    ctx.clearRect(0,0,w,h);
+
+    // Draw concentric rings
+    ringRadii.forEach((rr,i)=>{
+      const r=rr*Math.min(w,h);
+      ctx.beginPath();
+      ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle='rgba(122,158,122,'+(0.18-i*0.03)+')';
+      ctx.lineWidth=1;
+      ctx.stroke();
+    });
+
+    // Draw filament lines
+    nodes.forEach(n=>{
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.lineTo(n.x,n.y);
+      ctx.strokeStyle='rgba(122,158,122,0.06)';
+      ctx.lineWidth=0.5;
+      ctx.stroke();
+    });
+
+    // Draw sweep
+    const sweepLen=0.7;
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(sweepAngle);
+    const maxR=ringRadii[2]*Math.min(w,h)+40;
+    const grad=ctx.createLinearGradient(0,0,maxR,0);
+    grad.addColorStop(0,'rgba(122,158,122,0.3)');
+    grad.addColorStop(0.5,'rgba(122,158,122,0.08)');
+    grad.addColorStop(1,'rgba(122,158,122,0)');
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.arc(0,0,maxR,-sweepLen*0.15,sweepLen*0.15);
+    ctx.closePath();
+    ctx.fillStyle=grad;
+    ctx.fill();
+    // Sweep line
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(maxR,0);
+    ctx.strokeStyle='rgba(122,158,122,0.25)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+    ctx.restore();
+
+    // Light up nodes near sweep
+    nodes.forEach(n=>{
+      let nodeAngle=Math.atan2(n.y-cy,n.x-cx);
+      let diff=sweepAngle-nodeAngle;
+      // Normalize
+      while(diff>Math.PI)diff-=Math.PI*2;
+      while(diff<-Math.PI)diff+=Math.PI*2;
+      if(Math.abs(diff)<0.3){
+        n.el.classList.add('lit');
+      }else{
+        n.el.classList.remove('lit');
+      }
+    });
+  }
+
+  function animate(){
+    sweepAngle+=0.008;
+    if(sweepAngle>Math.PI*2)sweepAngle-=Math.PI*2;
+    draw();
+    if(running)animId=requestAnimationFrame(animate);
+  }
+
+  function start(){
+    if(running)return;
+    running=true;
+    layout();
+    animate();
+  }
+  function stop(){
+    running=false;
+    if(animId)cancelAnimationFrame(animId);
+  }
+
+  // Start when visible
+  const rObs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){start()}else{stop()}
+    });
+  },{threshold:0.15});
+  rObs.observe(wrap);
+
+  let resizeTimer;
+  window.addEventListener('resize',()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(()=>{if(running)layout()},150);
+  });
+})();
+</script>
+</body>
+</html>

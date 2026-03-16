@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulatory Graph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FAFAF8;
+            --surface: #FFFFFF;
+            --border: #EDEDEB;
+            --border-subtle: #F5F5F3;
+            --text: #1A1A1A;
+            --text-secondary: #7A7A72;
+            --text-tertiary: #A0A098;
+            --accent: #5B8C5B;
+            --accent-soft: rgba(91,140,91,0.08);
+            --radius: 6px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .graph-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-surface {
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        svg {
+            display: block;
+            background: linear-gradient(135deg, #FDFDFC 0%, #F8F8F6 100%);
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+        .loading-spinner {
+            width: 28px; height: 28px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .loading-text {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+            letter-spacing: 0.02em;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Error state */
+        .error-overlay {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            z-index: 100;
+        }
+        .error-overlay.visible { display: flex; }
+        .error-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.5; }
+        .error-msg { font-size: 13px; color: var(--text-secondary); max-width: 400px; text-align: center; line-height: 1.6; }
+        .error-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
+
+        /* Search overlay */
+        .search-float {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 20;
+        }
+        .search-input {
+            width: 200px;
+            padding: 8px 12px 8px 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 12px;
+            font-family: inherit;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s, width 0.25s ease, box-shadow 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+        .search-input:focus {
+            border-color: var(--accent);
+            width: 260px;
+            box-shadow: var(--shadow-md), 0 0 0 3px var(--accent-soft);
+        }
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        /* Graph elements */
+        .node { cursor: pointer; }
+        .node:hover circle { filter: brightness(1.08); }
+        .node-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 9px;
+            fill: var(--text-tertiary);
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+        }
+        .node-label.expanded { font-size: 10px; fill: var(--text); }
+        .node-label.focus-label { font-size: 11px; font-weight: 600; fill: var(--text); }
+        .label-pill {
+            fill: rgba(255,255,255,0.92);
+            stroke: var(--border);
+            stroke-width: 0.5;
+            rx: 4; ry: 4;
+            pointer-events: none;
+        }
+        .link { fill: none; stroke-opacity: 0.35; }
+
+        /* Detail panel */
+        .detail-panel {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 300px;
+            max-height: calc(100% - 90px);
+            overflow-y: auto;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            z-index: 20;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateX(8px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .detail-panel.visible {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+        .detail-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .detail-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .detail-info { flex: 1; min-width: 0; }
+        .detail-title {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .detail-subtitle {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 2px;
+        }
+        .detail-badge {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 3px 7px;
+            border-radius: 4px;
+            background: var(--border-subtle);
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            margin-right: 4px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            font-size: 11px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .detail-label { color: var(--text-tertiary); }
+        .detail-value {
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+        }
+        .detail-explanation {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-subtle);
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .confidence-bar {
+            width: 48px; height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .confidence-fill { height: 100%; border-radius: 2px; }
+
+        /* Stats bar */
+        .stats-bar {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2px;
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(8px);
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            z-index: 20;
+        }
+        .stat-item { text-align: center; padding: 0 10px; }
+        .stat-label {
+            font-size: 8px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 500;
+        }
+        .stat-value { font-size: 16px; font-weight: 600; margin-top: 1px; }
+
+        /* Legend bar */
+        .legend-bar {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            background: rgba(255,255,255,0.94);
+            backdrop-filter: blur(8px);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            z-index: 20;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9px;
+            color: var(--text-tertiary);
+        }
+        .legend-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .legend-stroke {
+            width: 14px; height: 2px;
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
+        /* Scrollbar */
+        .detail-panel::-webkit-scrollbar { width: 4px; }
+        .detail-panel::-webkit-scrollbar-track { background: transparent; }
+        .detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="graph-wrapper">
+        <div class="graph-surface">
+            <svg id="graph"></svg>
+
+            <!-- Loading -->
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Loading regulatory graph…</div>
+            </div>
+
+            <!-- Error -->
+            <div class="error-overlay" id="errorOverlay">
+                <div class="error-icon">⚠</div>
+                <div class="error-msg" id="errorMsg">Could not load graph data.</div>
+                <div class="error-hint" id="errorHint">regulatory_graph.json</div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-float">
+                <span class="search-icon">⌕</span>
+                <input type="text" class="search-input" id="search" placeholder="Search legislation…">
+            </div>
+
+            <!-- Detail panel -->
+            <div class="detail-panel" id="detailPanel">
+                <div class="detail-header">
+                    <div class="detail-icon" id="detailIcon">📄</div>
+                    <div class="detail-info">
+                        <div class="detail-title" id="detailTitle"></div>
+                        <div class="detail-subtitle" id="detailSubtitle"></div>
+                    </div>
+                </div>
+                <div id="detailContent"></div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-bar" id="statsBar"></div>
+
+            <!-- Legend -->
+            <div class="legend-bar" id="legendBar"></div>
+        </div>
+    </div>
+
+    <script>
+    // ─── Configuration ──────────────────────────────────────────────────
+    const DATA_PATH = './regulatory_graph.json';
+    const ZONE_PATH = './legislations_zone.json';
+
+    const nodeConfig = {
+        // EU types
+        directive:              { color: '#5B8C5B', label: 'Directive',         radius: 24, tier: 1 },
+        regulation:             { color: '#3D7A6B', label: 'Regulation',        radius: 22, tier: 1 },
+        implementing_act:       { color: '#8B7355', label: 'Implementing Act',  radius: 16, tier: 2 },
+        delegated_act:          { color: '#9B8465', label: 'Delegated Act',     radius: 16, tier: 2 },
+        national_transposition: { color: '#7A8B99', label: 'National Law',      radius: 11, tier: 3 },
+        agency_guidance:        { color: '#6B8E9B', label: 'Guidance',          radius: 12, tier: 3 },
+        standard:               { color: '#8B7B9B', label: 'Standard',          radius: 12, tier: 3 },
+        // US types
+        act:                    { color: '#5B8C5B', label: 'Act',               radius: 24, tier: 1 },
+        cfr_part:               { color: '#3D7A6B', label: 'CFR Part',          radius: 20, tier: 2 },
+        usc_section:            { color: '#8B7355', label: 'USC Section',       radius: 10, tier: 3 },
+        executive_order:        { color: '#C4875A', label: 'Executive Order',   radius: 18, tier: 1 },
+        guidance:               { color: '#6B8E9B', label: 'Guidance',          radius: 12, tier: 3 },
+        mandatory_standard:     { color: '#7A8B99', label: 'Case Law',          radius: 12, tier: 3 },
+        recognized_standard:    { color: '#8B7B9B', label: 'Industry Standard', radius: 12, tier: 3 },
+        state_regulation:       { color: '#9B7B6B', label: 'State Regulation',  radius: 14, tier: 2 }
+    };
+
+    const countryConfig = {
+        EU: { color: '#5B8C5B', name: 'European Union', flag: '🇪🇺' },
+        BE: { color: '#C4A35A', name: 'Belgium',        flag: '🇧🇪' },
+        SE: { color: '#5A8FA3', name: 'Sweden',         flag: '🇸🇪' },
+        CZ: { color: '#A35A5A', name: 'Czech Republic', flag: '🇨🇿' },
+        DE: { color: '#4A7A8B', name: 'Germany',        flag: '🇩🇪' },
+        FR: { color: '#8B6B5A', name: 'France',         flag: '🇫🇷' },
+        NL: { color: '#5A8B7A', name: 'Netherlands',    flag: '🇳🇱' },
+        US: { color: '#5A6B8B', name: 'United States',  flag: '🇺🇸' },
+        federal: { color: '#5A6B8B', name: 'Federal',   flag: '🇺🇸' }
+    };
+
+    const relationshipConfig = {
+        implements:               { color: '#8B7355', label: 'Implements' },
+        transposes:               { color: '#7A8B99', label: 'Transposes' },
+        provides_guidance_on:     { color: '#6B8E9B', label: 'Guidance' },
+        supports_compliance_with: { color: '#8B7B9B', label: 'Supports' },
+        supplements:              { color: '#9B8465', label: 'Supplements' },
+        codified_as:              { color: '#5B8C5B', label: 'Codified As' },
+        implemented_by:           { color: '#3D7A6B', label: 'Implemented By' },
+        authorizes:               { color: '#8B7355', label: 'Authorizes' },
+        authorized_by:            { color: '#8B7355', label: 'Authorized By' },
+        interprets:               { color: '#6B8E9B', label: 'Interprets' },
+        extends:                  { color: '#C4875A', label: 'Extends' },
+        incorporated_by:          { color: '#7A8B99', label: 'Incorporated By' },
+        supports:                 { color: '#8B7B9B', label: 'Supports' }
+    };
+
+    // ─── State ──────────────────────────────────────────────────────────
+    let graphData = null;
+    let searchTerm = '';
+    let selectedNode = null;
+    let simulation = null;
+
+    // ─── Data loading ───────────────────────────────────────────────────
+    async function loadData() {
+        try {
+            const graphResp = await fetch(DATA_PATH);
+            if (!graphResp.ok) throw new Error(`Could not load ${DATA_PATH} (${graphResp.status})`);
+            const raw = await graphResp.json();
+
+            // Try loading zone file (optional enrichment)
+            let zoneData = null;
+            try {
+                const zoneResp = await fetch(ZONE_PATH);
+                if (zoneResp.ok) zoneData = await zoneResp.json();
+            } catch (_) { /* zone file is optional */ }
+
+            // Merge zone data if available
+            if (zoneData) mergeZoneData(raw, zoneData);
+
+            return raw;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    function mergeZoneData(graphRaw, zoneData) {
+        const zoneType = (zoneData.metadata?.zone || '').toUpperCase();
+        const discoveryType = (zoneData.metadata?.discovery_type || '').toLowerCase();
+        const isUS = zoneType === 'US' || discoveryType.includes('us');
+
+        const lookup = {};
+        for (const item of (zoneData.deduplicated_results || [])) {
+            if (isUS) {
+                if (item.designation)  lookup[item.designation] = item;
+                if (item.primary_usc)  lookup[item.primary_usc] = item;
+                if (item.name)         lookup[item.name] = item;
+            } else {
+                if (item.celex)        lookup[item.celex] = item;
+            }
+        }
+
+        for (const [, nodes] of Object.entries(graphRaw.nodes || {})) {
+            if (typeof nodes !== 'object') continue;
+            for (const [nodeId, nd] of Object.entries(nodes)) {
+                let match = null;
+                if (isUS) {
+                    for (const key of [nd.designation, nd.primary_usc, nd.short_name, nd.name, nodeId]) {
+                        if (key && lookup[key]) { match = lookup[key]; break; }
+                    }
+                } else {
+                    match = lookup[nd.celex || nodeId];
+                }
+                if (match) {
+                    if (!nd.explanation && match.explanation)      nd.explanation = match.explanation;
+                    if (!nd.subtype && match.subtype)              nd.subtype = match.subtype;
+                    if (isUS) {
+                        if (!nd.compliance_area && match.compliance_area) nd.compliance_area = match.compliance_area;
+                        if (!nd.primary_usc && match.primary_usc)        nd.primary_usc = match.primary_usc;
+                        if (!nd.public_law && match.public_law)          nd.public_law = match.public_law;
+                        if (!nd.year_enacted && match.year_enacted)      nd.year_enacted = match.year_enacted;
+                    }
+                }
+            }
+        }
+    }
+
+    // ─── Process raw data into nodes + links ────────────────────────────
+    function processData(raw) {
+        const nodes = [];
+        const links = [];
+        const nodeMap = new Map();
+
+        const jurisdiction = (raw.metadata?.jurisdiction || 'EU').toUpperCase();
+        const isUS = jurisdiction === 'US';
+
+        for (const [category, items] of Object.entries(raw.nodes || {})) {
+            for (const [id, data] of Object.entries(items || {})) {
+                let country = data.country_code || data.agency_country;
+                if (!country) {
+                    country = (isUS || data.source_level === 'federal' || data.source_level === 'state') ? 'US' : 'EU';
+                }
+                const node = {
+                    id,
+                    ...data,
+                    category,
+                    displayName: data.short_name || data.full_name || data.name || data.part_name || data.designation || data.title || id,
+                    country,
+                    explanation: data.explanation || data.applicability_reason || '',
+                    compliance_area: Array.isArray(data.compliance_areas) ? data.compliance_areas[0] : data.compliance_area
+                };
+                nodes.push(node);
+                nodeMap.set(id, node);
+            }
+        }
+
+        // EU-style implicit links
+        nodes.forEach(node => {
+            if (node.parent_celex) {
+                const parents = Array.isArray(node.parent_celex) ? node.parent_celex : [node.parent_celex];
+                parents.forEach(pid => {
+                    if (nodeMap.has(pid)) {
+                        links.push({
+                            source: node.id,
+                            target: pid,
+                            type: node.node_type === 'national_transposition' ? 'transposes'
+                                : node.node_type === 'delegated_act' ? 'supplements' : 'implements'
+                        });
+                    }
+                });
+            }
+            if (node.linked_legislation) {
+                node.linked_legislation.forEach(lid => {
+                    if (nodeMap.has(lid)) {
+                        links.push({
+                            source: node.id,
+                            target: lid,
+                            type: node.node_type === 'agency_guidance' ? 'provides_guidance_on' : 'supports_compliance_with'
+                        });
+                    }
+                });
+            }
+        });
+
+        // US-style explicit relationships
+        if (Array.isArray(raw.relationships)) {
+            raw.relationships.forEach(rel => {
+                if (nodeMap.has(rel.from) && nodeMap.has(rel.to)) {
+                    links.push({ source: rel.from, target: rel.to, type: rel.relationship });
+                }
+            });
+        }
+
+        return { nodes, links, nodeMap };
+    }
+
+    // ─── Filtering ──────────────────────────────────────────────────────
+    function getFilteredData() {
+        const filteredNodes = graphData.nodes.filter(node => {
+            if (!searchTerm) return true;
+            const s = searchTerm.toLowerCase();
+            return node.displayName.toLowerCase().includes(s)
+                || (node.celex && node.celex.toLowerCase().includes(s))
+                || (node.designation && node.designation.toLowerCase().includes(s))
+                || (node.primary_usc && node.primary_usc.toLowerCase().includes(s));
+        });
+        const ids = new Set(filteredNodes.map(n => n.id));
+        const filteredLinks = graphData.links.filter(l => {
+            const src = typeof l.source === 'object' ? l.source.id : l.source;
+            const tgt = typeof l.target === 'object' ? l.target.id : l.target;
+            return ids.has(src) && ids.has(tgt);
+        });
+        return { nodes: filteredNodes, links: filteredLinks };
+    }
+
+    // ─── Helpers ────────────────────────────────────────────────────────
+    function trunc(name, max) {
+        if (!name) return '';
+        return name.length > max ? name.slice(0, max - 1) + '…' : name;
+    }
+
+    function getConnected(nodeId, links) {
+        const set = new Set([nodeId]);
+        links.forEach(l => {
+            const s = typeof l.source === 'object' ? l.source.id : l.source;
+            const t = typeof l.target === 'object' ? l.target.id : l.target;
+            if (s === nodeId) set.add(t);
+            if (t === nodeId) set.add(s);
+        });
+        return set;
+    }
+
+    // ─── Detail panel ───────────────────────────────────────────────────
+    function showDetail(node) {
+        const panel = document.getElementById('detailPanel');
+        const cfg = nodeConfig[node.node_type];
+        const ctry = countryConfig[node.country];
+
+        document.getElementById('detailIcon').textContent = ctry?.flag || '📄';
+        document.getElementById('detailIcon').style.background = (cfg?.color || '#8A8A8A') + '15';
+        document.getElementById('detailTitle').textContent = node.displayName;
+        document.getElementById('detailSubtitle').textContent = cfg?.label || node.node_type;
+
+        const conf = node.confidence || 100;
+        const confColor = conf >= 90 ? '#5B8C5B' : conf >= 70 ? '#C4A35A' : '#C45A5A';
+
+        let html = '';
+        if (node.full_name && node.full_name !== node.displayName)
+            html += `<div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;line-height:1.4">${node.full_name}</div>`;
+        if (node.subtype)
+            html += `<div class="detail-badge">${node.subtype}</div>`;
+        if (node.compliance_area)
+            html += `<div class="detail-badge" style="background:var(--accent-soft);color:var(--accent)">${node.compliance_area}</div>`;
+        if (node.celex)
+            html += `<div class="detail-row"><span class="detail-label">CELEX</span><span class="detail-value" style="color:#5B8C5B">${node.celex}</span></div>`;
+        if (node.primary_usc)
+            html += `<div class="detail-row"><span class="detail-label">USC</span><span class="detail-value" style="color:#5A6B8B">${node.primary_usc}</span></div>`;
+        if (node.public_law)
+            html += `<div class="detail-row"><span class="detail-label">Public Law</span><span class="detail-value">${node.public_law}</span></div>`;
+        if (node.part_number)
+            html += `<div class="detail-row"><span class="detail-label">CFR</span><span class="detail-value" style="color:#3D7A6B">${node.title} CFR Part ${node.part_number}</span></div>`;
+        if (node.agency)
+            html += `<div class="detail-row"><span class="detail-label">Agency</span><span class="detail-value" style="font-size:10px">${node.agency}</span></div>`;
+        if (node.year_enacted)
+            html += `<div class="detail-row"><span class="detail-label">Year</span><span class="detail-value">${node.year_enacted}</span></div>`;
+        html += `<div class="detail-row">
+            <span class="detail-label">Confidence</span>
+            <div style="display:flex;align-items:center;gap:8px">
+                <div class="confidence-bar"><div class="confidence-fill" style="width:${conf}%;background:${confColor}"></div></div>
+                <span style="color:${confColor};font-weight:500;font-size:11px">${conf}%</span>
+            </div></div>`;
+        if (node.explanation)
+            html += `<div class="detail-explanation">${node.explanation}</div>`;
+
+        document.getElementById('detailContent').innerHTML = html;
+        panel.classList.add('visible');
+    }
+
+    function hideDetail() {
+        document.getElementById('detailPanel').classList.remove('visible');
+    }
+
+    // ─── Labels ─────────────────────────────────────────────────────────
+    function updateLabels(nodeGroup, linkData, focusId) {
+        const connected = focusId ? getConnected(focusId, linkData) : null;
+        nodeGroup.selectAll('.label-pill').remove();
+
+        nodeGroup.each(function(d) {
+            const g = d3.select(this);
+            const label = g.select('.node-label');
+            const r = nodeConfig[d.node_type]?.radius || 10;
+
+            if (!focusId) {
+                label.transition().duration(150).style('opacity', 0)
+                    .on('end', function() {
+                        d3.select(this).attr('class','node-label')
+                            .text(trunc(d.displayName, 12))
+                            .attr('dy', r + 12).attr('dx', 0)
+                            .transition().duration(150).style('opacity', 1);
+                    });
+            } else if (d.id === focusId) {
+                label.transition().duration(150).style('opacity', 0)
+                    .on('end', function() {
+                        const el = d3.select(this).attr('class','node-label focus-label')
+                            .text(trunc(d.displayName, 40))
+                            .attr('dy', r + 14).attr('dx', 0);
+                        const bbox = this.getBBox();
+                        g.insert('rect','.node-label').attr('class','label-pill')
+                            .attr('x', bbox.x - 4).attr('y', bbox.y - 2)
+                            .attr('width', bbox.width + 8).attr('height', bbox.height + 4)
+                            .style('opacity', 0).transition().duration(150).style('opacity', 1);
+                        el.transition().duration(150).style('opacity', 1);
+                    });
+            } else if (connected?.has(d.id)) {
+                label.transition().duration(150).style('opacity', 0)
+                    .on('end', function() {
+                        d3.select(this).attr('class','node-label expanded')
+                            .text(trunc(d.displayName, 25))
+                            .attr('dy', r + 12).attr('dx', 0)
+                            .transition().duration(150).style('opacity', 1);
+                    });
+            } else {
+                label.transition().duration(150).style('opacity', 0);
+            }
+        });
+
+        if (focusId) setTimeout(() => resolveOverlaps(nodeGroup, focusId, connected), 320);
+    }
+
+    function resolveOverlaps(nodeGroup, focusId, connected) {
+        if (!connected) return;
+        const boxes = [];
+        nodeGroup.each(function(d) {
+            if (!connected.has(d.id)) return;
+            const label = d3.select(this).select('.node-label');
+            const tn = label.node();
+            if (!tn) return;
+            try {
+                const bb = tn.getBBox();
+                boxes.push({ id: d.id, x: (d.x||0)+bb.x, y: (d.y||0)+bb.y,
+                    width: bb.width, height: bb.height, element: label, d, flipped: false });
+            } catch(_) {}
+        });
+        for (let i = 0; i < boxes.length; i++) {
+            for (let j = i+1; j < boxes.length; j++) {
+                const a = boxes[i], b = boxes[j];
+                if (a.x < b.x+b.width && a.x+a.width > b.x && a.y < b.y+b.height && a.y+a.height > b.y) {
+                    const flip = b.id === focusId ? a : b;
+                    if (!flip.flipped) {
+                        const r = nodeConfig[flip.d.node_type]?.radius || 10;
+                        flip.element.attr('dy', -(r + 4));
+                        flip.flipped = true;
+                        flip.y = (flip.d.y||0) - r - 4 - flip.height;
+                    }
+                }
+            }
+        }
+    }
+
+    // ─── Render stats + legend ──────────────────────────────────────────
+    function renderStats() {
+        const filtered = getFilteredData();
+        const counts = {};
+        filtered.nodes.forEach(n => counts[n.node_type] = (counts[n.node_type]||0) + 1);
+        const present = new Set(graphData.nodes.map(n => n.node_type));
+
+        document.getElementById('statsBar').innerHTML = Object.entries(nodeConfig)
+            .filter(([t]) => present.has(t))
+            .map(([t, c]) => `<div class="stat-item">
+                <div class="stat-label">${c.label.split(' ')[0]}</div>
+                <div class="stat-value" style="color:${c.color}">${counts[t]||0}</div>
+            </div>`).join('');
+    }
+
+    function renderLegend() {
+        const presentTypes = new Set(graphData.nodes.map(n => n.node_type));
+        const presentRels = new Set(graphData.links.map(l => l.type));
+
+        let html = '';
+        // Node types
+        Object.entries(nodeConfig).filter(([t]) => presentTypes.has(t)).forEach(([, c]) => {
+            html += `<div class="legend-item"><div class="legend-dot" style="background:${c.color}"></div>${c.label}</div>`;
+        });
+        // Separator
+        if (html) html += '<div style="border-top:1px solid var(--border-subtle);margin:4px 0"></div>';
+        // Relationship types
+        Object.entries(relationshipConfig).filter(([t]) => presentRels.has(t)).forEach(([, c]) => {
+            html += `<div class="legend-item"><div class="legend-stroke" style="background:${c.color}"></div>${c.label}</div>`;
+        });
+
+        document.getElementById('legendBar').innerHTML = html;
+    }
+
+    // ─── Main render ────────────────────────────────────────────────────
+    function renderGraph() {
+        const container = document.querySelector('.graph-surface');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        const svg = d3.select('#graph').attr('width', width).attr('height', height);
+        svg.selectAll('*').remove();
+
+        const filtered = getFilteredData();
+        if (filtered.nodes.length === 0) return;
+
+        const nodes = filtered.nodes.map(n => ({...n}));
+        const links = filtered.links.map(l => ({
+            ...l,
+            source: typeof l.source === 'object' ? l.source.id : l.source,
+            target: typeof l.target === 'object' ? l.target.id : l.target
+        }));
+
+        const g = svg.append('g');
+
+        // Zoom
+        const zoom = d3.zoom().scaleExtent([0.15, 5])
+            .on('zoom', e => g.attr('transform', e.transform));
+        svg.call(zoom);
+
+        // Arrow markers
+        const defs = svg.append('defs');
+        Object.entries(relationshipConfig).forEach(([type, cfg]) => {
+            defs.append('marker')
+                .attr('id', `arrow-${type}`)
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 20).attr('refY', 0)
+                .attr('markerWidth', 5).attr('markerHeight', 5)
+                .attr('orient', 'auto')
+                .append('path').attr('d', 'M0,-5L10,0L0,5')
+                .attr('fill', cfg.color).attr('opacity', 0.5);
+        });
+
+        // Simulation
+        if (simulation) simulation.stop();
+
+        simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(105).strength(0.4))
+            .force('charge', d3.forceManyBody().strength(d => {
+                const tier = nodeConfig[d.node_type]?.tier || 3;
+                return tier === 1 ? -500 : tier === 2 ? -250 : -100;
+            }))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(d => (nodeConfig[d.node_type]?.radius || 10) + 8));
+
+        // Links
+        const link = g.append('g').selectAll('line').data(links).join('line')
+            .attr('class', 'link')
+            .attr('stroke', d => relationshipConfig[d.type]?.color || '#E0E0E0')
+            .attr('stroke-width', 1)
+            .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+        // Nodes
+        const node = g.append('g').selectAll('g').data(nodes).join('g')
+            .attr('class', 'node')
+            .call(d3.drag()
+                .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+                .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+                .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }))
+            .on('mouseover', function(e, d) {
+                if (selectedNode) return;
+                showDetail(d);
+                const conn = getConnected(d.id, links);
+                node.style('opacity', n => conn.has(n.id) ? 1 : 0.15);
+                link.style('opacity', l => {
+                    const s = typeof l.source === 'object' ? l.source.id : l.source;
+                    const t = typeof l.target === 'object' ? l.target.id : l.target;
+                    return (s === d.id || t === d.id) ? 0.8 : 0.04;
+                });
+            })
+            .on('mouseout', function() {
+                if (selectedNode) return;
+                hideDetail();
+                node.style('opacity', 1);
+                link.style('opacity', 0.35);
+            })
+            .on('click', function(e, d) {
+                e.stopPropagation();
+                const was = selectedNode?.id === d.id;
+                selectedNode = was ? null : d;
+                if (selectedNode) {
+                    showDetail(d);
+                    const conn = getConnected(d.id, links);
+                    node.style('opacity', n => conn.has(n.id) ? 1 : 0.15);
+                    link.style('opacity', l => {
+                        const s = typeof l.source === 'object' ? l.source.id : l.source;
+                        const t = typeof l.target === 'object' ? l.target.id : l.target;
+                        return (s === d.id || t === d.id) ? 0.8 : 0.04;
+                    });
+                    updateLabels(node, links, d.id);
+                } else {
+                    hideDetail();
+                    node.style('opacity', 1);
+                    link.style('opacity', 0.35);
+                    updateLabels(node, links, null);
+                }
+            });
+
+        // Circles
+        node.append('circle')
+            .attr('r', d => nodeConfig[d.node_type]?.radius || 10)
+            .attr('fill', d => nodeConfig[d.node_type]?.color || '#B8C4B8')
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 2);
+
+        // Country ring
+        node.filter(d => d.node_type === 'national_transposition')
+            .append('circle')
+            .attr('r', d => (nodeConfig[d.node_type]?.radius || 10) + 3)
+            .attr('fill', 'none')
+            .attr('stroke', d => countryConfig[d.country]?.color || '#8A8A8A')
+            .attr('stroke-width', 2)
+            .attr('opacity', 0.6);
+
+        // Labels
+        node.append('text').attr('class', 'node-label')
+            .attr('dy', d => (nodeConfig[d.node_type]?.radius || 10) + 12)
+            .attr('text-anchor', 'middle')
+            .text(d => trunc(d.displayName, 12));
+
+        // Tick
+        simulation.on('tick', () => {
+            link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+
+        // Fit to view
+        setTimeout(() => {
+            const bounds = g.node().getBBox();
+            if (bounds.width > 0 && bounds.height > 0) {
+                const scale = 0.8 / Math.max(bounds.width / width, bounds.height / height);
+                const mx = bounds.x + bounds.width / 2;
+                const my = bounds.y + bounds.height / 2;
+                svg.transition().duration(600).call(zoom.transform,
+                    d3.zoomIdentity.translate(width/2 - scale*mx, height/2 - scale*my).scale(scale));
+            }
+        }, 900);
+
+        // Background click deselect
+        svg.on('click', () => {
+            selectedNode = null;
+            hideDetail();
+            node.style('opacity', 1);
+            link.style('opacity', 0.35);
+            updateLabels(node, links, null);
+        });
+    }
+
+    // ─── Init ───────────────────────────────────────────────────────────
+    async function init() {
+        try {
+            const raw = await loadData();
+            graphData = processData(raw);
+
+            renderStats();
+            renderLegend();
+            renderGraph();
+
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        } catch (err) {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            document.getElementById('errorMsg').textContent = err.message;
+            document.getElementById('errorHint').textContent = `Expected: ${DATA_PATH}`;
+            document.getElementById('errorOverlay').classList.add('visible');
+            console.error('Graph load error:', err);
+        }
+    }
+
+    // Search
+    document.getElementById('search').addEventListener('input', e => {
+        searchTerm = e.target.value;
+        renderGraph();
+        renderStats();
+    });
+
+    // Resize
+    window.addEventListener('resize', () => { if (graphData) renderGraph(); });
+
+    // Go
+    init();
+    </script>
+</body>
+</html>

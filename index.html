@@ -1167,7 +1167,7 @@ counters.forEach(el=>cObs.observe(el));
     ctx.setTransform(dpr,0,0,dpr,0,0);initNodes();
   }
   function draw(){
-    t+=0.018;ctx.clearRect(0,0,W,H);
+    t+=0.026;ctx.clearRect(0,0,W,H);
     drawClouds();
     const vig=ctx.createRadialGradient(W*.5,H*.42,0,W*.5,H*.42,Math.max(W,H)*.78);
     vig.addColorStop(0,'rgba(7,10,8,0)');vig.addColorStop(1,'rgba(7,10,8,0.7)');

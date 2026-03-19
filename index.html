@@ -313,7 +313,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .appr-note p{font-size:.78rem;color:var(--text-l);line-height:1.6;font-weight:300;font-style:italic}
 
 /* CTA */
-.cta{padding:clamp(5rem,10vw,8rem) 0;background:#0a0a0a;text-align:center;border-bottom:1px solid #1a1a1a}
+.cta{padding:clamp(5rem,10vw,8rem) 0;background:#0a0a0a;text-align:center;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
+.cta-cloud-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.cta>.container{position:relative;z-index:1}
 .cta .s-label{color:rgba(255,255,255,.4)}
 .cta .s-title{margin:0 auto;color:#f0f0f0}
 .cta .s-sub{margin:1rem auto 0;text-align:center;color:rgba(255,255,255,.45)}
@@ -719,6 +721,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 </section>
 
 <section class="cta" id="contact">
+  <canvas class="cta-cloud-canvas" id="ctaCloudCanvas"></canvas>
   <div class="container">
     <div class="reveal">
       <p class="s-label">Get Started</p>
@@ -1250,6 +1253,57 @@ counters.forEach(el=>cObs.observe(el));
       ctx.save();
       ctx.translate(x,y);
       ctx.scale(1,ry/rx);
+      const pulse=0.8+Math.sin(t*1.1+b.px)*0.2;
+      const grd=ctx.createRadialGradient(0,0,0,0,0,rx);
+      grd.addColorStop(0,  'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse).toFixed(3)+')');
+      grd.addColorStop(0.5,'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse*0.4).toFixed(3)+')');
+      grd.addColorStop(1,  'rgba('+b.r+','+b.g+','+b.b+',0)');
+      ctx.beginPath();ctx.arc(0,0,rx,0,Math.PI*2);
+      ctx.fillStyle=grd;ctx.fill();
+      ctx.restore();
+    });
+    if(running)raf=requestAnimationFrame(draw);
+  }
+  function start(){if(running)return;running=true;resize();draw();}
+  function stop(){running=false;cancelAnimationFrame(raf);}
+  const obs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting)start();else stop();
+  },{threshold:0});
+  obs.observe(section);
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(running)resize();},150);});
+})();
+
+// CTA — cloud background
+(function(){
+  const canvas=document.getElementById('ctaCloudCanvas');
+  if(!canvas)return;
+  const section=canvas.parentElement;
+  const ctx=canvas.getContext('2d');
+  let W,H,dpr,t=0,raf,running=false;
+  const clouds=[
+    {cx:.05,cy:.22,rx:.22,ry:.28,sx:.26,sy:.32,px:0.0,py:1.1,r:88, g:155,b:100,a:.30},
+    {cx:.95,cy:.18,rx:.20,ry:.25,sx:.30,sy:.40,px:1.8,py:0.7,r:42, g:95, b:160,a:.27},
+    {cx:.04,cy:.72,rx:.18,ry:.30,sx:.24,sy:.36,px:3.0,py:2.0,r:70, g:145,b:120,a:.25},
+    {cx:.96,cy:.68,rx:.20,ry:.28,sx:.32,sy:.28,px:0.8,py:3.3,r:55, g:128,b:168,a:.25},
+    {cx:.50,cy:.08,rx:.40,ry:.16,sx:.20,sy:.42,px:2.4,py:0.9,r:36, g:110,b:148,a:.22},
+  ];
+  function resize(){
+    dpr=devicePixelRatio||1;
+    W=section.offsetWidth;H=section.offsetHeight;
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function draw(){
+    t+=0.012;
+    ctx.clearRect(0,0,W,H);
+    clouds.forEach(b=>{
+      const x=W*(b.cx+Math.sin(t*b.sx+b.px)*b.rx*0.55);
+      const y=H*(b.cy+Math.cos(t*b.sy+b.py)*b.ry*0.45);
+      const rx=W*(0.38+Math.sin(t*b.sx*0.7+b.px)*0.05);
+      const ry=H*(0.45+Math.cos(t*b.sy*0.8+b.py)*0.05);
+      ctx.save();
+      ctx.translate(x,y);ctx.scale(1,ry/rx);
       const pulse=0.8+Math.sin(t*1.1+b.px)*0.2;
       const grd=ctx.createRadialGradient(0,0,0,0,0,rx);
       grd.addColorStop(0,  'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse).toFixed(3)+')');

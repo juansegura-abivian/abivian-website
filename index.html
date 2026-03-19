@@ -244,6 +244,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   opacity:1;transition:opacity 3s ease;z-index:0;pointer-events:none}
 .reactions.settled::before{opacity:0}
 .reactions::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:0}
+.reactions-cloud-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .reactions>.container{position:relative;z-index:1}
 .reactions .s-label{color:rgba(255,255,255,.4)}
 .reactions .s-title{color:#fff}
@@ -545,6 +546,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 </section>
 
 <section class="reactions" id="reactions">
+  <canvas class="reactions-cloud-canvas" id="reactionsCloudCanvas"></canvas>
   <div class="container">
     <div class="reveal" style="text-align:center">
       <h2 class="s-title" style="margin:0 auto">What they said when they saw it</h2>
@@ -1214,6 +1216,58 @@ counters.forEach(el=>cObs.observe(el));
   obs.observe(canvas);
   let resizeTimer;
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,150);});
+})();
+
+// Reactions — cloud background
+(function(){
+  const canvas=document.getElementById('reactionsCloudCanvas');
+  if(!canvas)return;
+  const section=canvas.parentElement;
+  const ctx=canvas.getContext('2d');
+  let W,H,dpr,t=0,raf,running=false;
+  const clouds=[
+    {cx:.06,cy:.25,rx:.22,ry:.28,sx:.28,sy:.35,px:0.0,py:1.3,r:88, g:155,b:100,a:.32},
+    {cx:.94,cy:.20,rx:.20,ry:.25,sx:.32,sy:.42,px:1.8,py:0.6,r:42, g:95, b:160,a:.28},
+    {cx:.05,cy:.68,rx:.18,ry:.30,sx:.25,sy:.38,px:3.2,py:2.1,r:70, g:145,b:120,a:.26},
+    {cx:.95,cy:.72,rx:.20,ry:.28,sx:.35,sy:.30,px:0.9,py:3.5,r:55, g:128,b:168,a:.26},
+    {cx:.50,cy:.10,rx:.38,ry:.18,sx:.22,sy:.45,px:2.5,py:1.0,r:36, g:110,b:148,a:.24},
+  ];
+  function resize(){
+    dpr=devicePixelRatio||1;
+    W=section.offsetWidth;H=section.offsetHeight;
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function draw(){
+    t+=0.014;
+    ctx.clearRect(0,0,W,H);
+    clouds.forEach(b=>{
+      const x=W*(b.cx+Math.sin(t*b.sx+b.px)*b.rx*0.55);
+      const y=H*(b.cy+Math.cos(t*b.sy+b.py)*b.ry*0.45);
+      const rx=W*(0.38+Math.sin(t*b.sx*0.7+b.px)*0.05);
+      const ry=H*(0.45+Math.cos(t*b.sy*0.8+b.py)*0.05);
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.scale(1,ry/rx);
+      const pulse=0.8+Math.sin(t*1.1+b.px)*0.2;
+      const grd=ctx.createRadialGradient(0,0,0,0,0,rx);
+      grd.addColorStop(0,  'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse).toFixed(3)+')');
+      grd.addColorStop(0.5,'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse*0.4).toFixed(3)+')');
+      grd.addColorStop(1,  'rgba('+b.r+','+b.g+','+b.b+',0)');
+      ctx.beginPath();ctx.arc(0,0,rx,0,Math.PI*2);
+      ctx.fillStyle=grd;ctx.fill();
+      ctx.restore();
+    });
+    if(running)raf=requestAnimationFrame(draw);
+  }
+  function start(){if(running)return;running=true;resize();draw();}
+  function stop(){running=false;cancelAnimationFrame(raf);}
+  const obs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting)start();else stop();
+  },{threshold:0});
+  obs.observe(section);
+  let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(running)resize();},150);});
 })();
 
 // Controls & Risk — Verification Flow

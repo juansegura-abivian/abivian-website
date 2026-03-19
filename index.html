@@ -117,22 +117,16 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero .btn-secondary:hover{background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.2)!important;color:#fff!important}
 .hero-metrics{border-top-color:rgba(255,255,255,.08)!important}
 /* Mission strip */
-.hero-mission{padding:2.5rem 0 0;text-align:center;position:relative;z-index:1}
+.hero-mission{padding:2.5rem 0 0;text-align:center;position:relative;z-index:3}
 .hero-mission-title{font-size:clamp(1.1rem,2.2vw,1.5rem);font-weight:400;color:rgba(255,255,255,.55);letter-spacing:-.01em;line-height:1.3}
 .hero-mission-title .friction-wrap{display:inline-block;position:relative}
 .hero-mission-title .hl{color:#7A9E7A;font-weight:500}
 .hero-mission-title .friction-line{display:block;width:0;height:1px;background:linear-gradient(90deg,transparent,#7A9E7A,transparent);margin:4px auto 0;transition:width 1.4s ease .8s}
 .hero-mission-title.fired .friction-line{width:100%}
 .hero-mission-sub{font-size:.8rem;color:rgba(255,255,255,.28);font-weight:300;margin-top:.6rem;letter-spacing:.01em}
-/* Sweep bar */
-.hero-sweep{position:relative;z-index:1;height:3px;margin-top:2.5rem;
-  background:linear-gradient(90deg,rgba(122,158,122,0) 0%,rgba(122,158,122,.7) 18%,rgba(80,140,160,.8) 42%,rgba(55,105,175,.7) 62%,rgba(40,75,140,.4) 80%,rgba(40,75,140,0) 100%);
-  opacity:0;transition:opacity 1.2s ease 1.6s}
-.hero-sweep.fired{opacity:1}
-/* Aurora transition band */
-.aurora-transition{position:relative;height:180px;overflow:hidden;background:#070a08;margin-top:0}
-.aurora-transition canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.aurora-transition::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,transparent 45%,rgba(255,255,255,.6) 75%,#fff 100%);pointer-events:none;z-index:2}
+
+/* Hero bottom fade to white */
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:180px;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.5) 70%,#fff 100%);pointer-events:none;z-index:2}
 .hero>.container{position:relative;z-index:1;padding-left:clamp(2rem,6vw,5rem);padding-right:clamp(2rem,6vw,5rem)}
 .hero-content{padding:6.5rem 0 3rem}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,4vw,4rem);align-items:center}
@@ -415,7 +409,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 <section class="hero">
   <canvas class="hero-bg-canvas" id="heroBgCanvas"></canvas>
   <div class="container hero-content">
-    <div class="hero-logo"><img src="logo.png" alt="Abivian"><p class="hero-tagline">Deterministic AI for Compliance</p></div>
+    <div class="hero-logo"><img src="abivian_logo_white_transparent.png" alt="Abivian"><p class="hero-tagline">Deterministic AI for Compliance</p></div>
     <div class="hero-grid">
       <div>
         <h1><span class="hero-word">From</span> <span class="hero-word">regulation</span> <span class="hero-word">to</span> <span class="hero-word"><span class="accent">proof.</span></span><span class="hero-auto">Automatically.</span></h1>
@@ -443,13 +437,9 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <p class="hero-mission-title" id="heroMissionTitle">We remove <span class="friction-wrap">friction<span class="friction-line"></span></span> from <span class="hl">Compliance</span></p>
       <p class="hero-mission-sub">Reducing cost, complexity, time to market and risk exposure</p>
     </div>
-    <div class="hero-sweep" id="heroSweep"></div>
+
   </div>
 </section>
-
-<div class="aurora-transition" id="auroraTransition">
-  <canvas id="auroraCanvas"></canvas>
-</div>
 
 <section class="mission" style="display:none" id="mission">
   <div class="container">
@@ -1130,7 +1120,32 @@ counters.forEach(el=>cObs.observe(el));
     'ISO 27001','ISO 42001','ISO 19011','PCI-DSS','NIST AI RMF',
     'REACH','CBAM','GPSR','Basel IV','FCA Rules','BaFin',
   ];
-  let nodes=[];
+  const clouds=[
+    {cx:.15,cy:.72,rx:.38,ry:.55,sx:.40,sy:.55,px:0.0,py:1.3,r:88, g:155,b:100,a:.55},
+    {cx:.50,cy:.80,rx:.32,ry:.50,sx:.55,sy:.45,px:1.8,py:0.6,r:55, g:128,b:168,a:.48},
+    {cx:.82,cy:.68,rx:.34,ry:.52,sx:.48,sy:.60,px:3.2,py:2.1,r:42, g:95, b:160,a:.42},
+    {cx:.32,cy:.88,rx:.30,ry:.48,sx:.62,sy:.38,px:0.9,py:3.5,r:70, g:145,b:120,a:.38},
+    {cx:.65,cy:.75,rx:.36,ry:.50,sx:.35,sy:.70,px:2.5,py:1.0,r:36, g:80, b:148,a:.38},
+  ];
+  function drawClouds(){
+    clouds.forEach(b=>{
+      const x=W*(b.cx+Math.sin(t*b.sx+b.px)*b.rx*0.55);
+      const y=H*(b.cy+Math.cos(t*b.sy+b.py)*b.ry*0.45);
+      const rx=W*(0.32+Math.sin(t*b.sx*0.7+b.px)*0.06);
+      const ry=H*(0.38+Math.cos(t*b.sy*0.8+b.py)*0.06);
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.scale(1,ry/rx);
+      const pulse=0.8+Math.sin(t*1.1+b.px)*0.2;
+      const grd=ctx.createRadialGradient(0,0,0,0,0,rx);
+      grd.addColorStop(0,  'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse).toFixed(3)+')');
+      grd.addColorStop(0.5,'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse*0.4).toFixed(3)+')');
+      grd.addColorStop(1,  'rgba('+b.r+','+b.g+','+b.b+',0)');
+      ctx.beginPath();ctx.arc(0,0,rx,0,Math.PI*2);
+      ctx.fillStyle=grd;ctx.fill();
+      ctx.restore();
+    });
+  }
   function initNodes(){
     nodes=regs.map(name=>({
       x:Math.random()*W,y:Math.random()*H,
@@ -1147,6 +1162,7 @@ counters.forEach(el=>cObs.observe(el));
   }
   function draw(){
     t+=0.008;ctx.clearRect(0,0,W,H);
+    drawClouds();
     const vig=ctx.createRadialGradient(W*.5,H*.42,0,W*.5,H*.42,Math.max(W,H)*.78);
     vig.addColorStop(0,'rgba(7,10,8,0)');vig.addColorStop(1,'rgba(7,10,8,0.7)');
     ctx.fillStyle=vig;ctx.fillRect(0,0,W,H);
@@ -1182,96 +1198,16 @@ counters.forEach(el=>cObs.observe(el));
   function start(){resize();draw();}
   function stop(){cancelAnimationFrame(raf);}
   const missionTitle=document.getElementById('heroMissionTitle');
-  const sweep=document.getElementById('heroSweep');
   const obs=new IntersectionObserver(entries=>{
     if(entries[0].isIntersecting){
       start();
-      setTimeout(()=>{
-        if(missionTitle)missionTitle.classList.add('fired');
-        if(sweep)sweep.classList.add('fired');
-      },1800);
+      setTimeout(()=>{if(missionTitle)missionTitle.classList.add('fired');},1800);
       obs.disconnect();
     }
   },{threshold:0.1});
   obs.observe(canvas);
   let resizeTimer;
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,150);});
-})();
-
-// Aurora transition band
-(function(){
-  const canvas=document.getElementById('auroraCanvas');
-  if(!canvas)return;
-  const wrap=canvas.parentElement;
-  const ctx=canvas.getContext('2d');
-  let W,H,dpr,t=0,raf,running=false;
-
-  // Three drifting cloud blobs — green, teal, steel blue
-  const clouds=[
-    {cx:.18,cy:.42,rx:.35,ry:.55,sx:.40,sy:.55,px:0.0, py:1.3, r:88, g:155,b:100,a:.62},
-    {cx:.52,cy:.35,rx:.28,ry:.50,sx:.55,sy:.45,px:1.8, py:0.6, r:55, g:128,b:168,a:.55},
-    {cx:.80,cy:.50,rx:.30,ry:.48,sx:.48,sy:.60,px:3.2, py:2.1, r:42, g: 95,b:160,a:.48},
-    {cx:.35,cy:.60,rx:.25,ry:.40,sx:.62,sy:.38,px:0.9, py:3.5, r:70, g:145,b:120,a:.38},
-    {cx:.68,cy:.28,rx:.32,ry:.45,sx:.35,sy:.70,px:2.5, py:1.0, r:36, g: 80,b:148,a:.35},
-  ];
-
-  function resize(){
-    dpr=devicePixelRatio||1;
-    W=wrap.offsetWidth;H=wrap.offsetHeight;
-    canvas.width=W*dpr;canvas.height=H*dpr;
-    canvas.style.width=W+'px';canvas.style.height=H+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-
-  function draw(){
-    t+=0.006;
-    ctx.clearRect(0,0,W,H);
-    // Base dark
-    ctx.fillStyle='#070a08';
-    ctx.fillRect(0,0,W,H);
-
-    // Paint colour clouds
-    clouds.forEach(b=>{
-      const x=W*(b.cx+Math.sin(t*b.sx+b.px)*b.rx*0.55);
-      const y=H*(b.cy+Math.cos(t*b.sy+b.py)*b.ry*0.45);
-      // Elongated horizontal ellipse
-      const rx=W*(0.28+Math.sin(t*b.sx*0.7+b.px)*0.06);
-      const ry=H*(0.55+Math.cos(t*b.sy*0.8+b.py)*0.08);
-
-      ctx.save();
-      ctx.translate(x,y);
-      ctx.scale(1, ry/rx); // squash into wide cloud shape
-
-      const grd=ctx.createRadialGradient(0,0,0,0,0,rx);
-      // Pulse alpha slightly
-      const pulse=0.8+Math.sin(t*1.1+b.px)*0.2;
-      grd.addColorStop(0,  'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse).toFixed(3)+')');
-      grd.addColorStop(0.4,'rgba('+b.r+','+b.g+','+b.b+','+(b.a*pulse*0.5).toFixed(3)+')');
-      grd.addColorStop(1,  'rgba('+b.r+','+b.g+','+b.b+',0)');
-      ctx.beginPath();ctx.arc(0,0,rx,0,Math.PI*2);
-      ctx.fillStyle=grd;ctx.fill();
-      ctx.restore();
-    });
-
-    // Top fade: ensure it blends seamlessly from hero dark
-    const topFade=ctx.createLinearGradient(0,0,0,H*0.35);
-    topFade.addColorStop(0,'rgba(7,10,8,0.95)');
-    topFade.addColorStop(1,'rgba(7,10,8,0)');
-    ctx.fillStyle=topFade;ctx.fillRect(0,0,W,H*0.35);
-
-    if(running)raf=requestAnimationFrame(draw);
-  }
-
-  function start(){if(running)return;running=true;resize();draw();}
-  function stop(){running=false;cancelAnimationFrame(raf);}
-
-  const obs=new IntersectionObserver(entries=>{
-    if(entries[0].isIntersecting)start();else stop();
-  },{threshold:0});
-  obs.observe(wrap);
-
-  let resizeTimer;
-  window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(running)resize();},150);});
 })();
 
 // Controls & Risk — Verification Flow

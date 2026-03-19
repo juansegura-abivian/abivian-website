@@ -348,6 +348,29 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 @media(max-width:1024px){.crisis-grid,.diff-grid,.roi-grid{grid-template-columns:1fr}.sol-flow{grid-template-columns:1fr}.plat-grid{grid-template-columns:repeat(2,1fr)}.hero-grid{grid-template-columns:1fr;gap:2rem}.hero-img{max-width:clamp(280px,50vw,420px)}.sol-results-grid{grid-template-columns:repeat(2,1fr)}.radar-wrap{max-width:500px}}
 @media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;padding:1.5rem;gap:1rem;border-bottom:1px solid var(--border)}.nav-links.open{display:flex}.nav-toggle{display:block}.hero-grid{grid-template-columns:1fr}.hero-metrics{flex-direction:column;gap:.75rem}.plat-grid,.appr-grid{grid-template-columns:1fr}.sol-results-grid{grid-template-columns:1fr}.f-content{flex-direction:column;gap:2rem}.f-links{flex-direction:column;gap:1.5rem}.f-btm{flex-direction:column;gap:.4rem}.radar-node-name{font-size:.58rem}.radar-node-area{font-size:.48rem}.radar-stat-val{font-size:1.25rem}}
 @media(prefers-reduced-motion:reduce){*,.reveal,.hero-word,.hero-auto,.hero-label-anim,.hero-sub-anim,.hero-cta-anim,.hero-metrics-anim,.hero-img-anim,.roi-val,.plat-card,.sol-step .sn,.hero::before,.hero::after{animation:none!important;transition:none!important;opacity:1!important;transform:none!important;filter:none!important}}
+
+/* CONTROLS & RISK — homepage embed */
+.ctrl-risk{padding:clamp(5rem,10vw,8rem) 0;background:#050505;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
+.ctrl-risk::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(122,158,122,.04) 0%,transparent 70%);pointer-events:none}
+.ctrl-risk>.container{position:relative;z-index:1}
+.ctrl-risk .s-label{color:rgba(122,158,122,.7)}
+.ctrl-risk .s-title{color:#f0f0f0;margin:0 auto;max-width:650px}
+.ctrl-risk .s-sub{color:rgba(255,255,255,.45);margin:.75rem auto 0;text-align:center}
+.ctrl-canvas-wrap{position:relative;width:100%;max-width:900px;margin:3rem auto 0;height:550px}
+.ctrl-canvas-wrap canvas{display:block;width:100%;height:100%}
+.ctrl-phase-labels{display:flex;justify-content:space-between;max-width:900px;margin:1rem auto 0;padding:0 2rem}
+.ctrl-phase{text-align:center;flex:1}
+.ctrl-phase-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(122,158,122,.1);color:#7A9E7A;font-size:.55rem;font-weight:600;margin-bottom:.4rem}
+.ctrl-phase h4{font-size:.75rem;font-weight:500;color:rgba(255,255,255,.5);margin-bottom:.2rem}
+.ctrl-phase p{font-size:.62rem;color:rgba(255,255,255,.25);line-height:1.4;font-weight:300;max-width:200px;margin:0 auto}
+.ctrl-detail-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;max-width:900px;margin:2.5rem auto 0}
+.ctrl-detail-card{background:rgba(255,255,255,.03);border:1px solid #1a1a1a;border-radius:4px;padding:1.5rem;transition:all .3s}
+.ctrl-detail-card:hover{border-color:rgba(122,158,122,.3);background:rgba(122,158,122,.04)}
+.ctrl-detail-card .plat-icon{font-size:1rem;color:#7A9E7A;margin-bottom:.75rem}
+.ctrl-detail-card h4{font-size:.85rem;font-weight:500;color:#f0f0f0;margin-bottom:.4rem}
+.ctrl-detail-card p{font-size:.72rem;color:rgba(255,255,255,.4);line-height:1.6;font-weight:300}
+.ctrl-tag{display:inline-block;font-size:.58rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:#7A9E7A;background:rgba(122,158,122,.1);border:1px solid rgba(122,158,122,.15);border-radius:3px;padding:.2rem .5rem;margin-top:.6rem}
+@media(max-width:768px){.ctrl-canvas-wrap{height:350px}.ctrl-phase-labels{flex-direction:column;gap:1rem;padding:0}.ctrl-detail-cards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -615,6 +638,56 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
   </div>
 </section>
 
+<section class="ctrl-risk" id="controls">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <p class="s-label">Controls &amp; Risk</p>
+      <h2 class="s-title">Every requirement becomes a testable control.</h2>
+      <p class="s-sub">Abivian derives atomized controls from your regulatory posture and evaluates your operational data against them. Each control is linked to its regulatory source — and to what happens when it fails.</p>
+    </div>
+    <div class="ctrl-canvas-wrap reveal rd2" id="ctrlRiskWrap">
+      <canvas id="ctrlRiskCanvas"></canvas>
+    </div>
+    <div class="ctrl-phase-labels reveal rd3">
+      <div class="ctrl-phase">
+        <div class="ctrl-phase-num">1</div>
+        <h4>Send</h4>
+        <p>Operational data — code, logs, descriptions, contracts, policies</p>
+      </div>
+      <div class="ctrl-phase">
+        <div class="ctrl-phase-num">2</div>
+        <h4>Verify</h4>
+        <p>Controls derived from your regulatory posture evaluate every item</p>
+      </div>
+      <div class="ctrl-phase">
+        <div class="ctrl-phase-num">3</div>
+        <h4>Act</h4>
+        <p>PASS or NOT PASS — failures linked to penalties, sanctions, and risk exposure</p>
+      </div>
+    </div>
+    <div class="ctrl-detail-cards">
+      <div class="ctrl-detail-card reveal rd1">
+        <div class="plat-icon"><i class="bi bi-diagram-3"></i></div>
+        <h4>Controls Methodology</h4>
+        <p>Derived from the regulatory graph, case context, extracted requirements, and regulatory consequences — creating atomized Controls that are self-contained and testable. Each Control is directly linked to regulatory exposure, detection likelihood, and risk factors.</p>
+        <span class="ctrl-tag">Self-contained &amp; Testable</span>
+      </div>
+      <div class="ctrl-detail-card reveal rd2">
+        <div class="plat-icon"><i class="bi bi-layers"></i></div>
+        <h4>Controls Linked to Risk</h4>
+        <p>Every Control inherits base risk from its regulatory source, then undergoes contextual risk assessment. The full assessment provides compounded risk scores, gap analysis, detection probability, and multi-dimensional impact — financial, operational, regulatory, reputational, legal, and licence risk.</p>
+        <span class="ctrl-tag">Compounded Risk Scoring</span>
+      </div>
+      <div class="ctrl-detail-card reveal rd3">
+        <div class="plat-icon"><i class="bi bi-broadcast"></i></div>
+        <h4>Controls API</h4>
+        <p>Continuously send operational data to verify against controls. Since every Control is linked to penalties and risk exposure, failures are immediately flagged with priority — transforming static compliance into a living, continuously updated posture.</p>
+        <span class="ctrl-tag">Continuous Verification</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="approach" id="approach">
   <div class="container">
     <div class="reveal"><p class="s-label">Our Approach</p><h2 class="s-title">Accuracy and reliability by design</h2><p class="s-sub">Built like institutional research - multi-layered verification at every step, not just at the end.</p></div>
@@ -714,14 +787,14 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <div class="f-links">
         <div class="f-col"><h4>Product</h4><a href="#solution">Solution</a><a href="#platform">Platform</a><a href="#differentiator">Technology</a></div>
         <div class="f-col"><h4>Company</h4><a href="#approach">Approach</a><a href="#impact">Impact</a></div>
-        <div class="f-col"><h4>Contact</h4><a href="mailto:info@abivian.com">info@abivian.com</a></div>
+        <div class="f-col"><h4>Contact</h4><a href="/cdn-cgi/l/email-protection#640d0a020b2405060d120d050a4a070b09"><span class="__cf_email__" data-cfemail="0861666e6748696a617e616966266b6765">[email&#160;protected]</span></a></div>
       </div>
     </div>
     <div class="f-btm"><span>© 2026 Abivian AB. All rights reserved.</span><span>Stockholm, Sweden</span></div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const reveals=document.querySelectorAll('.reveal,.roi-card,.plat-card,.c-stat,.mission');
 const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
 reveals.forEach(el=>obs.observe(el));
@@ -1043,6 +1116,191 @@ counters.forEach(el=>cObs.observe(el));
   rObs.observe(wrap);
 })();
 
+// Controls & Risk — Verification Flow
+(function(){
+  const wrap=document.getElementById('ctrlRiskWrap');
+  const canvas=document.getElementById('ctrlRiskCanvas');
+  if(!wrap||!canvas)return;
+  const ctx=canvas.getContext('2d');
+  let W,H,cx,cy,dpr,time=0,running=false,animId;
+  const dataTypes=['Code','Logs','Contracts','Policies','Descriptions','Config','API Specs','Procedures'];
+  const controlDefs=[
+    {label:'Access Control',reg:'DORA Art.9'},
+    {label:'Encryption',reg:'GDPR Art.32'},
+    {label:'Incident Report',reg:'NIS2 Art.23'},
+    {label:'Data Retention',reg:'MiFID II'},
+    {label:'Third Party Risk',reg:'DORA Art.28'},
+    {label:'Audit Logging',reg:'SOX §404'}
+  ];
+  const consequences=[
+    {label:'Financial Penalties',severity:.9,icon:'€'},
+    {label:'License Revocation',severity:.8,icon:'⊘'},
+    {label:'Enforcement Action',severity:.7,icon:'⚖'},
+    {label:'Reputational Damage',severity:.6,icon:'↓'},
+    {label:'Operational Halt',severity:.85,icon:'■'},
+    {label:'Criminal Liability',severity:.95,icon:'!'}
+  ];
+  let controls=[],packets=[],riskLinks=[],consequenceNodes=[];
+  function init(){
+    dpr=devicePixelRatio||1;W=wrap.offsetWidth;H=wrap.offsetHeight;
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);cx=W/2;cy=H/2;
+    const ctrlX=W*0.42,marginY=H*0.12,spanY=H-marginY*2;
+    controls=controlDefs.map((c,i)=>({
+      x:ctrlX,y:marginY+spanY*(i/(controlDefs.length-1)),
+      label:c.label,reg:c.reg,
+      pulsePhase:Math.random()*Math.PI*2,activeTimer:0,passCount:0,failCount:0
+    }));
+    const consX=W*0.82;
+    consequenceNodes=consequences.map((c,i)=>({
+      x:consX+(i%2)*W*0.08,y:marginY*0.8+spanY*(i/(consequences.length-1)),
+      label:c.label,severity:c.severity,icon:c.icon,
+      pulsePhase:Math.random()*Math.PI*2,activeTimer:0
+    }));
+    packets=[];riskLinks=[];
+  }
+  function spawnPacket(){
+    const tgt=Math.floor(Math.random()*controls.length);
+    const c=controls[tgt],pass=Math.random()>.28;
+    const dt=dataTypes[Math.floor(Math.random()*dataTypes.length)];
+    packets.push({x:W*0.02,y:c.y+(Math.random()-.5)*30,tx:c.x-30,ty:c.y,
+      label:dt,targetCtrl:tgt,progress:0,speed:.006+Math.random()*.004,
+      pass,phase:'incoming',evalTimer:0});
+  }
+  function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+  function drawHex(x,y,r,fill,stroke,lw){
+    ctx.beginPath();
+    for(let h=0;h<6;h++){const a=Math.PI/3*h-Math.PI/6;h===0?ctx.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r):ctx.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}
+    ctx.closePath();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||1;ctx.stroke();}
+  }
+  function draw(){
+    time+=0.016;ctx.clearRect(0,0,W,H);
+    if(Math.random()<0.035)spawnPacket();
+    ctx.font='600 9px Inter,sans-serif';ctx.textAlign='center';ctx.letterSpacing='0.08em';
+    ctx.fillStyle='rgba(122,158,122,0.12)';
+    ctx.fillText('YOUR DATA',W*0.12,H*0.05);
+    ctx.fillText('CONTROLS',W*0.42,H*0.05);
+    ctx.fillText('RESULT',W*0.62,H*0.05);
+    ctx.fillText('CONSEQUENCES',W*0.84,H*0.05);
+    const bx=W*0.42,bt=H*0.08,bb=H*0.93;
+    ctx.strokeStyle='rgba(122,158,122,0.08)';ctx.lineWidth=1;ctx.setLineDash([3,6]);
+    ctx.beginPath();ctx.moveTo(bx-40,bt);ctx.lineTo(bx-40,bb);ctx.moveTo(bx+40,bt);ctx.lineTo(bx+40,bb);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.save();ctx.translate(bx-50,cy);ctx.rotate(-Math.PI/2);
+    ctx.font='500 7px Inter,sans-serif';ctx.textAlign='center';
+    ctx.fillStyle='rgba(122,158,122,0.15)';ctx.fillText('DERIVED FROM REGULATORY POSTURE',0,0);ctx.restore();
+    controls.forEach((ctrl,ci)=>{
+      consequenceNodes.forEach((con,coni)=>{
+        if((ci+coni)%3!==0)return;
+        const a=0.03+Math.sin(time*0.5+ci+coni)*0.01;
+        ctx.beginPath();ctx.moveTo(ctrl.x+35,ctrl.y);
+        ctx.bezierCurveTo(ctrl.x+(con.x-ctrl.x)*0.4,ctrl.y,ctrl.x+(con.x-ctrl.x)*0.6,con.y,con.x-15,con.y);
+        ctx.strokeStyle='rgba(220,80,80,'+a+')';ctx.lineWidth=0.5;ctx.stroke();
+      });
+    });
+    controls.forEach(c=>{
+      c.activeTimer=Math.max(0,c.activeTimer-0.016);
+      const ia=c.activeTimer>0,pulse=Math.sin(time*1.2+c.pulsePhase)*0.5+0.5,riskR=18+pulse*2;
+      ctx.beginPath();ctx.arc(c.x,c.y,riskR,0,Math.PI*2);
+      ctx.strokeStyle='rgba(122,158,122,'+(ia?.25:.08)+')';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(c.x,c.y,riskR+4,-Math.PI/2+time*0.15,-Math.PI/2+time*0.15+Math.PI*0.96);
+      ctx.strokeStyle='rgba(200,160,80,'+(ia?.2:.06)+')';ctx.lineWidth=2;ctx.stroke();
+      drawHex(c.x,c.y,ia?10:8,ia?'rgba(122,158,122,0.3)':'rgba(122,158,122,0.12)',ia?'rgba(122,158,122,0.7)':'rgba(122,158,122,0.3)',ia?2:1);
+      if(ia){const g=ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,28);g.addColorStop(0,'rgba(122,158,122,0.15)');g.addColorStop(1,'rgba(122,158,122,0)');ctx.beginPath();ctx.arc(c.x,c.y,28,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+      ctx.font='500 8px Inter,sans-serif';ctx.textAlign='left';
+      ctx.fillStyle=ia?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.35)';ctx.fillText(c.label,c.x+25,c.y-2);
+      ctx.font='400 7px Inter,sans-serif';
+      ctx.fillStyle=ia?'rgba(122,158,122,0.6)':'rgba(122,158,122,0.2)';ctx.fillText(c.reg,c.x+25,c.y+10);
+    });
+    consequenceNodes.forEach(con=>{
+      con.activeTimer=Math.max(0,con.activeTimer-0.016);
+      const ih=con.activeTimer>0,pulse=Math.sin(time*0.8+con.pulsePhase)*0.5+0.5;
+      const sevR=12+con.severity*6,sevA=ih?.4:.06+pulse*.03;
+      ctx.beginPath();ctx.arc(con.x,con.y,sevR,0,Math.PI*2);
+      ctx.strokeStyle='rgba(220,80,60,'+sevA+')';ctx.lineWidth=ih?2:1;ctx.stroke();
+      if(ih){const g=ctx.createRadialGradient(con.x,con.y,0,con.x,con.y,sevR+10);g.addColorStop(0,'rgba(220,80,60,0.12)');g.addColorStop(1,'rgba(220,80,60,0)');ctx.beginPath();ctx.arc(con.x,con.y,sevR+10,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+      ctx.font='600 11px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle=ih?'rgba(220,80,60,0.8)':'rgba(220,80,60,0.2)';ctx.fillText(con.icon,con.x,con.y);
+      ctx.textBaseline='alphabetic';ctx.font='400 7px Inter,sans-serif';ctx.textAlign='center';
+      ctx.fillStyle=ih?'rgba(255,255,255,0.5)':'rgba(255,255,255,0.15)';ctx.fillText(con.label,con.x,con.y+sevR+12);
+    });
+    for(let pi=packets.length-1;pi>=0;pi--){
+      const p=packets[pi];
+      if(p.phase==='incoming'){
+        p.progress+=p.speed;
+        const t=ease(p.progress),alpha=Math.min(p.progress*3,1);
+        p.x=W*0.02+(p.tx-W*0.02)*t;p.y=p.y+(p.ty-p.y)*t*0.5;
+        ctx.beginPath();ctx.moveTo(p.x-20,p.y);ctx.lineTo(p.x,p.y);
+        ctx.strokeStyle='rgba(122,158,122,'+(0.2*alpha)+')';ctx.lineWidth=2;ctx.stroke();
+        ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fillStyle='rgba(122,158,122,'+(0.8*alpha)+')';ctx.fill();
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,10);
+        g.addColorStop(0,'rgba(122,158,122,'+(0.15*alpha)+')');g.addColorStop(1,'rgba(122,158,122,0)');
+        ctx.beginPath();ctx.arc(p.x,p.y,10,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+        ctx.font='400 8px Inter,sans-serif';ctx.textAlign='right';
+        ctx.fillStyle='rgba(255,255,255,'+(0.4*alpha)+')';ctx.fillText(p.label,p.x-10,p.y-6);
+        if(p.progress>=1){p.phase='evaluating';p.evalTimer=0;controls[p.targetCtrl].activeTimer=1.2;}
+      } else if(p.phase==='evaluating'){
+        p.evalTimer+=0.016;
+        const ctrl=controls[p.targetCtrl],ep=Math.sin(p.evalTimer*12)*0.5+0.5;
+        ctx.beginPath();ctx.arc(ctrl.x,ctrl.y,12+ep*4,0,Math.PI*2);
+        ctx.strokeStyle='rgba(255,255,255,'+(0.1+ep*0.1)+')';ctx.lineWidth=1;ctx.stroke();
+        if(p.evalTimer>.6){
+          p.phase='result';p.progress=0;p.x=ctrl.x+35;p.y=ctrl.y;p.tx=W*0.6;p.ty=ctrl.y;
+          if(!p.pass){
+            ctrl.failCount++;
+            const ci=Math.floor(Math.random()*consequenceNodes.length);
+            consequenceNodes[ci].activeTimer=2;
+            riskLinks.push({fx:W*0.6+20,fy:ctrl.y,tx:consequenceNodes[ci].x,ty:consequenceNodes[ci].y,life:1.5,maxLife:1.5});
+          }
+        }
+      } else if(p.phase==='result'){
+        p.progress+=0.015;
+        const t=ease(Math.min(p.progress,1)),startX=controls[p.targetCtrl].x+35;
+        p.x=startX+(p.tx-startX)*t;
+        const col=p.pass?[122,158,122]:[220,80,60],fadeOut=p.progress>1.5?Math.max(0,1-(p.progress-1.5)/0.5):1;
+        ctx.beginPath();ctx.moveTo(startX,p.ty);ctx.lineTo(p.x,p.ty);
+        ctx.strokeStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+(0.3*fadeOut)+')';ctx.lineWidth=2;ctx.stroke();
+        ctx.beginPath();ctx.arc(p.x,p.ty,3,0,Math.PI*2);
+        ctx.fillStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+(0.9*fadeOut)+')';ctx.fill();
+        if(p.progress>.5){
+          const la=Math.min((p.progress-.5)*3,1)*fadeOut;
+          ctx.font='600 9px Inter,sans-serif';ctx.textAlign='left';
+          ctx.fillStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+(0.8*la)+')';
+          ctx.fillText(p.pass?'PASS':'NOT PASS',p.tx+8,p.ty+3);
+        }
+        if(p.progress>2)packets.splice(pi,1);
+      }
+    }
+    for(let ri=riskLinks.length-1;ri>=0;ri--){
+      const r=riskLinks[ri];r.life-=0.016;
+      if(r.life<=0){riskLinks.splice(ri,1);continue;}
+      const a=(r.life/r.maxLife)*0.35;
+      ctx.beginPath();ctx.moveTo(r.fx,r.fy);
+      ctx.quadraticCurveTo(r.fx+(r.tx-r.fx)*0.5,r.fy,r.tx,r.ty);
+      ctx.strokeStyle='rgba(220,80,60,'+a+')';ctx.lineWidth=1.5;ctx.stroke();
+      const pt=1-(r.life/r.maxLife),px=r.fx+(r.tx-r.fx)*pt,py=r.fy+(r.ty-r.fy)*pt;
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);
+      ctx.fillStyle='rgba(220,80,60,'+(a*2)+')';ctx.fill();
+    }
+    ctx.save();ctx.translate(W*0.03,cy);ctx.rotate(-Math.PI/2);
+    ctx.font='500 8px Inter,sans-serif';ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillText('COMPANY OPERATIONAL DATA',0,0);ctx.restore();
+    if(running)animId=requestAnimationFrame(draw);
+  }
+  function start(){if(running)return;running=true;init();draw();}
+  function stop(){running=false;if(animId)cancelAnimationFrame(animId);}
+  const rObs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{if(en.isIntersecting)start();else stop();});
+  },{threshold:0.15});
+  rObs.observe(wrap);
+  let resizeTimer;
+  window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(running)init();},150);});
+})();
+
 // Demo form – inline success state (Netlify Forms)
 (function(){
   const form=document.getElementById('demoForm');
@@ -1056,9 +1314,12 @@ counters.forEach(el=>cObs.observe(el));
     btn.innerHTML='Sending\u2026 <i class="bi bi-hourglass-split"></i>';
     try{
       await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()});
-    }catch(_){}
-    wrap.classList.add('hidden');
-    success.classList.add('visible');
+      wrap.classList.add('hidden');
+      success.classList.add('visible');
+    }catch(err){
+      btn.disabled=false;
+      btn.innerHTML='Request a Demo <i class="bi bi-arrow-right"></i>';
+    }
   });
 })();
 </script>

@@ -233,26 +233,51 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .rs-anim{opacity:0}
 .radar-stat-bar.visible .rs-anim{animation:rsReveal .7s cubic-bezier(.23,1,.32,1) var(--rs-d) both,rsPulse 4s ease-in-out calc(var(--rs-d) + 1.2s) infinite}
 
-/* SOLUTION */
+/* SOLUTION — proof chain */
 .solution{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
-.sol-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
-.sol-step{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;transition:all .3s}
-.sol-step:hover{border-color:#333;background:#0a0a0a}
-.sol-step:hover .st{color:#f0f0f0}
-.sol-step:hover .sd{color:rgba(255,255,255,.55)}
-.sol-step:hover .sn{background:#fff;color:#0a0a0a}
-.sn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-size:.8rem;font-weight:600;margin-bottom:1.25rem;transition:all .3s}
-.st{font-size:1.1rem;font-weight:500;color:var(--text);margin-bottom:.6rem;transition:color .3s}
-.sd{font-size:.82rem;color:var(--text-l);line-height:1.7;font-weight:300;transition:color .3s}
-.sol-results{margin-top:2rem;background:var(--green);border-radius:4px;padding:2rem;color:#fff}
-.sol-results-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
-.sol-results-header .sn{background:rgba(255,255,255,.2);color:#fff;flex-shrink:0}
-.sol-results-header .st{color:#fff}
-.sol-results-header .sd{color:rgba(255,255,255,.7)}
-.sol-results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
-.sol-result-item{display:flex;align-items:center;gap:.5rem;padding:.6rem .75rem;background:rgba(255,255,255,.12);border-radius:4px;font-size:.78rem;font-weight:400;color:#fff;transition:background .2s;line-height:1.3}
-.sol-result-item:hover{background:rgba(255,255,255,.2)}
-.sol-result-item i{font-size:.85rem;opacity:.7;flex-shrink:0}
+.sol-phase-labels{display:flex;justify-content:space-between;margin-bottom:1.5rem;padding:0 .5rem}
+.sol-phase-label{font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#ccc;text-align:center;flex:1;transition:color .4s}
+.sol-phase-label.lit{color:var(--green)}
+.sol-chain{display:flex;align-items:stretch;gap:0;margin-bottom:2rem}
+.sol-node{flex:1;background:var(--subtle);border:1px solid var(--border);border-radius:4px;padding:1.1rem;display:flex;flex-direction:column;opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease,border-color .4s,background .4s}
+.sol-node.lit{opacity:1;transform:translateY(0);border-color:var(--green-b);background:var(--card)}
+.sol-node.lit.sol-met{border-color:var(--green);background:var(--green-bg)}
+.sol-node.lit.sol-gap{border-color:#c89a40;background:#fdf8ed}
+.sol-node-tag{font-size:.57rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#ccc;margin-bottom:.4rem;flex-shrink:0;transition:color .4s}
+.sol-node.lit .sol-node-tag{color:var(--green)}
+.sol-node.lit.sol-gap .sol-node-tag{color:#c89a40}
+.sol-node-title{font-size:.82rem;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:.35rem;flex-shrink:0}
+.sol-node-excerpt{font-size:.65rem;color:var(--text-l);font-weight:300;line-height:1.5;font-style:italic;border-left:2px solid var(--border);padding-left:.5rem;margin-top:.4rem;flex:1;transition:border-color .4s}
+.sol-node.lit .sol-node-excerpt{border-left-color:var(--green-b)}
+.sol-node.lit.sol-gap .sol-node-excerpt{border-left-color:#e8d4a0}
+.sol-verdict{display:inline-flex;align-items:center;gap:.35rem;margin-top:auto;padding:.3rem .6rem;border-radius:4px;font-size:.7rem;font-weight:600;letter-spacing:.04em;opacity:0;transform:scale(.9);transition:opacity .4s,transform .4s;align-self:flex-start}
+.sol-verdict.show{opacity:1;transform:scale(1)}
+.sol-verdict-met{background:#eef7ee;color:#3d7a3d;border:1px solid var(--green-b)}
+.sol-verdict-gap{background:#fdf3dd;color:#8a6520;border:1px solid #e8cf88}
+.sol-verdict-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sol-verdict-met .sol-verdict-dot{background:var(--green)}
+.sol-verdict-gap .sol-verdict-dot{background:#c89a40}
+.sol-arrow{width:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s}
+.sol-arrow.lit{opacity:1}
+.sol-arrow svg{width:22px;height:22px}
+.sol-chain-divider{text-align:center;margin:.25rem 0 2rem;font-size:.7rem;color:#ddd;font-weight:300;letter-spacing:.04em}
+.sol-wyg{margin-top:3rem;border-top:1px solid var(--border);padding-top:2.5rem}
+.sol-wyg-hdr{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.75rem}
+.sol-wyg-title{font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+.sol-wyg-sub{font-size:.75rem;color:var(--text-l);font-weight:300}
+.sol-wyg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.sol-wyg-group{padding:1.25rem;border-right:1px solid var(--border);opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
+.sol-wyg-group:last-child{border-right:none}
+.sol-wyg-group.lit{opacity:1;transform:translateY(0)}
+.sol-wyg-ghdr{display:flex;align-items:center;gap:.4rem;margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:1px solid var(--border-s)}
+.sol-wyg-gdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sol-wyg-gname{font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text)}
+.sol-wyg-item{display:flex;align-items:flex-start;gap:.4rem;font-size:.72rem;color:var(--text-l);font-weight:300;line-height:1.4;margin-bottom:.5rem;opacity:0;transform:translateX(-6px);transition:opacity .4s ease,transform .4s ease}
+.sol-wyg-item:last-child{margin-bottom:0}
+.sol-wyg-item.lit{opacity:1;transform:translateX(0)}
+.sol-wyg-idot{width:3px;height:3px;border-radius:50%;background:var(--border-h);flex-shrink:0;margin-top:.45rem}
+@media(max-width:1024px){.sol-wyg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.sol-chain{flex-direction:column}.sol-arrow{transform:rotate(90deg);margin:.25rem auto}.sol-wyg-grid{grid-template-columns:1fr}}
 
 /* REACTIONS */
 .reactions{padding:clamp(4rem,8vw,6rem) 0;background:#0a0a0a;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
@@ -582,36 +607,111 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="solution" id="solution">
   <div class="container">
-    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Three steps to turn regulatory complexity into audit-ready confidence.</p></div>
-    <div class="sol-flow">
-      <div class="sol-step reveal rd1"><div class="sn">1</div><h3 class="st">Law In</h3><p class="sd">Our proprietary AI reads and maps 100K+ global regulations to your company context - identifying every directive, statute, and standard that applies.</p></div>
-      <div class="sol-step reveal rd2"><div class="sn">2</div><h3 class="st">Reason</h3><p class="sd">Our deterministic AI engine builds proof chains: law → requirement → evidence. Every decision traceable to source, with full regulatory context verified.</p></div>
-      <div class="sol-step reveal rd3"><div class="sn">3</div><h3 class="st">Proof Out</h3><p class="sd">Audit-ready resolution with MET / NOT MET verdicts and full evidence trails. ISO 19011-aligned, reproducible, and legally defensible.</p></div>
-    </div>
-    <div class="sol-results reveal">
-      <div class="sol-results-header">
-        <div class="sn">✓</div>
-        <div><h3 class="st">What You Get</h3><p class="sd" style="margin-top:.2rem">Complete audit-ready outputs delivered automatically</p></div>
+    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Every verdict is traceable back to its source. Regulation to requirement to evidence to decision — automatically, deterministically, every time.</p></div>
+
+    <div id="solChainWrap">
+      <div class="sol-phase-labels">
+        <div class="sol-phase-label" id="sph0">The Law</div>
+        <div style="flex:0 0 28px"></div>
+        <div class="sol-phase-label" id="sph1">Requirement</div>
+        <div style="flex:0 0 28px"></div>
+        <div class="sol-phase-label" id="sph2">Evidence</div>
+        <div style="flex:0 0 28px"></div>
+        <div class="sol-phase-label" id="sph3">Verdict</div>
       </div>
-      <div class="sol-results-grid">
-        <div class="sol-result-item"><i class="bi bi-diagram-3"></i> Regulatory Graph</div>
-        <div class="sol-result-item"><i class="bi bi-clipboard-data"></i> Regulatory Posture</div>
-        <div class="sol-result-item"><i class="bi bi-file-text"></i> Obligations Extraction</div>
-        <div class="sol-result-item"><i class="bi bi-bookmark-check"></i> Standards Identification</div>
-        <div class="sol-result-item"><i class="bi bi-patch-check"></i> Compliance Adherence Check</div>
-        <div class="sol-result-item"><i class="bi bi-sliders"></i> Controls</div>
-        <div class="sol-result-item"><i class="bi bi-check2-square"></i> Operational Controls Verification API</div>
-        <div class="sol-result-item"><i class="bi bi-blockquote-left"></i> Verbatim Traceability of Regulations, Standards &amp; Evidence</div>
-        <div class="sol-result-item"><i class="bi bi-archive"></i> Evidence Registry</div>
-        <div class="sol-result-item"><i class="bi bi-exclamation-triangle"></i> Gap Analysis</div>
-        <div class="sol-result-item"><i class="bi bi-speedometer2"></i> Risk Assessment</div>
-        <div class="sol-result-item"><i class="bi bi-currency-dollar"></i> Penalties Exposure</div>
-        <div class="sol-result-item"><i class="bi bi-wrench-adjustable"></i> Remediation &amp; Actions</div>
-        <div class="sol-result-item"><i class="bi bi-signpost-split"></i> Compliance Workflows</div>
-        <div class="sol-result-item"><i class="bi bi-journal-check"></i> Audit Trail</div>
-        <div class="sol-result-item"><i class="bi bi-broadcast"></i> Monitoring / Alerts of Regulations Changes</div>
-        <div class="sol-result-item"><i class="bi bi-chat-left-text"></i> Query your Case</div>
-        <div class="sol-result-item"><i class="bi bi-box-arrow-up-right"></i> Integrations &amp; Exports</div>
+
+      <div class="sol-chain">
+        <div class="sol-node" id="s1n0">
+          <div class="sol-node-tag">Regulation</div>
+          <div class="sol-node-title">DORA Art. 9 — ICT security policies</div>
+          <div class="sol-node-excerpt">"Financial entities shall implement ICT security policies, procedures and tools to protect the confidentiality, integrity and availability of data."</div>
+        </div>
+        <div class="sol-arrow" id="s1a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node" id="s1n1">
+          <div class="sol-node-tag">Requirement</div>
+          <div class="sol-node-title">Access control policies must restrict ICT systems to authorised personnel only</div>
+          <div class="sol-node-excerpt">Extracted from Art. 9 §4(b) — applies to all ICT systems in scope of DORA</div>
+        </div>
+        <div class="sol-arrow" id="s1a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node" id="s1n2">
+          <div class="sol-node-tag">Evidence</div>
+          <div class="sol-node-title">ICT Security Framework v2.1 — §3.4 Access Management</div>
+          <div class="sol-node-excerpt">"Role-based access enforced across all production systems. MFA required. Access reviewed quarterly. Last review: Jan 2026."</div>
+        </div>
+        <div class="sol-arrow" id="s1a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node sol-met" id="s1n3">
+          <div class="sol-node-tag">Verdict</div>
+          <div class="sol-node-title">Requirement satisfied — evidence verified and sourced</div>
+          <div class="sol-node-excerpt">Full traceability from regulation to evidence. ISO 19011-aligned audit trail generated.</div>
+          <div class="sol-verdict sol-verdict-met" id="s1v"><div class="sol-verdict-dot"></div>MET</div>
+        </div>
+      </div>
+
+      <div class="sol-chain-divider">— second requirement, same case —</div>
+
+      <div class="sol-chain">
+        <div class="sol-node" id="s2n0">
+          <div class="sol-node-tag">Regulation</div>
+          <div class="sol-node-title">DORA Art. 17 — ICT-related incident management</div>
+          <div class="sol-node-excerpt">"Financial entities shall define, establish and implement an ICT-related incident management process to detect, manage and notify ICT-related incidents."</div>
+        </div>
+        <div class="sol-arrow" id="s2a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node" id="s2n1">
+          <div class="sol-node-tag">Requirement</div>
+          <div class="sol-node-title">Major incidents must be reported to competent authority within 4 hours</div>
+          <div class="sol-node-excerpt">Mandatory under DORA RTS — initial notification within 4 hours of classification as major</div>
+        </div>
+        <div class="sol-arrow" id="s2a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node" id="s2n2">
+          <div class="sol-node-tag">Evidence</div>
+          <div class="sol-node-title">Incident Response Procedure v2.0 — §5.3 Reporting Timelines</div>
+          <div class="sol-node-excerpt">"Major incidents to be reported within 24 hours..." — does not meet DORA's 4-hour initial notification requirement.</div>
+        </div>
+        <div class="sol-arrow" id="s2a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="sol-node sol-gap" id="s2n3">
+          <div class="sol-node-tag">Verdict</div>
+          <div class="sol-node-title">Gap identified — remediation required before audit</div>
+          <div class="sol-node-excerpt">Remediation plan generated. Owner assigned. Penalty exposure calculated. Linked to audit trail.</div>
+          <div class="sol-verdict sol-verdict-gap" id="s2v"><div class="sol-verdict-dot"></div>NOT MET</div>
+        </div>
+      </div>
+
+      <div class="sol-wyg">
+        <div class="sol-wyg-hdr">
+          <span class="sol-wyg-title">What you get</span>
+          <span class="sol-wyg-sub">Complete audit-ready outputs, automatically</span>
+        </div>
+        <div class="sol-wyg-grid">
+          <div class="sol-wyg-group" id="swg0">
+            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#7A9E7A"></div><span class="sol-wyg-gname">Discover</span></div>
+            <div class="sol-wyg-item" id="swi0"><div class="sol-wyg-idot"></div>Regulatory Graph</div>
+            <div class="sol-wyg-item" id="swi1"><div class="sol-wyg-idot"></div>Regulatory Posture</div>
+            <div class="sol-wyg-item" id="swi2"><div class="sol-wyg-idot"></div>Obligations Extraction</div>
+            <div class="sol-wyg-item" id="swi3"><div class="sol-wyg-idot"></div>Standards Identification</div>
+          </div>
+          <div class="sol-wyg-group" id="swg1">
+            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#5B8FA8"></div><span class="sol-wyg-gname">Verify</span></div>
+            <div class="sol-wyg-item" id="swi4"><div class="sol-wyg-idot"></div>Compliance Adherence Check</div>
+            <div class="sol-wyg-item" id="swi5"><div class="sol-wyg-idot"></div>Controls &amp; Verification API</div>
+            <div class="sol-wyg-item" id="swi6"><div class="sol-wyg-idot"></div>Verbatim Traceability</div>
+            <div class="sol-wyg-item" id="swi7"><div class="sol-wyg-idot"></div>Evidence Registry</div>
+          </div>
+          <div class="sol-wyg-group" id="swg2">
+            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#7A8FA8"></div><span class="sol-wyg-gname">Act</span></div>
+            <div class="sol-wyg-item" id="swi8"><div class="sol-wyg-idot"></div>Gap Analysis</div>
+            <div class="sol-wyg-item" id="swi9"><div class="sol-wyg-idot"></div>Risk Assessment</div>
+            <div class="sol-wyg-item" id="swi10"><div class="sol-wyg-idot"></div>Penalties Exposure</div>
+            <div class="sol-wyg-item" id="swi11"><div class="sol-wyg-idot"></div>Remediation &amp; Actions</div>
+            <div class="sol-wyg-item" id="swi12"><div class="sol-wyg-idot"></div>Compliance Workflows</div>
+          </div>
+          <div class="sol-wyg-group" id="swg3">
+            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#9E8A7A"></div><span class="sol-wyg-gname">Sustain</span></div>
+            <div class="sol-wyg-item" id="swi13"><div class="sol-wyg-idot"></div>Audit Trail</div>
+            <div class="sol-wyg-item" id="swi14"><div class="sol-wyg-idot"></div>Monitoring &amp; Change Alerts</div>
+            <div class="sol-wyg-item" id="swi15"><div class="sol-wyg-idot"></div>Query your Case</div>
+            <div class="sol-wyg-item" id="swi16"><div class="sol-wyg-idot"></div>Integrations &amp; Exports</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1491,6 +1591,35 @@ counters.forEach(el=>cObs.observe(el));
   const rObs=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting)start();else stop();});},{threshold:0.15});
   rObs.observe(wrap);
   let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(running)init();},150);});
+})();
+
+// Solution — proof chain animation
+(function(){
+  const wrap=document.getElementById('solChainWrap');
+  if(!wrap)return;
+  const d1=[0,350,700,1050,1400,1750,2100];
+  const d2=[500,850,1200,1550,1900,2250,2600];
+  function lit(id,delay){setTimeout(()=>{const e=document.getElementById(id);if(e)e.classList.add('lit');},delay);}
+  function show(id,delay){setTimeout(()=>{const e=document.getElementById(id);if(e)e.classList.add('show');},delay);}
+  let started=false;
+  const obs=new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting&&!started){
+      started=true;
+      ['sph0','sph1','sph2','sph3'].forEach((id,i)=>setTimeout(()=>lit(id,0),i*700));
+      ['s1n0','s1a0','s1n1','s1a1','s1n2','s1a2','s1n3'].forEach((id,i)=>lit(id,d1[i]));
+      show('s1v',d1[6]+300);
+      const off=d1[6]+400;
+      ['s2n0','s2a0','s2n1','s2a1','s2n2','s2a2','s2n3'].forEach((id,i)=>lit(id,off+d2[i]));
+      show('s2v',off+d2[6]+300);
+      const wygStart=off+d2[6]+700;
+      [[0,1,2,3],[4,5,6,7],[8,9,10,11,12],[13,14,15,16]].forEach((items,gi)=>{
+        const gd=wygStart+gi*180;
+        lit('swg'+gi,gd);
+        items.forEach((idx,ii)=>lit('swi'+idx,gd+120+ii*80));
+      });
+    }
+  },{threshold:0.1});
+  obs.observe(wrap);
 })();
 
 // Problem section — page accumulator canvas

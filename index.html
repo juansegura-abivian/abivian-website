@@ -118,12 +118,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero-metrics{border-top-color:rgba(255,255,255,.08)!important}
 /* Mission strip */
 .hero-mission{padding:2.5rem 0 0;text-align:center;position:relative;z-index:3}
-.hero-mission-title{font-size:clamp(1.1rem,2.2vw,1.5rem);font-weight:400;color:rgba(255,255,255,.55);letter-spacing:-.01em;line-height:1.3}
+.hero-mission-title{font-size:clamp(1.1rem,2.2vw,1.5rem);font-weight:400;color:rgba(255,255,255,.85);letter-spacing:-.01em;line-height:1.3}
 .hero-mission-title .friction-wrap{display:inline-block;position:relative}
 .hero-mission-title .hl{color:#7A9E7A;font-weight:500}
 .hero-mission-title .friction-line{display:block;width:0;height:1px;background:linear-gradient(90deg,transparent,#7A9E7A,transparent);margin:4px auto 0;transition:width 1.4s ease .8s}
 .hero-mission-title.fired .friction-line{width:100%}
-.hero-mission-sub{font-size:.8rem;color:rgba(255,255,255,.28);font-weight:300;margin-top:.6rem;letter-spacing:.01em}
+.hero-mission-sub{font-size:.85rem;color:rgba(255,255,255,.5);font-weight:300;margin-top:.6rem;letter-spacing:.01em}
 
 
 .hero>.container{position:relative;z-index:1;padding-left:clamp(2rem,6vw,5rem);padding-right:clamp(2rem,6vw,5rem)}
@@ -548,7 +548,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
     <div class="hero-grid">
       <div>
         <h1><span class="hero-word">From</span> <span class="hero-word">regulation</span> <span class="hero-word">to</span> <span class="hero-word"><span class="accent">proof.</span></span><span class="hero-auto">Automatically.</span></h1>
-        <p class="hero-sub hero-sub-anim">Abivian transforms months of manual compliance work into hours - with deterministic reasoning, full traceability, and audit-grade outputs.</p>
+        <p class="hero-sub hero-sub-anim">Abivian transforms months of manual compliance work into hours - with deterministic AI reasoning, full traceability, and audit-grade outputs.</p>
         <div class="hero-cta hero-cta-anim">
           <a href="#contact" class="btn-primary">Request a Demo <i class="bi bi-arrow-right"></i></a>
           <a href="#solution" class="btn-secondary">See How It Works</a>
@@ -1641,9 +1641,10 @@ counters.forEach(el=>cObs.observe(el));
     }));
   }
   function resize(){
-    dpr=devicePixelRatio||1;W=canvas.offsetWidth;H=canvas.offsetHeight;
+    dpr=devicePixelRatio||1;
+    W=canvas.parentElement.offsetWidth||window.innerWidth;
+    H=canvas.parentElement.offsetHeight||window.innerHeight;
     canvas.width=W*dpr;canvas.height=H*dpr;
-    canvas.style.width=W+'px';canvas.style.height=H+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);initNodes();
   }
   function draw(){

@@ -367,15 +367,54 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 /* PLATFORM */
 .platform{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
-.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
-.plat-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.75rem;transition:all .3s}
-.plat-card:hover{border-color:#333;background:#0a0a0a}
-.plat-card:hover h3{color:#f0f0f0}
-.plat-card:hover p{color:rgba(255,255,255,.55)}
-.plat-card:hover .plat-icon{background:#1a1a1a;border-color:#333;color:#fff}
-.plat-icon{width:36px;height:36px;border-radius:4px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1rem;color:var(--green);transition:all .3s}
-.plat-card h3{font-size:.95rem;font-weight:500;color:var(--text);margin-bottom:.5rem;transition:color .3s}
-.plat-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300;transition:color .3s}
+.plat-act-block{margin-bottom:2rem}
+.plat-act-hdr{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.plat-act-badge{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .65rem;border-radius:20px;flex-shrink:0}
+.plat-act-badge.a1{background:#eef7ee;color:#3d7a3d;border:1px solid #b8d8b8}
+.plat-act-badge.a2{background:#eef2f8;color:#1e4a88;border:1px solid #b0c8e8}
+.plat-act-badge.a3{background:#f4f0fa;color:#4a2a88;border:1px solid #c8b8e8}
+.plat-act-name{font-size:.82rem;font-weight:500;color:var(--text)}
+.plat-act-sub{font-size:.75rem;color:var(--text-l);font-weight:300}
+.plat-pipeline{display:flex;align-items:stretch;gap:0}
+.plat-conn{width:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.plat-conn svg{width:14px;height:14px}
+.plat-stage{flex:1;min-width:0;border:1px solid var(--border);border-radius:4px;background:var(--subtle,#fafafa);padding:1.1rem;display:flex;flex-direction:column;transition:border-color .25s,background .25s}
+.plat-stage-icon{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:.6rem;font-size:13px;flex-shrink:0;transition:all .25s}
+.plat-stage-num{font-size:.55rem;font-weight:700;letter-spacing:.08em;color:#ccc;margin-bottom:.15rem}
+.plat-stage-title{font-size:.78rem;font-weight:500;color:var(--text);line-height:1.25;margin-bottom:.3rem}
+.plat-stage-body{font-size:.67rem;color:var(--text-l);font-weight:300;line-height:1.5;flex:1}
+.plat-stage-output{margin-top:.6rem;padding:.3rem .5rem;background:var(--card);border:1px solid;border-radius:3px;font-size:.59rem;font-weight:500;display:flex;align-items:center;gap:.3rem;flex-shrink:0}
+.plat-stage-output-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+/* act colours */
+.plat-a1 .plat-stage:hover{border-color:#c8ddc8;background:var(--card)}
+.plat-a1 .plat-stage-icon{background:#f0f7f0;color:#7A9E7A}
+.plat-a1 .plat-stage-output{border-color:#daeeda;color:#3d7a3d}
+.plat-a1 .plat-stage-output-dot{background:#7A9E7A}
+.plat-a2 .plat-stage:hover{border-color:#b0cce8;background:var(--card)}
+.plat-a2 .plat-stage-icon{background:#f0f4fa;color:#3a72c0}
+.plat-a2 .plat-stage-output{border-color:#ccdcf0;color:#1e4a88}
+.plat-a2 .plat-stage-output-dot{background:#3a72c0}
+.plat-a3 .plat-stage:hover{border-color:#c8b8e8;background:var(--card)}
+.plat-a3 .plat-stage-icon{background:#f6f2fc;color:#7a52c8}
+.plat-a3 .plat-stage-output{border-color:#dcd0f0;color:#4a2a88}
+.plat-a3 .plat-stage-output-dot{background:#7a52c8}
+/* dividers */
+.plat-divider{display:flex;align-items:center;gap:1rem;margin:1.25rem 0 1.5rem}
+.plat-divider-line{flex:1;height:1px;background:var(--border)}
+.plat-divider-text{font-size:.62rem;color:#ccc;font-weight:300;white-space:nowrap;letter-spacing:.03em}
+/* output strip */
+.plat-output-strip{margin-top:2.5rem;border-top:1px solid var(--border);padding-top:2rem}
+.plat-os-hdr{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.25rem}
+.plat-os-title{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+.plat-os-sub{font-size:.72rem;color:var(--text-l);font-weight:300}
+.plat-output-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.plat-output-col{background:var(--subtle,#fafafa);border:1px solid var(--border);border-radius:4px;padding:1rem}
+.plat-oc-hdr{display:flex;align-items:center;gap:.4rem;margin-bottom:.6rem;padding-bottom:.5rem;border-bottom:1px solid var(--border-s)}
+.plat-oc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.plat-oc-name{font-size:.62rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+.plat-oi{font-size:.67rem;color:var(--text-l);font-weight:300;padding:.22rem 0;border-bottom:1px solid var(--border-s);line-height:1.4}
+.plat-oi:last-child{border-bottom:none;padding-bottom:0}
+@media(max-width:900px){.plat-pipeline{flex-direction:column}.plat-conn{transform:rotate(90deg);height:18px;width:100%}.plat-output-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* ROI */
 .roi{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -806,17 +845,167 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="platform" id="platform">
   <div class="container">
-    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution</h2><p class="s-sub">From case setup to continuous monitoring - everything in one platform.</p></div>
-    <div class="plat-grid">
-      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-lightning"></i></div><h3>Case Setup</h3><p>Define your product, jurisdiction, and compliance scope. Upload documentation and let Abivian auto-structure content and flag contradictions.</p></div>
-      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-search"></i></div><h3>Regulatory Discovery</h3><p>Automatically identify all applicable regulations - directives, laws, statutes, case law - verified from authoritative sources. Visualized as a living regulatory graph.</p></div>
-      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h3>Regulatory Taxonomy</h3><p>Discover and map the full regulatory taxonomy - whether US federal and state structures, EU directive hierarchies, or national frameworks - independently resolved for each jurisdiction.</p></div>
-      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-list-check"></i></div><h3>Requirements Extraction</h3><p>Extract requirements from hundreds of regulations, intelligently clustered into thematic groups so teams navigate what matters fast.</p></div>
-      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-check-circle"></i></div><h3>Resolution &amp; Verification</h3><p>Triangulate context, regulations, and standards to deliver complete outcomes - MET or NOT MET, with verbatim regulatory text and evidence.</p></div>
-      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-wrench-adjustable"></i></div><h3>Remediation</h3><p>Turn open gaps into a governed remediation plan. Prioritize by compounded risk score, severity, and penalty exposure, then assign owners, actions, and due dates - with lifecycle tracking and residual risk documented to closure.</p></div>
-      <div class="plat-card reveal rd1"><div class="plat-icon"><i class="bi bi-shield-check"></i></div><h3>Controls &amp; Risk</h3><p>Atomized controls from your regulatory graph, each linked to multi-layered risk assessments with compounded scores and penalty exposure.</p></div>
-      <div class="plat-card reveal rd2"><div class="plat-icon"><i class="bi bi-journal-check"></i></div><h3>Audit Trail</h3><p>ISO 19011-aligned audit trails that document every decision, every source, and every evidence link. Complete traceability from regulation to resolution, ready for regulators on demand.</p></div>
-      <div class="plat-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h3>Continuous Monitoring</h3><p>Real-time regulatory monitoring that catches legislative changes, amendments, and new requirements before they impact your compliance posture. Verified change reports delivered automatically.</p></div>
+    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution.</h2><p class="s-sub">From a blank case to a regulator-ready audit trail — every step is deterministic, traceable, and connected.</p></div>
+
+    <!-- ACT 1 -->
+    <div class="plat-act-block reveal rd1" style="margin-top:3rem">
+      <div class="plat-act-hdr">
+        <span class="plat-act-badge a1">Act 1</span>
+        <span class="plat-act-name">Map the landscape</span>
+        <span class="plat-act-sub">— understand exactly what applies to you</span>
+      </div>
+      <div class="plat-pipeline plat-a1">
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-lightning"></i></div>
+          <div class="plat-stage-num">01</div>
+          <div class="plat-stage-title">Case Setup</div>
+          <div class="plat-stage-body">Define product, jurisdiction, scope. Upload documentation. Abivian structures content and flags contradictions before reasoning begins.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Structured case context</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-search"></i></div>
+          <div class="plat-stage-num">02</div>
+          <div class="plat-stage-title">Regulatory Discovery</div>
+          <div class="plat-stage-body">Automatically identify every applicable regulation — directives, statutes, case law, agency guidance — verified from authoritative sources across all jurisdictions.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Living regulatory graph</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-diagram-3"></i></div>
+          <div class="plat-stage-num">03</div>
+          <div class="plat-stage-title">Regulatory Taxonomy</div>
+          <div class="plat-stage-body">Map the full hierarchy — EU directive chains, US federal structures, national transpositions — resolved independently per jurisdiction with cross-references intact.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Regulatory taxonomy map</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plat-divider reveal">
+      <div class="plat-divider-line"></div>
+      <div class="plat-divider-text">landscape mapped — now assess your position</div>
+      <div class="plat-divider-line"></div>
+    </div>
+
+    <!-- ACT 2 -->
+    <div class="plat-act-block reveal rd1">
+      <div class="plat-act-hdr">
+        <span class="plat-act-badge a2">Act 2</span>
+        <span class="plat-act-name">Assess compliance</span>
+        <span class="plat-act-sub">— determine where you stand and close the gaps</span>
+      </div>
+      <div class="plat-pipeline plat-a2">
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-list-check"></i></div>
+          <div class="plat-stage-num">04</div>
+          <div class="plat-stage-title">Requirements Extraction</div>
+          <div class="plat-stage-body">Extract every obligation from hundreds of regulations. Clustered into thematic groups so your team navigates what matters — without drowning in volume.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Obligations registry</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="plat-stage-num">05</div>
+          <div class="plat-stage-title">Resolution &amp; Verification</div>
+          <div class="plat-stage-body">Triangulate context, regulations, and standards. Every requirement resolved to MET or NOT MET — with verbatim regulatory text, sourced evidence, and full traceability.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>MET / NOT MET verdicts</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-wrench-adjustable"></i></div>
+          <div class="plat-stage-num">06</div>
+          <div class="plat-stage-title">Remediation</div>
+          <div class="plat-stage-body">Every NOT MET becomes a governed action. Prioritised by risk score and penalty exposure. Owners, deadlines, and residual risk tracked to closure.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Governed remediation plan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plat-divider reveal">
+      <div class="plat-divider-line"></div>
+      <div class="plat-divider-text">compliance assessed — now govern it continuously</div>
+      <div class="plat-divider-line"></div>
+    </div>
+
+    <!-- ACT 3 -->
+    <div class="plat-act-block reveal rd1">
+      <div class="plat-act-hdr">
+        <span class="plat-act-badge a3">Act 3</span>
+        <span class="plat-act-name">Govern continuously</span>
+        <span class="plat-act-sub">— stay audit-ready as the regulatory world changes</span>
+      </div>
+      <div class="plat-pipeline plat-a3">
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-shield-check"></i></div>
+          <div class="plat-stage-num">07</div>
+          <div class="plat-stage-title">Controls &amp; Risk</div>
+          <div class="plat-stage-body">Atomised controls derived from your regulatory graph. Each linked to compounded risk scores, penalty exposure, and detection probability — continuously testable.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Risk-linked control set</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-journal-check"></i></div>
+          <div class="plat-stage-num">08</div>
+          <div class="plat-stage-title">Audit Trail</div>
+          <div class="plat-stage-body">ISO 19011-aligned. Every decision, source, and evidence link documented. Complete traceability from regulation to resolution — ready for regulators on demand.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Audit-grade trail</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-broadcast"></i></div>
+          <div class="plat-stage-num">09</div>
+          <div class="plat-stage-title">Continuous Monitoring</div>
+          <div class="plat-stage-body">Real-time watch on every regulation in your graph. Changes, amendments, new requirements — caught and assessed before they impact your compliance posture.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Verified change reports</div>
+        </div>
+        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="plat-stage">
+          <div class="plat-stage-icon"><i class="bi bi-chat-left-text"></i></div>
+          <div class="plat-stage-num">10</div>
+          <div class="plat-stage-title">Query &amp; Export</div>
+          <div class="plat-stage-body">Ask questions directly against your case. Export to audit packages, reports, and integration APIs. Your compliance intelligence, in the format you need.</div>
+          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Reports &amp; integrations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output strip -->
+    <div class="plat-output-strip reveal">
+      <div class="plat-os-hdr">
+        <span class="plat-os-title">What you get</span>
+        <span class="plat-os-sub">Every output is sourced, traceable, and audit-ready</span>
+      </div>
+      <div class="plat-output-grid">
+        <div class="plat-output-col">
+          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#7A9E7A"></div><span class="plat-oc-name">Discover</span></div>
+          <div class="plat-oi">Regulatory Graph</div>
+          <div class="plat-oi">Regulatory Posture</div>
+          <div class="plat-oi">Obligations Extraction</div>
+          <div class="plat-oi">Standards Identification</div>
+        </div>
+        <div class="plat-output-col">
+          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#3a72c0"></div><span class="plat-oc-name">Verify</span></div>
+          <div class="plat-oi">Compliance Adherence Check</div>
+          <div class="plat-oi">Controls &amp; Verification API</div>
+          <div class="plat-oi">Verbatim Traceability</div>
+          <div class="plat-oi">Evidence Registry</div>
+        </div>
+        <div class="plat-output-col">
+          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#3a72c0"></div><span class="plat-oc-name">Act</span></div>
+          <div class="plat-oi">Gap Analysis</div>
+          <div class="plat-oi">Risk Assessment</div>
+          <div class="plat-oi">Penalties Exposure</div>
+          <div class="plat-oi">Remediation &amp; Actions</div>
+          <div class="plat-oi">Compliance Workflows</div>
+        </div>
+        <div class="plat-output-col">
+          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#7a52c8"></div><span class="plat-oc-name">Sustain</span></div>
+          <div class="plat-oi">Audit Trail</div>
+          <div class="plat-oi">Monitoring &amp; Change Alerts</div>
+          <div class="plat-oi">Query your Case</div>
+          <div class="plat-oi">Integrations &amp; Exports</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -302,18 +302,68 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 /* DIFF */
 .diff{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
-.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:3rem;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
-.diff-col{padding:2rem}
-.diff-llm{background:var(--bg)}
-.diff-eng{background:var(--green-bg)}
-.diff-hdr{font-size:.78rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--text-m);margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
-.diff-eng .diff-hdr{color:var(--green);border-bottom-color:var(--green-b)}
-.di{display:flex;align-items:flex-start;gap:.6rem;padding:.6rem 0;font-size:.85rem;color:var(--text);line-height:1.45;font-weight:300}
-.dx{color:var(--red);font-size:.9rem;flex-shrink:0;font-weight:500}
-.dc{color:var(--green);font-size:.9rem;flex-shrink:0;font-weight:500}
-.diff-btm{margin-top:2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.5rem 2rem;text-align:center}
-.diff-btm p{font-size:.9rem;color:var(--text);font-weight:400}
 .hl{color:var(--green);font-weight:500}
+/* failure cards */
+.diff-failure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-top:3rem;margin-bottom:2rem}
+.diff-fc{background:var(--card);padding:1.75rem 1.5rem;display:flex;flex-direction:column}
+.diff-fc-num{font-size:.62rem;font-weight:700;letter-spacing:.1em;color:#ccc;margin-bottom:.75rem}
+.diff-fc-title{font-size:.92rem;font-weight:500;color:var(--text);margin-bottom:.5rem;line-height:1.25}
+.diff-fc-body{font-size:.78rem;color:var(--text-l);font-weight:300;line-height:1.6;margin-bottom:1rem;flex:1}
+.diff-fc-body strong{font-weight:500;color:var(--text)}
+.diff-fc-cq{font-size:.72rem;font-weight:400;line-height:1.5;padding:.65rem .8rem;border-radius:4px;border-left:2px solid;margin-top:auto}
+.diff-fc-cq.amber{background:#fdf8ed;color:#8a6520;border-color:#c89a40}
+.diff-fc-cq.red{background:#fdf0f0;color:#8a2020;border-color:#c84040}
+.diff-fc-cq.coral{background:#fdf2ed;color:#8a3820;border-color:#c86040}
+/* hallucination scale */
+.diff-hall-scale{margin:.85rem 0 1rem;padding:.85rem;background:var(--bg);border:1px solid var(--border);border-radius:4px}
+.diff-hs-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.42rem}
+.diff-hs-row:last-child{margin-bottom:0}
+.diff-hs-label{font-size:.62rem;color:var(--text-l);width:110px;flex-shrink:0;font-weight:300}
+.diff-hs-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.diff-hs-fill{height:100%;border-radius:2px}
+.diff-hs-risk{font-size:.6rem;font-weight:600;width:52px;text-align:right;flex-shrink:0}
+/* context bars */
+.diff-ctx-bars{margin-bottom:.85rem}
+.diff-ctx-row{margin-bottom:.42rem}
+.diff-ctx-hdr{display:flex;justify-content:space-between;font-size:.62rem;color:var(--text-l);margin-bottom:.2rem}
+.diff-ctx-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.diff-ctx-fill{height:100%;border-radius:3px}
+/* agent card */
+.diff-agent{background:#0d0d10;border-radius:6px;padding:2.5rem;margin:2rem 0}
+.diff-agent-label{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:1rem}
+.diff-agent-title{font-size:1.2rem;font-weight:500;color:#f0f0f0;line-height:1.25;margin-bottom:.5rem;max-width:560px}
+.diff-agent-sub{font-size:.82rem;color:rgba(255,255,255,.38);font-weight:300;line-height:1.6;margin-bottom:2rem;max-width:500px}
+.diff-agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.diff-ar{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1.25rem;display:flex;flex-direction:column}
+.diff-ar-dot{width:6px;height:6px;border-radius:50%;background:#c84040;margin-bottom:.75rem;flex-shrink:0}
+.diff-ar-title{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.72);margin-bottom:.35rem;line-height:1.3}
+.diff-ar-body{font-size:.72rem;color:rgba(255,255,255,.33);font-weight:300;line-height:1.55;flex:1}
+.diff-ar-stat{font-size:.65rem;font-weight:500;color:rgba(200,64,64,.75);margin-top:.5rem;font-style:italic}
+/* scale banner */
+.diff-scale{background:var(--green-bg);border:1px solid var(--green-b);border-radius:6px;padding:1.75rem 2rem;margin:2rem 0}
+.diff-scale-ctx{font-size:.72rem;font-weight:600;color:var(--green);letter-spacing:.03em;text-transform:uppercase;margin-bottom:1.25rem;padding-bottom:.85rem;border-bottom:1px solid var(--green-b)}
+.diff-scale-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1rem}
+.diff-scale-stat{text-align:center}
+.diff-scale-val{font-size:1.75rem;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1}
+.diff-scale-val span{color:var(--green)}
+.diff-scale-label{font-size:.68rem;color:var(--text-l);margin-top:.3rem;font-weight:300;line-height:1.4}
+.diff-scale-div{width:1px;background:var(--green-b);height:36px}
+.diff-scale-note{font-size:.72rem;color:#5a8a5a;font-weight:300;line-height:1.6;font-style:italic;padding-top:.85rem;border-top:1px solid var(--green-b)}
+/* pillars */
+.diff-pillars-hdr{display:flex;align-items:baseline;gap:1rem;margin:2.5rem 0 1.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.diff-pillars-label{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
+.diff-pillars-sub{font-size:.75rem;color:var(--text-l);font-weight:300}
+.diff-pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.diff-pillar{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:2px solid var(--green);display:flex;flex-direction:column}
+.diff-pillar-num{font-size:.58rem;font-weight:700;letter-spacing:.08em;color:var(--green);margin-bottom:.5rem}
+.diff-pillar-title{font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.35rem;line-height:1.3}
+.diff-pillar-body{font-size:.7rem;color:var(--text-l);font-weight:300;line-height:1.55;flex:1}
+.diff-pillar-targets{font-size:.62rem;color:var(--green);margin-top:.65rem;font-weight:400}
+/* closer */
+.diff-closer{margin-top:2.5rem;padding:2rem;background:var(--bg);border-radius:4px;border-left:3px solid var(--green)}
+.diff-closer p{font-size:1.05rem;font-weight:400;color:var(--text);line-height:1.55;font-style:italic}
+.diff-closer p em{font-style:normal;font-weight:500}
+@media(max-width:1024px){.diff-failure-grid{grid-template-columns:1fr}.diff-agent-grid{grid-template-columns:1fr}.diff-scale-grid{grid-template-columns:1fr}.diff-scale-div{display:none}.diff-pillars-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* PLATFORM */
 .platform{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -806,26 +856,123 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="diff" id="differentiator">
   <div class="container">
-    <div class="reveal"><p class="s-label">Why It's Different</p><h2 class="s-title">Deterministic reasoning. Not probabilistic guessing.</h2></div>
-    <div class="diff-grid reveal">
-      <div class="diff-col diff-llm">
-        <div class="diff-hdr">Generic LLMs</div>
-        <div class="di"><span class="dx">✕</span> Hallucinate legal interpretations</div>
-        <div class="di"><span class="dx">✕</span> Can't trace reasoning to source</div>
-        <div class="di"><span class="dx">✕</span> Knowledge cutoff → outdated laws</div>
-        <div class="di"><span class="dx">✕</span> Context windows too small for full scope</div>
-        <div class="di"><span class="dx">✕</span> Outputs not reproducible or auditable</div>
+    <div class="reveal"><p class="s-label">Why It's Different</p><h2 class="s-title">The problem isn't hallucinations. It's the architecture.</h2><p class="s-sub">Hallucinations are the symptom everyone talks about. But the real failure runs deeper — and it compounds with every page of regulatory text you add.</p></div>
+
+    <div class="diff-failure-grid">
+      <div class="diff-fc reveal rd1">
+        <div class="diff-fc-num">01</div>
+        <div class="diff-fc-title">Hallucinations — the invisible kind</div>
+        <div class="diff-fc-body">Ask an LLM a simple, distinct question and it performs well. The problem is barely noticeable. But feed it thousands of pages of regulatory text — all written in the same formal register, the same clause patterns, the same cross-reference style — and the model begins to silently blend what it read with what it statistically predicts.<br><br>It doesn't invent things from nothing. It <strong>conflates real provisions from different regulations</strong>. GDPR Art. 32 and DORA Art. 9 both use nearly identical language about "appropriate technical measures." The output looks correct. The article numbers are real. The reasoning sounds right. The jurisdiction is wrong.
+        </div>
+        <div class="diff-hall-scale">
+          <div class="diff-hs-row"><div class="diff-hs-label">Simple Q&amp;A</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:12%;background:#7A9E7A"></div></div><div class="diff-hs-risk" style="color:#7A9E7A">Low</div></div>
+          <div class="diff-hs-row"><div class="diff-hs-label">Mixed documents</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:48%;background:#c89a40"></div></div><div class="diff-hs-risk" style="color:#c89a40">Growing</div></div>
+          <div class="diff-hs-row"><div class="diff-hs-label">100s of regulations</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:85%;background:#c84040"></div></div><div class="diff-hs-risk" style="color:#c84040">Critical</div></div>
+        </div>
+        <div class="diff-fc-cq amber">The more your context resembles itself — like regulatory text — the more the model confabulates with total confidence.</div>
       </div>
-      <div class="diff-col diff-eng">
-        <div class="diff-hdr">Abivian Reasoning Engine</div>
-        <div class="di"><span class="dc">✓</span> Deterministic proof chains</div>
-        <div class="di"><span class="dc">✓</span> Every decision traceable to source</div>
-        <div class="di"><span class="dc">✓</span> Real-time regulatory graph - always current</div>
-        <div class="di"><span class="dc">✓</span> Full regulatory context ingested &amp; verified</div>
-        <div class="di"><span class="dc">✓</span> ISO 19011 audit-grade output</div>
+
+      <div class="diff-fc reveal rd2">
+        <div class="diff-fc-num">02</div>
+        <div class="diff-fc-title">Sub-optimal outputs</div>
+        <div class="diff-fc-body">Probable ≠ correct for your company. LLMs produce the most likely interpretation across their entire training corpus — answers optimised for the average company, not yours.<br><br>The right interpretation of DORA Art. 9 for a Tier 1 bank with legacy infrastructure is completely different from a cloud-native fintech. The model doesn't know the difference. It answers for the statistical middle — and the statistical middle fails your specific audit.</div>
+        <div class="diff-fc-cq red" style="margin-top:auto">A correct-sounding answer built for no one in particular fails every audit that matters to you specifically.</div>
+      </div>
+
+      <div class="diff-fc reveal rd3">
+        <div class="diff-fc-num">03</div>
+        <div class="diff-fc-title">Context rot</div>
+        <div class="diff-fc-body">More context makes every problem worse. As input grows, relevant provisions become statistically insignificant against millions of distractor tokens. Research confirms performance degrades even when the model can perfectly retrieve the right evidence — the surrounding noise actively interferes with reasoning.</div>
+        <div class="diff-ctx-bars">
+          <div class="diff-ctx-row"><div class="diff-ctx-hdr"><span>Short context</span><span>~94% accuracy</span></div><div class="diff-ctx-track"><div class="diff-ctx-fill" style="width:94%;background:#7A9E7A"></div></div></div>
+          <div class="diff-ctx-row"><div class="diff-ctx-hdr"><span>One framework (~10MB)</span><span>~76% accuracy</span></div><div class="diff-ctx-track"><div class="diff-ctx-fill" style="width:76%;background:#c89a40"></div></div></div>
+          <div class="diff-ctx-row"><div class="diff-ctx-hdr"><span>Enterprise compliance (~80MB)</span><span>&lt;50% accuracy</span></div><div class="diff-ctx-track"><div class="diff-ctx-fill" style="width:48%;background:#c84040"></div></div></div>
+        </div>
+        <div class="diff-fc-cq coral">The bigger the case, the worse the AI. You pay more for results that are less reliable.</div>
       </div>
     </div>
-    <div class="diff-btm reveal"><p>Built on <span class="hl">12 proprietary AI systems</span> - deterministic proof chains that produce audit-grade, legally defensible outputs.</p></div>
+
+    <div class="diff-agent reveal">
+      <div class="diff-agent-label">The agent myth</div>
+      <div class="diff-agent-title">"Just use AI agents" doesn't solve this. It multiplies it.</div>
+      <div class="diff-agent-sub">Agents appear to solve reasoning and context problems by breaking tasks into steps. They don't. They layer orchestration complexity on top of a probabilistic foundation — making failures slower to detect, harder to trace, and impossible to present to a regulator.</div>
+      <div class="diff-agent-grid">
+        <div class="diff-ar">
+          <div class="diff-ar-dot"></div>
+          <div class="diff-ar-title">Errors compound across steps</div>
+          <div class="diff-ar-body">A wrong assumption at step 2 becomes immutable context at step 3. By step 10 you have a confident, coherent — and wrong — compliance assessment. No agent catches its own drift mid-chain.</div>
+          <div class="diff-ar-stat">Agents succeed ~50% of the time in production (2025 research)</div>
+        </div>
+        <div class="diff-ar">
+          <div class="diff-ar-dot"></div>
+          <div class="diff-ar-title">No traceability across the chain</div>
+          <div class="diff-ar-body">When a verdict is wrong, you cannot trace which step failed or why. In compliance, an untraceable output cannot be presented to a regulator, an auditor, or a board.</div>
+          <div class="diff-ar-stat">Courts have yet to rule on liability for autonomous agent errors (2026)</div>
+        </div>
+        <div class="diff-ar">
+          <div class="diff-ar-dot"></div>
+          <div class="diff-ar-title">Probabilistic foundation, probabilistic ceiling</div>
+          <div class="diff-ar-body">Agents built on LLMs inherit all three failure modes above. Orchestrating probabilistic steps doesn't make them deterministic — it gives failure more places to silently activate.</div>
+          <div class="diff-ar-stat">One generic interpretation at step 1 corrupts every downstream conclusion</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-scale reveal">
+      <div class="diff-scale-ctx">What Abivian actually does — one company, one framework, one jurisdiction</div>
+      <div class="diff-scale-grid">
+        <div class="diff-scale-stat">
+          <div class="diff-scale-val"><span>10K+</span></div>
+          <div class="diff-scale-label">equivalent ChatGPT prompts worth of reasoning per case</div>
+        </div>
+        <div class="diff-scale-div"></div>
+        <div class="diff-scale-stat">
+          <div class="diff-scale-val"><span>~12</span> hrs</div>
+          <div class="diff-scale-label">parallel computation — what used to take 4–6 months manually</div>
+        </div>
+        <div class="diff-scale-div"></div>
+        <div class="diff-scale-stat">
+          <div class="diff-scale-val"><span>1000s</span></div>
+          <div class="diff-scale-label">of verified reasoning steps, each earned before the next begins</div>
+        </div>
+      </div>
+      <div class="diff-scale-note">Abivian doesn't send a prompt and wait for an answer. It runs a structured reasoning process — simulating, deducing, contradicting its own findings, and synthesising — until every conclusion is traceable to its source. This is what audit-grade means.</div>
+    </div>
+
+    <div class="diff-pillars-hdr reveal">
+      <span class="diff-pillars-label">How Abivian is built differently</span>
+      <span class="diff-pillars-sub">Each pillar directly addresses one failure mode above</span>
+    </div>
+    <div class="diff-pillars-grid">
+      <div class="diff-pillar reveal rd1">
+        <div class="diff-pillar-num">PILLAR 01</div>
+        <div class="diff-pillar-title">Preemptive ambiguity trap detection</div>
+        <div class="diff-pillar-body">Before any reasoning begins, Abivian scans for the specific failure modes that cause probabilistic systems to silently go wrong in regulatory text. If they cannot be resolved, the system halts rather than guessing.</div>
+        <div class="diff-pillar-targets">↳ Addresses: invisible hallucinations</div>
+      </div>
+      <div class="diff-pillar reveal rd2">
+        <div class="diff-pillar-num">PILLAR 02</div>
+        <div class="diff-pillar-title">Iterative reasoning engine</div>
+        <div class="diff-pillar-body">Abivian doesn't generate a single response. It actively thinks — simulating, deducing, challenging its own findings, and building a verified chain of evidence before committing. Every step earns the next.</div>
+        <div class="diff-pillar-targets">↳ Addresses: sub-optimal outputs</div>
+      </div>
+      <div class="diff-pillar reveal rd3">
+        <div class="diff-pillar-num">PILLAR 03</div>
+        <div class="diff-pillar-title">Knowledge distillation</div>
+        <div class="diff-pillar-body">Regulatory frameworks compressed into structured knowledge hierarchies — not summaries — preserving every definition, threshold, and cross-reference at full fidelity within manageable reasoning budgets.</div>
+        <div class="diff-pillar-targets">↳ Addresses: context rot</div>
+      </div>
+      <div class="diff-pillar reveal rd4">
+        <div class="diff-pillar-num">PILLAR 04</div>
+        <div class="diff-pillar-title">Semantic document intelligence</div>
+        <div class="diff-pillar-body">Every provision retrievable, contextualised, and connected to the regulatory structure it belongs to. Complete coverage is guaranteed — no provision falls between processing boundaries.</div>
+        <div class="diff-pillar-targets">↳ Addresses: agent &amp; RAG failures</div>
+      </div>
+    </div>
+
+    <div class="diff-closer reveal">
+      <p>"The compliance industry doesn't need more powerful language models. It needs AI that is <em>architecturally incapable of guessing.</em>"</p>
+    </div>
   </div>
 </section>
 

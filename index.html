@@ -188,7 +188,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .cs-track{height:2px;background:var(--border);border-radius:2px;margin-top:.45rem;overflow:hidden}
 .cs-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.23,1,.32,1)}
 .crisis-stats-strip{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3rem;border-top:1px solid var(--border);border-left:1px solid var(--border)}
-.crisis-stat-cell{padding:1.5rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.crisis-stat-cell{padding:1.5rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s}
+.crisis-stat-cell:hover{background:var(--subtle,#f8f8f8)}
 .crisis-stat-num{font-size:1.9rem;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1}
 .crisis-stat-desc{font-size:.78rem;color:var(--text-l);margin-top:.3rem;line-height:1.5;font-weight:300}
 .crisis-stat-since{font-size:.64rem;color:#ccc;margin-top:.2rem;font-weight:300;font-style:italic}
@@ -266,9 +267,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .sol-wyg-title{font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
 .sol-wyg-sub{font-size:.75rem;color:var(--text-l);font-weight:300}
 .sol-wyg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.sol-wyg-group{padding:1.25rem;border-right:1px solid var(--border);opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease}
-.sol-wyg-group:last-child{border-right:none}
+.sol-wyg-group{padding:1.25rem;border-right:1px solid var(--border);opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease,background .2s}
 .sol-wyg-group.lit{opacity:1;transform:translateY(0)}
+.sol-wyg-group.lit:hover{background:var(--subtle,#f8f8f8)}
 .sol-wyg-ghdr{display:flex;align-items:center;gap:.4rem;margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:1px solid var(--border-s)}
 .sol-wyg-gdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .sol-wyg-gname{font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text)}
@@ -305,7 +306,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hl{color:var(--green);font-weight:500}
 /* failure cards */
 .diff-failure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-top:3rem;margin-bottom:2rem}
-.diff-fc{background:var(--card);padding:1.75rem 1.5rem;display:flex;flex-direction:column}
+.diff-fc{background:var(--card);padding:1.75rem 1.5rem;display:flex;flex-direction:column;transition:background .2s}
+.diff-fc:hover{background:var(--subtle,#f8f8f8)}
 .diff-fc-num{font-size:.62rem;font-weight:700;letter-spacing:.1em;color:#ccc;margin-bottom:.75rem}
 .diff-fc-title{font-size:.92rem;font-weight:500;color:var(--text);margin-bottom:.5rem;line-height:1.25}
 .diff-fc-body{font-size:.78rem;color:var(--text-l);font-weight:300;line-height:1.6;margin-bottom:1rem;flex:1}
@@ -334,7 +336,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .diff-agent-title{font-size:1.2rem;font-weight:500;color:#f0f0f0;line-height:1.25;margin-bottom:.5rem;max-width:560px}
 .diff-agent-sub{font-size:.82rem;color:rgba(255,255,255,.38);font-weight:300;line-height:1.6;margin-bottom:2rem;max-width:500px}
 .diff-agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.diff-ar{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1.25rem;display:flex;flex-direction:column}
+.diff-ar{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1.25rem;display:flex;flex-direction:column;transition:background .2s,border-color .2s}
+.diff-ar:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
 .diff-ar-dot{width:6px;height:6px;border-radius:50%;background:#c84040;margin-bottom:.75rem;flex-shrink:0}
 .diff-ar-title{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.72);margin-bottom:.35rem;line-height:1.3}
 .diff-ar-body{font-size:.72rem;color:rgba(255,255,255,.33);font-weight:300;line-height:1.55;flex:1}
@@ -354,7 +357,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .diff-pillars-label{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
 .diff-pillars-sub{font-size:.75rem;color:var(--text-l);font-weight:300}
 .diff-pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
-.diff-pillar{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:2px solid var(--green);display:flex;flex-direction:column}
+.diff-pillar{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:2px solid var(--green);display:flex;flex-direction:column;transition:background .2s,border-color .2s,box-shadow .2s}
+.diff-pillar:hover{background:var(--card);border-color:var(--green-b);}
 .diff-pillar-num{font-size:.58rem;font-weight:700;letter-spacing:.08em;color:var(--green);margin-bottom:.5rem}
 .diff-pillar-title{font-size:.82rem;font-weight:500;color:var(--text);margin-bottom:.35rem;line-height:1.3}
 .diff-pillar-body{font-size:.7rem;color:var(--text-l);font-weight:300;line-height:1.55;flex:1}
@@ -408,7 +412,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .plat-os-title{font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
 .plat-os-sub{font-size:.72rem;color:var(--text-l);font-weight:300}
 .plat-output-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
-.plat-output-col{background:var(--subtle,#fafafa);border:1px solid var(--border);border-radius:4px;padding:1rem}
+.plat-output-col{background:var(--subtle,#fafafa);border:1px solid var(--border);border-radius:4px;padding:1rem;transition:background .2s,border-color .2s}
+.plat-output-col:hover{background:var(--card);border-color:var(--border-h)}
 .plat-oc-hdr{display:flex;align-items:center;gap:.4rem;margin-bottom:.6rem;padding-bottom:.5rem;border-bottom:1px solid var(--border-s)}
 .plat-oc-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .plat-oc-name{font-size:.62rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text)}
@@ -419,15 +424,15 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 /* ROI */
 .roi{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
 .roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
-.roi-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;text-align:center;transition:border-color .2s}
-.roi-card:hover{border-color:var(--border-h)}
+.roi-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;text-align:center;transition:border-color .2s,background .2s}
+.roi-card:hover{border-color:var(--border-h);background:var(--subtle,#f8f8f8)}
 .roi-val{font-size:3.5rem;font-weight:700;color:var(--green);line-height:1}
 .roi-unit{font-size:1.5rem;font-weight:500}
 .roi-card h3{font-size:.95rem;font-weight:500;color:var(--text);margin:.75rem 0 .4rem}
 .roi-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300}
 .roi-details{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
-.roi-detail{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:4px;transition:border-color .2s}
-.roi-detail:hover{border-color:var(--border-h)}
+.roi-detail{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:4px;transition:border-color .2s,background .2s}
+.roi-detail:hover{border-color:var(--border-h);background:var(--subtle,#f8f8f8)}
 .roi-detail-icon{width:40px;height:40px;border-radius:4px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;color:var(--green)}
 .roi-detail h4{font-size:.9rem;font-weight:500;color:var(--text);margin-bottom:.3rem}
 .roi-detail p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300}

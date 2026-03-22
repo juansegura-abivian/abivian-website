@@ -314,9 +314,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .reactions-quote{max-width:650px;margin:0 auto}
 .reactions-quote blockquote{font-size:clamp(1.1rem,2.5vw,1.35rem);font-weight:400;font-style:italic;color:rgba(255,255,255,.9);line-height:1.55;opacity:0;transform:translateY(8px);transition:opacity .8s ease,transform .8s ease}
 .reactions-quote blockquote.active{opacity:1;transform:translateY(0)}
-.reactions-companies{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
-.reactions-co{font-size:.8rem;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.03em}
-.reactions-dot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0;opacity:.6}
+.reactions-companies{display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+.reactions-logo{height:28px;width:auto;display:block;opacity:.55;transition:opacity .3s ease,filter .3s ease}
+.reactions-logo:hover{opacity:1}
+.reactions-logo.invert{filter:invert(1)}
+.reactions-logo.screen{mix-blend-mode:screen}
+.reactions-logo.screen-invert{mix-blend-mode:screen;filter:invert(1) brightness(1.2)}
 
 /* DIFF */
 .diff{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
@@ -1043,19 +1046,15 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       </div>
     </div>
     <div class="reactions-companies reveal rd2">
-      <span class="reactions-co">Maersk</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">Volvo</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">Hoist Finance</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">Plenum</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">Reifi Consulting</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">TCI Consult</span>
-      <span class="reactions-dot"></span>
-      <span class="reactions-co">NCC</span>
+      <img src="maersk_logo.png"              alt="Maersk"         class="reactions-logo screen">
+      <img src="volvo-logo_trans2.png"        alt="Volvo"          class="reactions-logo screen-invert">
+      <img src="Hoist_Finance_logo.png"       alt="Hoist Finance"  class="reactions-logo screen">
+      <img src="plenum_logo.png"              alt="Plenum"         class="reactions-logo screen">
+      <img src="reifi_logo.png"               alt="Reifi"          class="reactions-logo screen">
+      <img src="tci-logo-02-transparent.png"  alt="TCI Consult"    class="reactions-logo screen">
+      <img src="NCC_logo.png"                 alt="NCC"            class="reactions-logo screen-invert">
+      <img src="0to9_logo.png"                alt="0to9"           class="reactions-logo screen-invert">
+      <img src="Sakra_logo.png"               alt="Säkra"          class="reactions-logo invert">
     </div>
   </div>
 </section>

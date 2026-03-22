@@ -320,6 +320,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .reactions-logo.invert{filter:invert(1)}
 .reactions-logo.screen{mix-blend-mode:screen}
 .reactions-logo.screen-invert{mix-blend-mode:screen;filter:invert(1) brightness(1.2)}
+.reactions-logo.boost{mix-blend-mode:screen;filter:brightness(2.5) saturate(0) invert(1)}
+.reactions-logo.screen-bright{mix-blend-mode:screen;filter:brightness(3) saturate(.6)}
 
 /* DIFF */
 .diff{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
@@ -1047,9 +1049,9 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
     </div>
     <div class="reactions-companies reveal rd2">
       <img src="maersk_logo.png"              alt="Maersk"         class="reactions-logo screen">
-      <img src="volvo-logo.trans2.png"        alt="Volvo"          class="reactions-logo invert">
-      <img src="Hoist_Finance_logo.png"       alt="Hoist Finance"  class="reactions-logo screen">
-      <img src="plenum_logo.png"              alt="Plenum"         class="reactions-logo screen">
+      <img src="volvo-logo.trans2.png"        alt="Volvo"          class="reactions-logo boost">
+      <img src="Hoist_Finance_logo.png"       alt="Hoist Finance"  class="reactions-logo screen-bright">
+      <img src="plenum_logo.png"              alt="Plenum"         class="reactions-logo screen-bright">
       <img src="reifi_logo.png"               alt="Reifi"          class="reactions-logo screen">
       <img src="tci-logo-02-transparent.png"  alt="TCI Consult"    class="reactions-logo screen">
       <img src="NCC_logo.png"                 alt="NCC"            class="reactions-logo screen-invert">

@@ -2176,4 +2176,10 @@ function flapClose(){
   document.getElementById('flapOverlay').classList.remove('active');
   document.body.style.overflow='';
   setTimeout(()=>{
-  
+    const tab=document.getElementById('flapTab');
+    if(tab){tab.style.opacity='';tab.style.pointerEvents='';}
+  },400);
+}
+</script>
+</body>
+</html>

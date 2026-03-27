@@ -78,7 +78,8 @@ body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);overf
 /* NAV */
 nav{position:fixed;top:14px;left:16px;right:16px;z-index:100;transition:top .3s,left .3s,right .3s,border-radius .3s}
 nav.scrolled{top:8px;left:12px;right:12px}
-nav .container{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;background:rgba(8,12,9,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:0.5px solid rgba(255,255,255,.08);border-radius:8px}
+nav .container{display:flex;align-items:center;justify-content:space-between;padding:11px 20px;background:rgba(8,12,9,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:0.5px solid rgba(255,255,255,.08);border-radius:8px;transition:background .3s ease,border-color .3s ease}
+nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,255,.06)}
 .nav-logo{display:inline-flex;align-items:center;text-decoration:none}
 .nav-logo img{height:18px;width:auto;opacity:.9}
 .hero-logo{text-align:center;margin-bottom:1.5rem;animation:heroFadeUp .7s ease .05s both}
@@ -1365,6 +1366,8 @@ const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.ta
 reveals.forEach(el=>obs.observe(el));
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
+const heroSection=document.querySelector('.hero');
+if(heroSection){const heroObs=new IntersectionObserver(([entry])=>{nav.classList.toggle('nav-dark',!entry.isIntersecting);},{threshold:0});heroObs.observe(heroSection);}
 const navT=document.getElementById('navToggle'),navL=document.getElementById('navLinks');
 navT.addEventListener('click',()=>navL.classList.toggle('open'));
 navL.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navL.classList.remove('open')));

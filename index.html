@@ -110,7 +110,7 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .s-sub{font-size:.95rem;color:var(--text-l);max-width:520px;line-height:1.7;margin-top:1rem;font-weight:300}
 
 /* HERO */
-.hero{display:flex;align-items:center;background:#070a08;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
+.hero{display:flex;align-items:center;min-height:100vh;background:#070a08;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
 .hero-bg-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .hero h1{color:#ffffff;text-shadow:0 0 40px rgba(255,255,255,.08)}
 .hero h1 .accent{-webkit-text-fill-color:transparent}
@@ -132,6 +132,12 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .hero-mission-title .friction-line{display:block;width:0;height:1px;background:linear-gradient(90deg,transparent,#7A9E7A,transparent);margin:4px auto 0;transition:width 1.4s ease .8s}
 .hero-mission-title.fired .friction-line{width:100%}
 .hero-mission-sub{font-size:.85rem;color:rgba(255,255,255,.5);font-weight:300;margin-top:.6rem;letter-spacing:.01em}
+/* Scroll hint */
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:3;animation:heroFadeUp .7s ease 2s both}
+.scroll-hint-line{width:1px;height:36px;background:rgba(255,255,255,.1);position:relative;overflow:hidden;border-radius:1px}
+.scroll-hint-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,transparent,rgba(122,158,122,.8),transparent);animation:scrollDrop 2s ease-in-out 2.5s infinite}
+.scroll-hint-label{font-size:.55rem;color:rgba(255,255,255,.18);letter-spacing:.12em;text-transform:uppercase}
+@keyframes scrollDrop{0%{top:-100%}100%{top:200%}}
 
 
 .hero>.container{position:relative;z-index:1;padding-left:clamp(2rem,6vw,5rem);padding-right:clamp(2rem,6vw,5rem)}
@@ -245,7 +251,7 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .rs-anim{opacity:0}
 .radar-stat-bar.visible .rs-anim{animation:rsReveal .7s cubic-bezier(.23,1,.32,1) var(--rs-d) both,rsPulse 4s ease-in-out calc(var(--rs-d) + 1.2s) infinite}
 
-/* SOLUTION — proof chain */
+/* SOLUTION - proof chain */
 .solution{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
 .sol-phase-labels{display:flex;justify-content:space-between;margin-top:3rem;margin-bottom:1.5rem;padding:0 .5rem}
 .sol-phase-label{font-size:.70rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#ccc;text-align:center;flex:1;transition:color .4s}
@@ -675,6 +681,10 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
     </div>
 
   </div>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span class="scroll-hint-label">Scroll</span>
+  </div>
 </section>
 
 <section class="mission" style="display:none" id="mission">
@@ -704,7 +714,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
             <div class="crisis-wp-sub">War &amp; Peace = 1,225 pages · One of the longest novels ever written</div>
           </div>
         </div>
-        <p class="crisis-maersk-note">↳ Maersk runs dozens of cases like this — simultaneously, across jurisdictions.</p>
+        <p class="crisis-maersk-note">↳ Maersk runs dozens of cases like this - simultaneously, across jurisdictions.</p>
       </div>
       <div class="crisis-case-block reveal rd2">
         <p class="crisis-case-label">Real Case · OFAC Sanctions</p>
@@ -759,7 +769,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="solution" id="solution">
   <div class="container">
-    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Every verdict is traceable back to its source. Regulation to requirement to evidence to decision — automatically, deterministically, every time.</p></div>
+    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Every verdict is traceable back to its source. Regulation to requirement to evidence to decision - automatically, deterministically, every time.</p></div>
 
     <div id="solChainWrap">
       <div class="sol-phase-labels">
@@ -775,54 +785,54 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <div class="sol-chain">
         <div class="sol-node" id="s1n0">
           <div class="sol-node-tag">Regulation</div>
-          <div class="sol-node-title">DORA Art. 9 — ICT security policies</div>
+          <div class="sol-node-title">DORA Art. 9 - ICT security policies</div>
           <div class="sol-node-excerpt">"Financial entities shall implement ICT security policies, procedures and tools to protect the confidentiality, integrity and availability of data."</div>
         </div>
         <div class="sol-arrow" id="s1a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node" id="s1n1">
           <div class="sol-node-tag">Requirement</div>
           <div class="sol-node-title">Access control policies must restrict ICT systems to authorised personnel only</div>
-          <div class="sol-node-excerpt">Extracted from Art. 9 §4(b) — applies to all ICT systems in scope of DORA</div>
+          <div class="sol-node-excerpt">Extracted from Art. 9 §4(b) - applies to all ICT systems in scope of DORA</div>
         </div>
         <div class="sol-arrow" id="s1a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node" id="s1n2">
           <div class="sol-node-tag">Evidence</div>
-          <div class="sol-node-title">ICT Security Framework v2.1 — §3.4 Access Management</div>
+          <div class="sol-node-title">ICT Security Framework v2.1 - §3.4 Access Management</div>
           <div class="sol-node-excerpt">"Role-based access enforced across all production systems. MFA required. Access reviewed quarterly. Last review: Jan 2026."</div>
         </div>
         <div class="sol-arrow" id="s1a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node sol-met" id="s1n3">
           <div class="sol-node-tag">Verdict</div>
-          <div class="sol-node-title">Requirement satisfied — evidence verified and sourced</div>
+          <div class="sol-node-title">Requirement satisfied - evidence verified and sourced</div>
           <div class="sol-node-excerpt">Full traceability from regulation to evidence. ISO 19011-aligned audit trail generated.</div>
           <div class="sol-verdict sol-verdict-met" id="s1v"><div class="sol-verdict-dot"></div>MET</div>
         </div>
       </div>
 
-      <div class="sol-chain-divider">— second requirement, same case —</div>
+      <div class="sol-chain-divider">- second requirement, same case -</div>
 
       <div class="sol-chain">
         <div class="sol-node" id="s2n0">
           <div class="sol-node-tag">Regulation</div>
-          <div class="sol-node-title">DORA Art. 17 — ICT-related incident management</div>
+          <div class="sol-node-title">DORA Art. 17 - ICT-related incident management</div>
           <div class="sol-node-excerpt">"Financial entities shall define, establish and implement an ICT-related incident management process to detect, manage and notify ICT-related incidents."</div>
         </div>
         <div class="sol-arrow" id="s2a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node" id="s2n1">
           <div class="sol-node-tag">Requirement</div>
           <div class="sol-node-title">Major incidents must be reported to competent authority within 4 hours</div>
-          <div class="sol-node-excerpt">Mandatory under DORA RTS — initial notification within 4 hours of classification as major</div>
+          <div class="sol-node-excerpt">Mandatory under DORA RTS - initial notification within 4 hours of classification as major</div>
         </div>
         <div class="sol-arrow" id="s2a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node" id="s2n2">
           <div class="sol-node-tag">Evidence</div>
-          <div class="sol-node-title">Incident Response Procedure v2.0 — §5.3 Reporting Timelines</div>
-          <div class="sol-node-excerpt">"Major incidents to be reported within 24 hours..." — does not meet DORA's 4-hour initial notification requirement.</div>
+          <div class="sol-node-title">Incident Response Procedure v2.0 - §5.3 Reporting Timelines</div>
+          <div class="sol-node-excerpt">"Major incidents to be reported within 24 hours..." - does not meet DORA's 4-hour initial notification requirement.</div>
         </div>
         <div class="sol-arrow" id="s2a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="sol-node sol-gap" id="s2n3">
           <div class="sol-node-tag">Verdict</div>
-          <div class="sol-node-title">Gap identified — remediation required before audit</div>
+          <div class="sol-node-title">Gap identified - remediation required before audit</div>
           <div class="sol-node-excerpt">Remediation plan generated. Owner assigned. Penalty exposure calculated. Linked to audit trail.</div>
           <div class="sol-verdict sol-verdict-gap" id="s2v"><div class="sol-verdict-dot"></div>NOT MET</div>
         </div>
@@ -913,14 +923,14 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="platform" id="platform">
   <div class="container">
-    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution.</h2><p class="s-sub">From a blank case to a regulator-ready audit trail — every step is deterministic, traceable, and connected.</p></div>
+    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution.</h2><p class="s-sub">From a blank case to a regulator-ready audit trail - every step is deterministic, traceable, and connected.</p></div>
 
     <!-- ACT 1 -->
     <div class="plat-act-block reveal rd1" style="margin-top:3rem">
       <div class="plat-act-hdr">
         <span class="plat-act-badge a1">Act 1</span>
         <span class="plat-act-name">Map the landscape</span>
-        <span class="plat-act-sub">— understand exactly what applies to you</span>
+        <span class="plat-act-sub">- understand exactly what applies to you</span>
       </div>
       <div class="plat-pipeline plat-a1">
         <div class="plat-stage">
@@ -935,7 +945,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="plat-stage-icon"><i class="bi bi-search"></i></div>
           <div class="plat-stage-num">02</div>
           <div class="plat-stage-title">Regulatory Discovery</div>
-          <div class="plat-stage-body">Automatically identify every applicable regulation — directives, statutes, case law, agency guidance — verified from authoritative sources across all jurisdictions.</div>
+          <div class="plat-stage-body">Automatically identify every applicable regulation - directives, statutes, case law, agency guidance - verified from authoritative sources across all jurisdictions.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Living regulatory graph</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -943,7 +953,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="plat-stage-icon"><i class="bi bi-diagram-3"></i></div>
           <div class="plat-stage-num">03</div>
           <div class="plat-stage-title">Regulatory Taxonomy</div>
-          <div class="plat-stage-body">Map the full hierarchy — EU directive chains, US federal structures, national transpositions — resolved independently per jurisdiction with cross-references intact.</div>
+          <div class="plat-stage-body">Map the full hierarchy - EU directive chains, US federal structures, national transpositions - resolved independently per jurisdiction with cross-references intact.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Regulatory taxonomy map</div>
         </div>
       </div>
@@ -951,7 +961,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
     <div class="plat-divider reveal">
       <div class="plat-divider-line"></div>
-      <div class="plat-divider-text">landscape mapped — now assess your position</div>
+      <div class="plat-divider-text">landscape mapped - now assess your position</div>
       <div class="plat-divider-line"></div>
     </div>
 
@@ -960,14 +970,14 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <div class="plat-act-hdr">
         <span class="plat-act-badge a2">Act 2</span>
         <span class="plat-act-name">Assess compliance</span>
-        <span class="plat-act-sub">— determine where you stand and close the gaps</span>
+        <span class="plat-act-sub">- determine where you stand and close the gaps</span>
       </div>
       <div class="plat-pipeline plat-a2">
         <div class="plat-stage">
           <div class="plat-stage-icon"><i class="bi bi-list-check"></i></div>
           <div class="plat-stage-num">04</div>
           <div class="plat-stage-title">Requirements Extraction</div>
-          <div class="plat-stage-body">Extract every obligation from hundreds of regulations. Clustered into thematic groups so your team navigates what matters — without drowning in volume.</div>
+          <div class="plat-stage-body">Extract every obligation from hundreds of regulations. Clustered into thematic groups so your team navigates what matters - without drowning in volume.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Obligations registry</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -975,7 +985,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="plat-stage-icon"><i class="bi bi-check-circle"></i></div>
           <div class="plat-stage-num">05</div>
           <div class="plat-stage-title">Resolution &amp; Verification</div>
-          <div class="plat-stage-body">Triangulate context, regulations, and standards. Every requirement resolved to MET or NOT MET — with verbatim regulatory text, sourced evidence, and full traceability.</div>
+          <div class="plat-stage-body">Triangulate context, regulations, and standards. Every requirement resolved to MET or NOT MET - with verbatim regulatory text, sourced evidence, and full traceability.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>MET / NOT MET verdicts</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -991,7 +1001,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
     <div class="plat-divider reveal">
       <div class="plat-divider-line"></div>
-      <div class="plat-divider-text">compliance assessed — now govern it continuously</div>
+      <div class="plat-divider-text">compliance assessed - now govern it continuously</div>
       <div class="plat-divider-line"></div>
     </div>
 
@@ -1000,14 +1010,14 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <div class="plat-act-hdr">
         <span class="plat-act-badge a3">Act 3</span>
         <span class="plat-act-name">Govern continuously</span>
-        <span class="plat-act-sub">— stay audit-ready as the regulatory world changes</span>
+        <span class="plat-act-sub">- stay audit-ready as the regulatory world changes</span>
       </div>
       <div class="plat-pipeline plat-a3">
         <div class="plat-stage">
           <div class="plat-stage-icon"><i class="bi bi-shield-check"></i></div>
           <div class="plat-stage-num">07</div>
           <div class="plat-stage-title">Controls &amp; Risk</div>
-          <div class="plat-stage-body">Atomised controls derived from your regulatory graph. Each linked to compounded risk scores, penalty exposure, and detection probability — continuously testable.</div>
+          <div class="plat-stage-body">Atomised controls derived from your regulatory graph. Each linked to compounded risk scores, penalty exposure, and detection probability - continuously testable.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Risk-linked control set</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1015,7 +1025,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="plat-stage-icon"><i class="bi bi-journal-check"></i></div>
           <div class="plat-stage-num">08</div>
           <div class="plat-stage-title">Audit Trail</div>
-          <div class="plat-stage-body">ISO 19011-aligned. Every decision, source, and evidence link documented. Complete traceability from regulation to resolution — ready for regulators on demand.</div>
+          <div class="plat-stage-body">ISO 19011-aligned. Every decision, source, and evidence link documented. Complete traceability from regulation to resolution - ready for regulators on demand.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Audit-grade trail</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1023,7 +1033,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="plat-stage-icon"><i class="bi bi-broadcast"></i></div>
           <div class="plat-stage-num">09</div>
           <div class="plat-stage-title">Continuous Monitoring</div>
-          <div class="plat-stage-body">Real-time watch on every regulation in your graph. Changes, amendments, new requirements — caught and assessed before they impact your compliance posture.</div>
+          <div class="plat-stage-body">Real-time watch on every regulation in your graph. Changes, amendments, new requirements - caught and assessed before they impact your compliance posture.</div>
           <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Verified change reports</div>
         </div>
         <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1109,33 +1119,33 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
 <section class="diff" id="differentiator">
   <div class="container">
-    <div class="reveal"><p class="s-label">Why It's Different</p><h2 class="s-title">The problem isn't hallucinations. It's the architecture.</h2><p class="s-sub">Hallucinations are the symptom everyone talks about. But the real failure runs deeper — and it compounds with every page of regulatory text you add.</p></div>
+    <div class="reveal"><p class="s-label">Why It's Different</p><h2 class="s-title">The problem isn't hallucinations. It's the architecture.</h2><p class="s-sub">Hallucinations are the symptom everyone talks about. But the real failure runs deeper - and it compounds with every page of regulatory text you add.</p></div>
 
     <div class="diff-failure-grid">
       <div class="diff-fc reveal rd1">
         <div class="diff-fc-num">01</div>
-        <div class="diff-fc-title">Hallucinations — the invisible kind</div>
-        <div class="diff-fc-body">Ask an LLM a simple, distinct question and it performs well. The problem is barely noticeable. But feed it thousands of pages of regulatory text — all written in the same formal register, the same clause patterns, the same cross-reference style — and the model begins to silently blend what it read with what it statistically predicts.<br><br>It doesn't invent things from nothing. It <strong>conflates real provisions from different regulations</strong>. GDPR Art. 32 and DORA Art. 9 both use nearly identical language about "appropriate technical measures." The output looks correct. The article numbers are real. The reasoning sounds right. The jurisdiction is wrong.
+        <div class="diff-fc-title">Hallucinations - the invisible kind</div>
+        <div class="diff-fc-body">Ask an LLM a simple, distinct question and it performs well. The problem is barely noticeable. But feed it thousands of pages of regulatory text - all written in the same formal register, the same clause patterns, the same cross-reference style - and the model begins to silently blend what it read with what it statistically predicts.<br><br>It doesn't invent things from nothing. It <strong>conflates real provisions from different regulations</strong>. GDPR Art. 32 and DORA Art. 9 both use nearly identical language about "appropriate technical measures." The output looks correct. The article numbers are real. The reasoning sounds right. The jurisdiction is wrong.
         </div>
         <div class="diff-hall-scale">
           <div class="diff-hs-row"><div class="diff-hs-label">Simple Q&amp;A</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:12%;background:#7A9E7A"></div></div><div class="diff-hs-risk" style="color:#7A9E7A">Low</div></div>
           <div class="diff-hs-row"><div class="diff-hs-label">Mixed documents</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:48%;background:#c89a40"></div></div><div class="diff-hs-risk" style="color:#c89a40">Growing</div></div>
           <div class="diff-hs-row"><div class="diff-hs-label">100s of regulations</div><div class="diff-hs-track"><div class="diff-hs-fill" style="width:85%;background:#c84040"></div></div><div class="diff-hs-risk" style="color:#c84040">Critical</div></div>
         </div>
-        <div class="diff-fc-cq amber">The more your context resembles itself — like regulatory text — the more the model confabulates with total confidence.</div>
+        <div class="diff-fc-cq amber">The more your context resembles itself - like regulatory text - the more the model confabulates with total confidence.</div>
       </div>
 
       <div class="diff-fc reveal rd2">
         <div class="diff-fc-num">02</div>
         <div class="diff-fc-title">Sub-optimal outputs</div>
-        <div class="diff-fc-body">Probable ≠ correct for your company. LLMs produce the most likely interpretation across their entire training corpus — answers optimised for the average company, not yours.<br><br>The right interpretation of DORA Art. 9 for a Tier 1 bank with legacy infrastructure is completely different from a cloud-native fintech. The model doesn't know the difference. It answers for the statistical middle — and the statistical middle fails your specific audit.</div>
+        <div class="diff-fc-body">Probable ≠ correct for your company. LLMs produce the most likely interpretation across their entire training corpus - answers optimised for the average company, not yours.<br><br>The right interpretation of DORA Art. 9 for a Tier 1 bank with legacy infrastructure is completely different from a cloud-native fintech. The model doesn't know the difference. It answers for the statistical middle - and the statistical middle fails your specific audit.</div>
         <div class="diff-fc-cq red" style="margin-top:auto">A correct-sounding answer built for no one in particular fails every audit that matters to you specifically.</div>
       </div>
 
       <div class="diff-fc reveal rd3">
         <div class="diff-fc-num">03</div>
         <div class="diff-fc-title">Context rot</div>
-        <div class="diff-fc-body">More context makes every problem worse. As input grows, relevant provisions become statistically insignificant against millions of distractor tokens. Research confirms performance degrades even when the model can perfectly retrieve the right evidence — the surrounding noise actively interferes with reasoning.</div>
+        <div class="diff-fc-body">More context makes every problem worse. As input grows, relevant provisions become statistically insignificant against millions of distractor tokens. Research confirms performance degrades even when the model can perfectly retrieve the right evidence - the surrounding noise actively interferes with reasoning.</div>
         <div class="diff-ctx-bars">
           <div class="diff-ctx-row"><div class="diff-ctx-hdr"><span>Short context</span><span>~94% accuracy</span></div><div class="diff-ctx-track"><div class="diff-ctx-fill" style="width:94%;background:#7A9E7A"></div></div></div>
           <div class="diff-ctx-row"><div class="diff-ctx-hdr"><span>One framework (~10MB)</span><span>~76% accuracy</span></div><div class="diff-ctx-track"><div class="diff-ctx-fill" style="width:76%;background:#c89a40"></div></div></div>
@@ -1148,12 +1158,12 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
     <div class="diff-agent reveal">
       <div class="diff-agent-label">The agent myth</div>
       <div class="diff-agent-title">"Just use AI agents" doesn't solve this. It multiplies it.</div>
-      <div class="diff-agent-sub">Agents appear to solve reasoning and context problems by breaking tasks into steps. They don't. They layer orchestration complexity on top of a probabilistic foundation — making failures slower to detect, harder to trace, and impossible to present to a regulator.</div>
+      <div class="diff-agent-sub">Agents appear to solve reasoning and context problems by breaking tasks into steps. They don't. They layer orchestration complexity on top of a probabilistic foundation - making failures slower to detect, harder to trace, and impossible to present to a regulator.</div>
       <div class="diff-agent-grid">
         <div class="diff-ar">
           <div class="diff-ar-dot"></div>
           <div class="diff-ar-title">Errors compound across steps</div>
-          <div class="diff-ar-body">A wrong assumption at step 2 becomes immutable context at step 3. By step 10 you have a confident, coherent — and wrong — compliance assessment. No agent catches its own drift mid-chain.</div>
+          <div class="diff-ar-body">A wrong assumption at step 2 becomes immutable context at step 3. By step 10 you have a confident, coherent - and wrong - compliance assessment. No agent catches its own drift mid-chain.</div>
           <div class="diff-ar-stat">Agents succeed ~50% of the time in production (2025 research)</div>
         </div>
         <div class="diff-ar">
@@ -1165,14 +1175,14 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
         <div class="diff-ar">
           <div class="diff-ar-dot"></div>
           <div class="diff-ar-title">Probabilistic foundation, probabilistic ceiling</div>
-          <div class="diff-ar-body">Agents built on LLMs inherit all three failure modes above. Orchestrating probabilistic steps doesn't make them deterministic — it gives failure more places to silently activate.</div>
+          <div class="diff-ar-body">Agents built on LLMs inherit all three failure modes above. Orchestrating probabilistic steps doesn't make them deterministic - it gives failure more places to silently activate.</div>
           <div class="diff-ar-stat">One generic interpretation at step 1 corrupts every downstream conclusion</div>
         </div>
       </div>
     </div>
 
     <div class="diff-scale reveal">
-      <div class="diff-scale-ctx">What Abivian actually does — one company, one framework, one jurisdiction</div>
+      <div class="diff-scale-ctx">What Abivian actually does - one company, one framework, one jurisdiction</div>
       <div class="diff-scale-grid">
         <div class="diff-scale-stat">
           <div class="diff-scale-val"><span>10K+</span></div>
@@ -1181,7 +1191,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
         <div class="diff-scale-div"></div>
         <div class="diff-scale-stat">
           <div class="diff-scale-val"><span>~12</span> hrs</div>
-          <div class="diff-scale-label">parallel computation — what used to take 4–6 months manually</div>
+          <div class="diff-scale-label">parallel computation - what used to take 4–6 months manually</div>
         </div>
         <div class="diff-scale-div"></div>
         <div class="diff-scale-stat">
@@ -1189,7 +1199,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
           <div class="diff-scale-label">of verified reasoning steps, each earned before the next begins</div>
         </div>
       </div>
-      <div class="diff-scale-note">Abivian doesn't send a prompt and wait for an answer. It runs a structured reasoning process — simulating, deducing, contradicting its own findings, and synthesising — until every conclusion is traceable to its source. This is what audit-grade means.</div>
+      <div class="diff-scale-note">Abivian doesn't send a prompt and wait for an answer. It runs a structured reasoning process - simulating, deducing, contradicting its own findings, and synthesising - until every conclusion is traceable to its source. This is what audit-grade means.</div>
     </div>
 
     <div class="diff-pillars-hdr reveal">
@@ -1206,19 +1216,19 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <div class="diff-pillar reveal rd2">
         <div class="diff-pillar-num">PILLAR 02</div>
         <div class="diff-pillar-title">Iterative reasoning engine</div>
-        <div class="diff-pillar-body">Abivian doesn't generate a single response. It actively thinks — simulating, deducing, challenging its own findings, and building a verified chain of evidence before committing. Every step earns the next.</div>
+        <div class="diff-pillar-body">Abivian doesn't generate a single response. It actively thinks - simulating, deducing, challenging its own findings, and building a verified chain of evidence before committing. Every step earns the next.</div>
         <div class="diff-pillar-targets">↳ Addresses: sub-optimal outputs</div>
       </div>
       <div class="diff-pillar reveal rd3">
         <div class="diff-pillar-num">PILLAR 03</div>
         <div class="diff-pillar-title">Knowledge distillation</div>
-        <div class="diff-pillar-body">Regulatory frameworks compressed into structured knowledge hierarchies — not summaries — preserving every definition, threshold, and cross-reference at full fidelity within manageable reasoning budgets.</div>
+        <div class="diff-pillar-body">Regulatory frameworks compressed into structured knowledge hierarchies - not summaries - preserving every definition, threshold, and cross-reference at full fidelity within manageable reasoning budgets.</div>
         <div class="diff-pillar-targets">↳ Addresses: context rot</div>
       </div>
       <div class="diff-pillar reveal rd4">
         <div class="diff-pillar-num">PILLAR 04</div>
         <div class="diff-pillar-title">Semantic document intelligence</div>
-        <div class="diff-pillar-body">Every provision retrievable, contextualised, and connected to the regulatory structure it belongs to. Complete coverage is guaranteed — no provision falls between processing boundaries.</div>
+        <div class="diff-pillar-body">Every provision retrievable, contextualised, and connected to the regulatory structure it belongs to. Complete coverage is guaranteed - no provision falls between processing boundaries.</div>
         <div class="diff-pillar-targets">↳ Addresses: agent &amp; RAG failures</div>
       </div>
     </div>
@@ -1235,20 +1245,20 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
     <div class="reveal" style="text-align:center">
       <p class="s-label">Controls &amp; Risk</p>
       <h2 class="s-title">Every requirement becomes a testable control.</h2>
-      <p class="s-sub">Abivian derives atomized controls from your regulatory posture and evaluates your operational data against them. Each control is linked to its regulatory source — and to what happens when it fails.</p>
+      <p class="s-sub">Abivian derives atomized controls from your regulatory posture and evaluates your operational data against them. Each control is linked to its regulatory source - and to what happens when it fails.</p>
     </div>
     <div class="ctrl-canvas-wrap reveal rd2" id="ctrlRiskWrap">
       <canvas id="ctrlRiskCanvas"></canvas>
     </div>
     <div class="ctrl-phase-labels reveal rd3">
-      <div class="ctrl-phase"><div class="ctrl-phase-num">1</div><h4>Send</h4><p>Operational data — code, logs, descriptions, contracts, policies</p></div>
+      <div class="ctrl-phase"><div class="ctrl-phase-num">1</div><h4>Send</h4><p>Operational data - code, logs, descriptions, contracts, policies</p></div>
       <div class="ctrl-phase"><div class="ctrl-phase-num">2</div><h4>Verify</h4><p>Controls derived from your regulatory posture evaluate every item</p></div>
-      <div class="ctrl-phase"><div class="ctrl-phase-num">3</div><h4>Act</h4><p>PASS or NOT PASS — failures linked to penalties, sanctions, and risk exposure</p></div>
+      <div class="ctrl-phase"><div class="ctrl-phase-num">3</div><h4>Act</h4><p>PASS or NOT PASS - failures linked to penalties, sanctions, and risk exposure</p></div>
     </div>
     <div class="ctrl-detail-cards">
-      <div class="ctrl-detail-card reveal rd1"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h4>Controls Methodology</h4><p>Derived from the regulatory graph, case context, extracted requirements, and regulatory consequences — creating atomized Controls that are self-contained and testable.</p><span class="ctrl-tag">Self-contained &amp; Testable</span></div>
-      <div class="ctrl-detail-card reveal rd2"><div class="plat-icon"><i class="bi bi-layers"></i></div><h4>Controls Linked to Risk</h4><p>Every Control inherits base risk from its regulatory source, then undergoes contextual risk assessment — compounded scores, gap analysis, detection probability, and multi-dimensional impact.</p><span class="ctrl-tag">Compounded Risk Scoring</span></div>
-      <div class="ctrl-detail-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h4>Controls API</h4><p>Continuously send operational data to verify against controls. Failures are immediately flagged with priority — transforming static compliance into a living, continuously updated posture.</p><span class="ctrl-tag">Continuous Verification</span></div>
+      <div class="ctrl-detail-card reveal rd1"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h4>Controls Methodology</h4><p>Derived from the regulatory graph, case context, extracted requirements, and regulatory consequences - creating atomized Controls that are self-contained and testable.</p><span class="ctrl-tag">Self-contained &amp; Testable</span></div>
+      <div class="ctrl-detail-card reveal rd2"><div class="plat-icon"><i class="bi bi-layers"></i></div><h4>Controls Linked to Risk</h4><p>Every Control inherits base risk from its regulatory source, then undergoes contextual risk assessment - compounded scores, gap analysis, detection probability, and multi-dimensional impact.</p><span class="ctrl-tag">Compounded Risk Scoring</span></div>
+      <div class="ctrl-detail-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h4>Controls API</h4><p>Continuously send operational data to verify against controls. Failures are immediately flagged with priority - transforming static compliance into a living, continuously updated posture.</p><span class="ctrl-tag">Continuous Verification</span></div>
     </div>
   </div>
 </section>
@@ -1340,7 +1350,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 
     <div class="demo-success" id="demoSuccess">
       <div class="demo-success-icon"><i class="bi bi-check-lg"></i></div>
-      <h3>Thank you — we'll be in touch.</h3>
+      <h3>Thank you - we'll be in touch.</h3>
       <p>We've received your request and will reach out within one business day to schedule your demo.</p>
     </div>
   </div>
@@ -1365,7 +1375,7 @@ const reveals=document.querySelectorAll('.reveal,.roi-card,.plat-card,.c-stat,.m
 const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
 reveals.forEach(el=>obs.observe(el));
 const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40));
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);const sh=document.querySelector('.scroll-hint');if(sh)sh.style.opacity=window.scrollY>60?'0':'';});
 const heroSection=document.querySelector('.hero');
 if(heroSection){const heroObs=new IntersectionObserver(([entry])=>{nav.classList.toggle('nav-dark',!entry.isIntersecting);},{threshold:0});heroObs.observe(heroSection);}
 const navT=document.getElementById('navToggle'),navL=document.getElementById('navLinks');
@@ -1684,7 +1694,7 @@ counters.forEach(el=>cObs.observe(el));
   rObs.observe(wrap);
 })();
 
-// Hero — drifting regulatory graph background
+// Hero - drifting regulatory graph background
 (function(){
   const canvas=document.getElementById('heroBgCanvas');
   if(!canvas)return;
@@ -1699,15 +1709,15 @@ counters.forEach(el=>cObs.observe(el));
     'REACH','CBAM','GPSR','Basel IV','FCA Rules','BaFin',
   ];
   const clouds=[
-    // Top-left — large green anchor
+    // Top-left - large green anchor
     {cx:.08,cy:.18,rx:.22,ry:.28,sx:.35,sy:.40,px:0.0,py:1.3,r:88, g:155,b:100,a:.72},
-    // Top-right — steel blue
+    // Top-right - steel blue
     {cx:.92,cy:.14,rx:.20,ry:.25,sx:.45,sy:.50,px:1.8,py:0.6,r:42, g:95, b:160,a:.65},
     // Left edge mid
     {cx:.04,cy:.52,rx:.18,ry:.35,sx:.38,sy:.55,px:3.2,py:2.1,r:70, g:145,b:120,a:.60},
     // Right edge mid
     {cx:.96,cy:.45,rx:.20,ry:.32,sx:.52,sy:.42,px:0.9,py:3.5,r:55, g:128,b:168,a:.58},
-    // Top centre — wide teal wash
+    // Top centre - wide teal wash
     {cx:.50,cy:.08,rx:.40,ry:.20,sx:.30,sy:.60,px:2.5,py:1.0,r:36, g:110,b:148,a:.55},
     // Far left top corner bleed
     {cx:.02,cy:.08,rx:.16,ry:.22,sx:.55,sy:.35,px:4.1,py:0.4,r:88, g:155,b:100,a:.50},
@@ -1796,7 +1806,7 @@ counters.forEach(el=>cObs.observe(el));
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,150);});
 })();
 
-// Reactions — cloud background
+// Reactions - cloud background
 (function(){
   const canvas=document.getElementById('reactionsCloudCanvas');
   if(!canvas)return;
@@ -1848,7 +1858,7 @@ counters.forEach(el=>cObs.observe(el));
   let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(running)resize();},150);});
 })();
 
-// CTA — cloud background
+// CTA - cloud background
 (function(){
   const canvas=document.getElementById('ctaCloudCanvas');
   if(!canvas)return;
@@ -1899,7 +1909,7 @@ counters.forEach(el=>cObs.observe(el));
   let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(running)resize();},150);});
 })();
 
-// Controls & Risk — Verification Flow
+// Controls & Risk - Verification Flow
 (function(){
   const wrap=document.getElementById('ctrlRiskWrap');
   const canvas=document.getElementById('ctrlRiskCanvas');
@@ -1998,7 +2008,7 @@ counters.forEach(el=>cObs.observe(el));
   let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{if(running)init();},150);});
 })();
 
-// Solution — proof chain animation
+// Solution - proof chain animation
 (function(){
   const wrap=document.getElementById('solChainWrap');
   if(!wrap)return;
@@ -2039,7 +2049,7 @@ counters.forEach(el=>cObs.observe(el));
   obs.observe(wrap);
 })();
 
-// Problem section — page accumulator canvas
+// Problem section - page accumulator canvas
 (function(){
   const canvas=document.getElementById('crisisCanvas');
   if(!canvas)return;
@@ -2142,19 +2152,19 @@ counters.forEach(el=>cObs.observe(el));
     </div>
     <div class="flap-eyebrow">60-second briefing</div>
     <div class="flap-headline">One platform. Every regulation. Start to audit.</div>
-    <div class="flap-tagline">The 60-second version — because your time is exactly what we're here to protect.</div>
+    <div class="flap-tagline">The 60-second version - because your time is exactly what we're here to protect.</div>
     <div class="flap-stat">
       <div class="flap-stat-num">9.5×</div>
-      <div class="flap-stat-text">One case. One framework. One jurisdiction. That's <em>11,590 pages</em> — 9.5× War &amp; Peace. Abivian runs it in <em>12 hours</em>.</div>
+      <div class="flap-stat-text">One case. One framework. One jurisdiction. That's <em>11,590 pages</em> - 9.5× War &amp; Peace. Abivian runs it in <em>12 hours</em>.</div>
     </div>
     <div class="flap-blocks">
       <div class="flap-block">
         <div class="flap-block-label">The problem</div>
-        <div class="flap-block-text">Every market you operate in adds regulations. GDPR, DORA, NIS2, SOX, OFAC — each one is hundreds of documents and thousands of obligations. <em>Managing this manually doesn't scale.</em></div>
+        <div class="flap-block-text">Every market you operate in adds regulations. GDPR, DORA, NIS2, SOX, OFAC - each one is hundreds of documents and thousands of obligations. <em>Managing this manually doesn't scale.</em></div>
       </div>
       <div class="flap-block">
         <div class="flap-block-label">What we do</div>
-        <div class="flap-block-text">We handle compliance <em>end-to-end</em> — discovery, assessment, gap analysis, remediation, controls, audit trail — for <em>any framework, any jurisdiction</em>, automatically.</div>
+        <div class="flap-block-text">We handle compliance <em>end-to-end</em> - discovery, assessment, gap analysis, remediation, controls, audit trail - for <em>any framework, any jurisdiction</em>, automatically.</div>
       </div>
       <div class="flap-block">
         <div class="flap-block-label">Why it's different</div>

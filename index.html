@@ -2007,9 +2007,9 @@ counters.forEach(el=>cObs.observe(el));
 (function(){
   const wrap=document.getElementById('solChainWrap');
   if(!wrap)return;
-  const GAP=120;
-  const NODE=500;
-  const ARROW=350;
+  const GAP=60;
+  const NODE=250;
+  const ARROW=175;
   function lit(id,delay){setTimeout(()=>{const e=document.getElementById(id);if(e)e.classList.add('lit');},delay);}
   function show(id,delay){setTimeout(()=>{const e=document.getElementById(id);if(e)e.classList.add('show');},delay);}
   let started=false;
@@ -2024,16 +2024,16 @@ counters.forEach(el=>cObs.observe(el));
         lit(id,delay);
         t=Math.max(t,delay);
       });
-      show('s1v',t+NODE+300);
-      const off=t+NODE+600;
+      show('s1v',t+NODE+150);
+      const off=t+NODE+300;
       let t2=0;
       ['s2n0','s2a0','s2n1','s2a1','s2n2','s2a2','s2n3'].forEach((id,i)=>{
         const delay=off+Math.floor(i/2)*(NODE+ARROW)+(i%2===0?0:NODE+GAP);
         lit(id,delay);
         t2=Math.max(t2,delay);
       });
-      show('s2v',t2+NODE+300);
-      const wygStart=t2+NODE+700;
+      show('s2v',t2+NODE+150);
+      const wygStart=t2+NODE+350;
       [[0,1,2,3],[4,5,6,7],[8,9,10,11,12],[13,14,15,16]].forEach((items,gi)=>{
         const gd=wygStart+gi*180;
         lit('swg'+gi,gd);

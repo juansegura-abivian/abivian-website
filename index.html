@@ -176,30 +176,31 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .mission.visible .mission-tagline{opacity:1;transform:translateY(0)}
 /* PROBLEM SECTION */
 .crisis{padding:clamp(4rem,8vw,7rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
-.crisis-main-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;margin-top:3rem}
+.crisis-main-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-top:3rem}
 .crisis-canvas-label{font-size:.70rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#ccc;margin-bottom:.6rem}
 .crisis-canvas-wrap{position:relative;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--bg)}
 .crisis-canvas-wrap canvas{display:block;width:100%;height:auto}
 .crisis-counter-overlay{position:absolute;bottom:0;left:0;right:0;padding:1.25rem 1.5rem;background:linear-gradient(to top,var(--bg) 0%,rgba(248,248,248,.9) 55%,transparent 100%)}
 .crisis-counter-val{font-size:2.6rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-.03em}
 .crisis-counter-unit{font-size:.75rem;color:var(--text-l);margin-top:.2rem;font-weight:300}
-.crisis-wp{display:flex;align-items:center;gap:.65rem;margin-top:.85rem;padding:.75rem 1rem;background:#f4f8f4;border:1px solid #c8ddc8;border-radius:6px}
-.crisis-wp-icon{font-size:1.3rem;line-height:1;flex-shrink:0}
-.crisis-wp-text{font-size:.8rem;color:var(--text);font-weight:400;line-height:1.4}
-.crisis-wp-text em{color:var(--green);font-style:normal;font-weight:600}
-.crisis-wp-sub{font-size:.70rem;color:var(--text-l);margin-top:.1rem;font-weight:300}
-.crisis-maersk-note{font-size:.70rem;color:var(--text-l);margin-top:.65rem;font-style:italic;font-weight:300}
-.crisis-case-block{padding-left:2rem;border-left:1px solid var(--border)}
-.crisis-case-label{font-size:.70rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-m);margin-bottom:.5rem}
-.crisis-case-title{font-size:1.25rem;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:.4rem}
-.crisis-case-desc{font-size:.875rem;color:var(--text-l);font-weight:300;margin-bottom:2rem;line-height:1.6}
-.crisis-stat{display:flex;align-items:baseline;gap:.75rem;padding:.9rem 0;border-bottom:1px solid var(--border-s)}
+/* Tolstoy reveal */
+.crisis-tolstoy{margin-top:.85rem;opacity:0;transform:translateY(6px);transition:opacity .6s ease,transform .6s ease}
+.crisis-tolstoy.show{opacity:1;transform:translateY(0)}
+.crisis-tolstoy-text{font-size:.82rem;color:var(--text-m);line-height:1.55;font-weight:300}
+.crisis-tolstoy-text em{font-style:italic;color:var(--text)}
+.crisis-tolstoy-text strong{color:var(--green);font-style:normal;font-weight:600}
+.crisis-maersk-note{font-size:.70rem;color:var(--text-l);margin-top:.5rem;font-style:italic;font-weight:300}
+/* Black fact square */
+.crisis-fact-sq{background:#0d0d0d;border-radius:6px;padding:1.5rem 1.75rem}
+.crisis-fact-label{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7A9E7A;margin-bottom:.75rem}
+.crisis-fact-title{font-size:1.15rem;font-weight:500;color:#f0f0f0;line-height:1.25;margin-bottom:1.25rem;letter-spacing:-.01em}
+.crisis-stat{display:flex;align-items:baseline;gap:.75rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
 .crisis-stat:last-child{border-bottom:none}
-.cs-num{font-size:2.1rem;font-weight:700;letter-spacing:-.03em;min-width:90px;line-height:1}
+.cs-num{font-size:2rem;font-weight:700;letter-spacing:-.03em;min-width:90px;line-height:1}
 .cs-bar{flex:1}
-.cs-label{font-size:.8rem;color:var(--text);font-weight:400;line-height:1.4}
-.cs-sub{font-size:.70rem;color:var(--text-l);margin-top:.15rem;font-weight:300}
-.cs-track{height:2px;background:var(--border);border-radius:2px;margin-top:.45rem;overflow:hidden}
+.cs-label{font-size:.78rem;color:rgba(255,255,255,.65);font-weight:400;line-height:1.4}
+.cs-sub{font-size:.68rem;color:rgba(255,255,255,.28);margin-top:.15rem;font-weight:300}
+.cs-track{height:2px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:.45rem;overflow:hidden}
 .cs-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.23,1,.32,1)}
 .crisis-stats-strip{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3rem;border-top:1px solid var(--border);border-left:1px solid var(--border)}
 .crisis-stat-cell{padding:1.5rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s}
@@ -210,7 +211,7 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .crisis-stat-num{font-size:1.9rem;font-weight:700;color:var(--text);letter-spacing:-.03em;line-height:1;transition:color .2s}
 .crisis-stat-desc{font-size:.80rem;color:var(--text-l);margin-top:.3rem;line-height:1.5;font-weight:300;transition:color .2s}
 .crisis-stat-since{font-size:.70rem;color:#ccc;margin-top:.2rem;font-weight:300;font-style:italic;transition:color .2s}
-@media(max-width:768px){.crisis-main-grid{grid-template-columns:1fr}.crisis-case-block{padding-left:0;border-left:none;border-top:1px solid var(--border);padding-top:2rem}.crisis-stats-strip{grid-template-columns:1fr}}
+@media(max-width:768px){.crisis-main-grid{grid-template-columns:1fr}.crisis-stats-strip{grid-template-columns:1fr}}
 
 /* REGULATORY GRAPH */
 .reg-graph{padding:clamp(4rem,8vw,7rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
@@ -695,28 +696,10 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
   <div class="container">
     <div class="reveal"><p class="s-label">The Problem</p><h2 class="s-title">Compliance has become an impossible burden.</h2><p class="s-sub">The regulations are real, the penalties are real, and the manual work is crushing teams. Here is what one case actually looks like.</p></div>
     <div class="crisis-main-grid">
-      <div class="reveal rd1">
-        <p class="crisis-canvas-label">Each dot is one page · AP Møller – Maersk · OFAC Sanctions</p>
-        <div class="crisis-canvas-wrap">
-          <canvas id="crisisCanvas" width="480" height="300"></canvas>
-          <div class="crisis-counter-overlay">
-            <div class="crisis-counter-val" id="crisisCounterVal">0</div>
-            <div class="crisis-counter-unit">pages to read, analyse &amp; verify</div>
-          </div>
-        </div>
-        <div class="crisis-wp">
-          <div class="crisis-wp-icon">📖</div>
-          <div>
-            <div class="crisis-wp-text">That's <em id="crisisWpCount">0×</em> War &amp; Peace by Tolstoy</div>
-            <div class="crisis-wp-sub">War &amp; Peace = 1,225 pages · One of the longest novels ever written</div>
-          </div>
-        </div>
-        <p class="crisis-maersk-note">↳ Maersk runs dozens of cases like this - simultaneously, across jurisdictions.</p>
-      </div>
-      <div class="crisis-case-block reveal rd2">
-        <p class="crisis-case-label">Real Case · OFAC Sanctions</p>
-        <h3 class="crisis-case-title">One customer.<br>One compliance area.</h3>
-        <p class="crisis-case-desc">And this is before updating for regulatory changes, or applying across jurisdictions and frameworks.</p>
+      <!-- LEFT: black fact square -->
+      <div class="crisis-fact-sq reveal rd1">
+        <p class="crisis-fact-label">Real Case · OFAC Sanctions</p>
+        <h3 class="crisis-fact-title">One customer.<br>One compliance area.</h3>
         <div class="crisis-stat">
           <div class="cs-num" id="crisisN1" style="color:#7A9E7A">0</div>
           <div class="cs-bar">
@@ -740,6 +723,21 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
             <div class="cs-sub">Each requiring legal interpretation</div>
             <div class="cs-track"><div class="cs-fill" id="crisisP3" style="background:#7A8FA8"></div></div>
           </div>
+        </div>
+      </div>
+      <!-- RIGHT: dot canvas + Tolstoy reveal -->
+      <div class="reveal rd2">
+        <p class="crisis-canvas-label">Each dot is one page · AP Møller – Maersk · OFAC Sanctions</p>
+        <div class="crisis-canvas-wrap">
+          <canvas id="crisisCanvas" width="480" height="300"></canvas>
+          <div class="crisis-counter-overlay">
+            <div class="crisis-counter-val" id="crisisCounterVal">0</div>
+            <div class="crisis-counter-unit">pages to read, analyse &amp; verify</div>
+          </div>
+        </div>
+        <div class="crisis-tolstoy" id="crisisTolstoy">
+          <p class="crisis-tolstoy-text">That's like reading <em>War &amp; Peace</em> by Tolstoy <strong>9.5 times.</strong></p>
+          <p class="crisis-maersk-note">↳ Maersk runs dozens of cases like this - simultaneously, across jurisdictions.</p>
         </div>
       </div>
     </div>
@@ -2077,11 +2075,13 @@ counters.forEach(el=>cObs.observe(el));
     dotIdx+=batch;
     const filled=Math.min(Math.round((dotIdx/CELLS)*TARGET),TARGET);
     document.getElementById('crisisCounterVal').textContent=filled.toLocaleString();
-    document.getElementById('crisisWpCount').textContent=(filled/WP).toFixed(1)+'\xd7';
     if(dotIdx<CELLS)requestAnimationFrame(drawBatch);
     else{
       document.getElementById('crisisCounterVal').textContent=TARGET.toLocaleString();
-      document.getElementById('crisisWpCount').textContent=(TARGET/WP).toFixed(1)+'\xd7';
+      setTimeout(()=>{
+        const t=document.getElementById('crisisTolstoy');
+        if(t)t.classList.add('show');
+      },420);
     }
   }
   function countUp(el,target,ms,fmt){

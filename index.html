@@ -559,8 +559,10 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .flap-tab:hover{background:#1a1a1a;border-color:rgba(122,158,122,.55);width:36px}
 .flap-tab:hover .flap-tab-arrow{opacity:1;transform:translateX(-2px)}
 .flap-tab:hover .flap-tab-text{color:rgba(255,255,255,.75)}
-.flap-tab-arrow{font-size:11px;color:#7A9E7A;opacity:.7;transition:opacity .2s,transform .2s;line-height:1;animation:flapArrowNudge 1.2s ease 3.5s both}
-.flap-tab-text{font-size:.70rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.45);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;transition:color .2s;animation:flapTextFlash 1.2s ease 3.5s both}
+.flap-tab-arrow{font-size:11px;color:#7A9E7A;opacity:.7;transition:opacity .2s,transform .2s;line-height:1}
+.flap-tab-text{font-size:.70rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.45);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;transition:color .2s}
+.flap-tab-text.flash{animation:flapTextFlash 1.2s ease both}
+.flap-tab-arrow.flash{animation:flapArrowNudge 1.2s ease both}
 @keyframes flapPulse{0%{opacity:0;transform:translateY(-50%) scale(1)}20%{opacity:.7}60%{opacity:.4;transform:translateY(-50%) scale(1.1)}100%{opacity:0;transform:translateY(-50%) scale(1.2)}}
 .flap-pulse-ring{position:fixed;right:0;top:50%;width:36px;height:64px;border:1px solid rgba(122,158,122,.4);border-right:none;border-radius:4px 0 0 4px;pointer-events:none;z-index:999;animation:flapPulse 2s ease-out 3s both}
 .flap-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);pointer-events:none;transition:background .35s ease;z-index:999}
@@ -1375,6 +1377,8 @@ const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);const sh=document.querySelector('.scroll-hint');if(sh)sh.style.opacity=window.scrollY>60?'0':'';});
 const heroSection=document.querySelector('.hero');
 if(heroSection){const heroObs=new IntersectionObserver(([entry])=>{nav.classList.toggle('nav-dark',!entry.isIntersecting);},{threshold:0});heroObs.observe(heroSection);}
+const crisisSection=document.querySelector('.crisis');
+if(crisisSection){let flapFlashed=false;const flapObs=new IntersectionObserver(([entry])=>{if(entry.isIntersecting&&!flapFlashed){flapFlashed=true;const txt=document.querySelector('.flap-tab-text');const arr=document.querySelector('.flap-tab-arrow');if(txt){txt.classList.remove('flash');txt.offsetHeight;txt.classList.add('flash');}if(arr){arr.classList.remove('flash');arr.offsetHeight;arr.classList.add('flash');}}},{threshold:0.3});flapObs.observe(crisisSection);}
 const navT=document.getElementById('navToggle'),navL=document.getElementById('navLinks');
 navT.addEventListener('click',()=>navL.classList.toggle('open'));
 navL.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navL.classList.remove('open')));

@@ -17,7 +17,7 @@
 <link rel="canonical" href="https://www.abivian.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -218,6 +218,51 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .crisis-stat-since{font-size:.7rem;color:#ccc;margin-top:.2rem;font-weight:300;font-style:italic;transition:color .2s}
 @media(max-width:768px){.crisis-main-grid{grid-template-columns:1fr}.crisis-stats-strip{grid-template-columns:1fr}}
 
+/* PROBLEM MOVIE SECTION - cinematic video w/ synchronized text overlays */
+.problem-movie{position:relative;background:#000;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid #1a1a1a}
+.pm-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.85}
+.pm-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse at center,transparent 0%,rgba(0,0,0,.35) 60%,rgba(0,0,0,.8) 100%),
+  linear-gradient(to bottom,rgba(0,0,0,.35) 0%,transparent 20%,transparent 80%,rgba(0,0,0,.55) 100%)}
+.pm-content{position:relative;z-index:2;text-align:center;padding:0 clamp(1.5rem,4vw,3rem);max-width:1100px;width:100%}
+.pm-label{color:rgba(255,255,255,.55);font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:clamp(1.5rem,4vw,2.5rem);opacity:0;animation:pmLabelIn 1.4s ease .4s forwards}
+@keyframes pmLabelIn{to{opacity:1}}
+.pm-lines{position:relative;min-height:clamp(5rem,12vw,9rem)}
+.pm-line{position:absolute;left:0;right:0;top:0;font-size:clamp(1.9rem,5.2vw,4rem);font-weight:300;letter-spacing:-.02em;line-height:1.18;color:#fff;text-shadow:0 2px 40px rgba(0,0,0,.7),0 0 80px rgba(0,0,0,.4);opacity:0;transform:translateY(14px) scale(.985);filter:blur(6px);animation-play-state:paused}
+.pm-line strong{color:#a4c4a4;font-weight:400}
+.problem-movie.pm-ready .pm-line{animation-play-state:running}
+
+/* Each line: fade in, hold, fade out - windowed inside a shared 15s cycle */
+.pm-l1{animation:pmL1 15s ease-in-out infinite}
+.pm-l2{animation:pmL2 15s ease-in-out infinite}
+.pm-l3{animation:pmL3 15s ease-in-out infinite}
+.pm-l4{animation:pmL4 15s ease-in-out infinite}
+
+@keyframes pmL1{
+  0%{opacity:0;transform:translateY(14px) scale(.985);filter:blur(6px)}
+  6.7%,26.7%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  33.3%,100%{opacity:0;transform:translateY(-10px) scale(1);filter:blur(4px)}
+}
+@keyframes pmL2{
+  0%,33.3%{opacity:0;transform:translateY(14px) scale(.985);filter:blur(6px)}
+  40%,53.3%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  60%,100%{opacity:0;transform:translateY(-10px) scale(1);filter:blur(4px)}
+}
+@keyframes pmL3{
+  0%,60%{opacity:0;transform:translateY(14px) scale(.985);filter:blur(6px)}
+  66.7%,73.3%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  80%,100%{opacity:0;transform:translateY(-10px) scale(1);filter:blur(4px)}
+}
+@keyframes pmL4{
+  0%,80%{opacity:0;transform:translateY(14px) scale(.985);filter:blur(6px)}
+  86.7%,100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .pm-line{animation:none!important;opacity:1;filter:none;transform:none;position:relative;margin-bottom:.6rem}
+  .pm-lines{min-height:auto}
+}
+@media(max-width:768px){.problem-movie{min-height:90vh}}
+
 /* REGULATORY GRAPH */
 .reg-graph{padding:clamp(3.2rem,6.4vw,5.6rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
 .reg-graph-frame{margin-top:2.4rem;border-radius:6px;border:1px solid var(--border);overflow:hidden;background:var(--card);position:relative}
@@ -319,24 +364,17 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 @media(max-width:768px){.sol-chain{flex-direction:column}.sol-arrow{transform:rotate(90deg);margin:.25rem auto}.sol-wyg-grid{grid-template-columns:1fr}}
 
 /* REACTIONS */
-.reactions{padding:clamp(3.2rem,6.4vw,5.6rem) 0;background:#0a0a0a;border-bottom:1px solid #1a1a1a;position:relative;overflow:hidden}
-.reactions::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 80% 60% at 20% 30%,rgba(122,158,122,.12) 0%,transparent 60%),
-  radial-gradient(ellipse 60% 80% at 80% 70%,rgba(100,140,160,.08) 0%,transparent 55%),
-  radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,255,255,.03) 0%,transparent 70%);
-  opacity:1;transition:opacity 3s ease;z-index:0;pointer-events:none}
-.reactions.settled::before{opacity:0}
-.reactions::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:0}
-.reactions-cloud-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.reactions{padding:clamp(3.2rem,6.4vw,5.6rem) 0;background:#fff;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.reactions-cloud-canvas{display:none}
 .reactions>.container{position:relative;z-index:1}
-.reactions .s-label{color:rgba(255,255,255,.4)}
-.reactions .s-title{color:#fff}
+.reactions .s-label{color:var(--text-m)}
+.reactions .s-title{color:var(--text)}
 .reactions-stage{margin-top:2.4rem;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center}
 .reactions-quote{max-width:650px;margin:0 auto}
-.reactions-quote blockquote{font-size:clamp(1.1rem,2.5vw,1.35rem);font-weight:400;font-style:italic;color:rgba(255,255,255,.9);line-height:1.55;opacity:0;transform:translateY(8px);transition:opacity .8s ease,transform .8s ease}
+.reactions-quote blockquote{font-size:clamp(1.1rem,2.5vw,1.35rem);font-weight:400;font-style:italic;color:var(--text);line-height:1.55;opacity:0;transform:translateY(8px);transition:opacity .8s ease,transform .8s ease}
 .reactions-quote blockquote.active{opacity:1;transform:translateY(0)}
-.reactions-companies{display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
-.reactions-logo{height:28px;width:auto;display:block;opacity:.55;transition:opacity .3s ease,filter .3s ease}
+.reactions-companies{display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-top:2.5rem;padding:2rem 2.5rem;background:#0a0a0a;border-radius:12px;flex-wrap:wrap}
+.reactions-logo{height:28px;width:auto;display:block;opacity:.6;transition:opacity .3s ease,filter .3s ease}
 .reactions-logo:hover{opacity:1}
 .reactions-logo.invert{filter:invert(1)}
 .reactions-logo.screen{mix-blend-mode:screen}
@@ -487,27 +525,200 @@ nav.nav-dark .container{background:rgba(10,10,10,.96);border-color:rgba(255,255,
 .plat-oi{font-size:.7rem;color:var(--text-l);font-weight:300;padding:.22rem 0;border-bottom:1px solid var(--border-s);line-height:1.4;transition:color .2s}
 .plat-oi:last-child{border-bottom:none;padding-bottom:0}
 @media(max-width:900px){.plat-pipeline{flex-direction:column}.plat-conn{transform:rotate(90deg);height:18px;width:100%}.plat-output-grid{grid-template-columns:repeat(2,1fr)}}
+/* SOLUTION (Bridge Narrative) - sits inside .platform section wrapper */
+.sln-chapter{margin-top:clamp(3rem,6vw,5rem)}
+.sln-chapter-hdr{display:flex;align-items:baseline;gap:1.2rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.sln-chapter-num{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);padding:.25rem .55rem;border:1px solid var(--green-b);border-radius:3px;background:var(--green-bg);white-space:nowrap}
+.sln-chapter-num.c2{color:#3a72c0;border-color:#dbe6f3;background:#f4f8fc}
+.sln-chapter-title{font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:500;color:var(--text);letter-spacing:-.01em;line-height:1.3}
+.sln-chapter-sub{font-size:.95rem;color:var(--text-l);font-weight:300;margin-left:auto;max-width:380px;text-align:right;line-height:1.55}
+@media(max-width:860px){.sln-chapter-hdr{flex-wrap:wrap;gap:.6rem}.sln-chapter-sub{margin-left:0;text-align:left;max-width:100%;width:100%;margin-top:.25rem}}
+
+/* Chapter 1 - compact grid */
+.sln-c1-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:900px){.sln-c1-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.sln-c1-grid{grid-template-columns:1fr}}
+.sln-cap{background:var(--card);border:1px solid var(--green-b);border-radius:6px;padding:1.4rem 1.35rem;transition:border-color .2s,transform .2s,box-shadow .2s;position:relative}
+.sln-cap:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:var(--shadow-card)}
+.sln-cap-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.85rem}
+.sln-cap-icon{width:30px;height:30px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:var(--green-bg);color:var(--green);font-size:1rem}
+.sln-cap-num{font-size:.62rem;color:var(--text-l);font-weight:600;letter-spacing:.12em;margin-left:auto}
+.sln-cap-title{font-size:.95rem;font-weight:500;color:var(--text);letter-spacing:-.005em;margin-bottom:.4rem;line-height:1.3}
+.sln-cap-body{font-size:.82rem;color:var(--text-m);line-height:1.55;font-weight:400}
+
+/* THE HINGE */
+.sln-hinge-wrap{position:relative;margin:clamp(3.5rem,7vw,5.5rem) 0 clamp(3rem,6vw,4.5rem)}
+.sln-hinge{background:#0a0a0a;color:#fff;padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,4vw,3rem);text-align:center;position:relative;overflow:hidden;border-radius:8px}
+.sln-hinge::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 30% 40%,rgba(200,64,64,.08) 0%,transparent 55%),radial-gradient(ellipse 50% 60% at 70% 60%,rgba(122,158,122,.05) 0%,transparent 55%);pointer-events:none;z-index:0}
+.sln-hinge::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:0}
+.sln-hinge-inner{position:relative;z-index:1;max-width:820px;margin:0 auto}
+.sln-hinge-label{display:inline-flex;align-items:center;gap:.7rem;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,64,64,.85);margin-bottom:1.6rem}
+.sln-hinge-label::before,.sln-hinge-label::after{content:'';width:40px;height:1px;background:rgba(200,64,64,.4)}
+.sln-hinge-stop{font-size:clamp(1.6rem,3.8vw,2.6rem);font-weight:300;letter-spacing:-.02em;color:rgba(255,255,255,.45);line-height:1.2;margin-bottom:.7rem;font-style:italic}
+.sln-hinge-go{font-size:clamp(1.8rem,4.2vw,2.9rem);font-weight:400;letter-spacing:-.02em;color:#fff;line-height:1.2;margin-bottom:1.8rem}
+.sln-hinge-go .accent{color:#a4c4a4}
+.sln-hinge-seam{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.8rem}
+.sln-hinge-seam-line{flex:1;max-width:120px;height:1px;background:linear-gradient(to right,transparent 0%,rgba(255,255,255,.2) 50%,transparent 100%)}
+.sln-hinge-seam-dot{width:6px;height:6px;border-radius:50%;background:rgba(164,196,164,.8);box-shadow:0 0 12px rgba(164,196,164,.6)}
+.sln-hinge-arrow{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:#a4c4a4;font-size:.9rem;border:1px solid #1a1a1a;z-index:2}
+
+/* Chapter 2 - weightier grid */
+.sln-c2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+@media(max-width:1050px){.sln-c2-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.sln-c2-grid{grid-template-columns:1fr}}
+.sln-op{background:var(--card);border:1px solid var(--green-b);border-radius:8px;padding:1.8rem 1.5rem;transition:border-color .2s,transform .2s,box-shadow .2s;position:relative;display:flex;flex-direction:column;min-height:280px}
+.sln-op:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.sln-op-icon{width:46px;height:46px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;background:#f4f8fc;color:#3a72c0;font-size:1.4rem;margin-bottom:1.2rem}
+.sln-op-num{position:absolute;top:1.25rem;right:1.4rem;font-size:.65rem;color:var(--text-l);font-weight:600;letter-spacing:.14em}
+.sln-op-title{font-size:1.05rem;font-weight:500;color:var(--text);letter-spacing:-.01em;margin-bottom:.5rem;line-height:1.3}
+.sln-op-body{font-size:.83rem;color:var(--text-m);line-height:1.6;flex:1;margin-bottom:1rem}
+.sln-op-tag{font-size:.7rem;color:#3a72c0;font-weight:500;letter-spacing:.02em;padding-top:.7rem;border-top:1px solid var(--border-s);display:flex;align-items:center;gap:.4rem}
+.sln-op-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:#3a72c0}
+
+/* Control Agents - the highlighted capability */
+.sln-op.hero{border:1px solid var(--green);box-shadow:0 0 0 3px var(--green-bg),0 4px 20px rgba(122,158,122,.12);background:linear-gradient(180deg,#fff 0%,#fafefa 100%)}
+.sln-op.hero:hover{transform:translateY(-3px);box-shadow:0 0 0 3px var(--green-bg),0 8px 30px rgba(122,158,122,.18)}
+.sln-op.hero .sln-op-icon{background:var(--green);color:#fff}
+.sln-op.hero .sln-op-tag{color:var(--green)}
+.sln-op.hero .sln-op-tag::before{background:var(--green)}
+.sln-op-new{position:absolute;top:-8px;left:1.4rem;background:var(--green);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+
+/* Loop-back strip */
+/* Orbit - continuous loop visualization (replaces old sln-loop strip) */
+.sln-orbit{margin-top:clamp(2rem,4vw,3rem);background:#fff;border:1px solid var(--green-b);border-radius:16px;padding:clamp(2.5rem,5vw,3.5rem) clamp(1.5rem,4vw,3rem);position:relative;overflow:hidden}
+.sln-orbit::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--green-bg) 0%,transparent 65%);pointer-events:none;opacity:.6}
+.sln-orbit-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1}
+@media(max-width:860px){.sln-orbit-inner{grid-template-columns:1fr;gap:2.5rem}}
+
+.sln-orbit-copy{padding-right:1rem}
+@media(max-width:860px){.sln-orbit-copy{padding-right:0;text-align:center}}
+.sln-orbit-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:.9rem;display:inline-flex;align-items:center;gap:.6rem}
+.sln-orbit-eyebrow::before{content:'';width:24px;height:1px;background:var(--green)}
+.sln-orbit-headline{font-size:clamp(1.3rem,2.5vw,1.75rem);font-weight:400;letter-spacing:-.01em;line-height:1.3;color:var(--text);margin-bottom:1rem}
+.sln-orbit-headline strong{font-weight:600;color:var(--green-h)}
+.sln-orbit-body{font-size:.88rem;color:var(--text-m);line-height:1.7;font-weight:400}
+.sln-orbit-body em{color:var(--green-h);font-style:normal;font-weight:500}
+
+/* The orbit itself */
+.sln-orbit-wrap{position:relative;width:100%;aspect-ratio:1;max-width:420px;margin:0 auto}
+.sln-orbit-svg{position:absolute;inset:0;width:100%;height:100%}
+.sln-orbit-ring{fill:none;stroke:var(--green-b);stroke-width:1.5;stroke-dasharray:2 6;opacity:.7;transform-origin:center;animation:slnOrbitRingSpin 40s linear infinite}
+@keyframes slnOrbitRingSpin{to{transform:rotate(360deg)}}
+.sln-orbit-path{fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-dasharray:30 370;stroke-dashoffset:0;animation:slnOrbitPulse 8s linear infinite;filter:drop-shadow(0 0 4px rgba(122,158,122,.55))}
+@keyframes slnOrbitPulse{to{stroke-dashoffset:-400}}
+
+.sln-orbit-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30%;aspect-ratio:1;background:#0a0d0a;color:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;box-shadow:0 6px 24px rgba(0,0,0,.25),0 0 0 4px #fff,0 0 0 5px var(--green-b)}
+.sln-orbit-center-icon{font-size:1.1rem;color:var(--green);animation:slnOrbitCenterSpin 6s linear infinite}
+@keyframes slnOrbitCenterSpin{to{transform:rotate(360deg)}}
+.sln-orbit-center-label{font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+.sln-orbit-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.4rem;width:104px;text-align:center;transform:translate(-50%,-50%);--hot:0}
+.sln-orbit-node-dot{width:16px;height:16px;border-radius:50%;background:color-mix(in srgb,#fff calc(100% - var(--hot)*100%),var(--green) calc(var(--hot)*100%));border:2px solid var(--green);position:relative;box-shadow:0 2px 8px rgba(0,0,0,.06);transform:scale(calc(1 + var(--hot)*.25));transition:transform .4s ease}
+.sln-orbit-node-dot::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--green);opacity:var(--hot);transform:scale(calc(.8 + var(--hot)*.5));transition:opacity .4s ease,transform .4s ease}
+.sln-orbit-node-label{font-size:.74rem;font-weight:calc(500 + var(--hot)*100);color:color-mix(in srgb,var(--text) calc(100% - var(--hot)*100%),var(--green-h) calc(var(--hot)*100%));line-height:1.2;letter-spacing:-.005em;transition:color .4s ease}
+
+/* Node positions around the circle */
+.sln-orbit-n1{left:50%;top:8%}
+.sln-orbit-n2{left:92%;top:50%}
+.sln-orbit-n3{left:50%;top:92%}
+.sln-orbit-n4{left:8%;top:50%}
+
+/* Sequential highlight timing (8s cycle, pulse hits each at 2s intervals) */
+.sln-orbit-n1{animation:slnOrbitHot 8s ease-in-out 0s infinite}
+.sln-orbit-n2{animation:slnOrbitHot 8s ease-in-out 2s infinite}
+.sln-orbit-n3{animation:slnOrbitHot 8s ease-in-out 4s infinite}
+.sln-orbit-n4{animation:slnOrbitHot 8s ease-in-out 6s infinite}
+@keyframes slnOrbitHot{
+  0%,10%{--hot:0}
+  12%,25%{--hot:1}
+  30%,100%{--hot:0}
+}
+
+/* Trigger pill floating above the card */
+.sln-orbit-trigger{position:absolute;top:-8px;left:50%;transform:translateX(-50%) translateY(-100%);background:#fff;border:1px solid var(--green-b);border-radius:99px;padding:.4rem .9rem;font-size:.65rem;font-weight:600;color:var(--green-h);letter-spacing:.05em;display:flex;align-items:center;gap:.4rem;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:2}
+.sln-orbit-trigger i{color:var(--green);animation:slnOrbitTrigPulse 2s ease-in-out infinite}
+@keyframes slnOrbitTrigPulse{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:600px){.sln-orbit-trigger{position:relative;top:auto;left:auto;transform:none;margin:0 auto 1.5rem;display:inline-flex}}
+
+/* Respect reduced-motion preference */
+@media(prefers-reduced-motion:reduce){
+  .sln-orbit-ring,.sln-orbit-path,.sln-orbit-center-icon,.sln-orbit-trigger i{animation:none}
+  .sln-orbit-n1,.sln-orbit-n2,.sln-orbit-n3,.sln-orbit-n4{animation:none;--hot:0}
+}
+
+/* What you get - two-column (posture / ops) */
+.sln-wyg{margin-top:clamp(3rem,6vw,4.5rem);padding:clamp(2rem,4vw,3rem);background:var(--card);border:1px solid var(--border);border-radius:8px}
+.sln-wyg-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.sln-wyg-title{font-size:1.1rem;font-weight:500;color:var(--text);letter-spacing:-.005em}
+.sln-wyg-sub{font-size:.8rem;color:var(--text-l);font-weight:300}
+.sln-wyg-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem)}
+@media(max-width:720px){.sln-wyg-grid{grid-template-columns:1fr}.sln-wyg-hdr{flex-wrap:wrap;gap:.3rem}.sln-wyg-sub{width:100%}}
+.sln-wyg-col-hdr{display:flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text);margin-bottom:1rem;padding-bottom:.85rem;border-bottom:1px solid var(--border-s)}
+.sln-wyg-dot{width:7px;height:7px;border-radius:50%}
+.sln-wyg-dot.posture{background:var(--green)}
+.sln-wyg-dot.ops{background:#3a72c0}
+.sln-wyg-items{display:flex;flex-direction:column;gap:.55rem}
+.sln-wyg-item{display:flex;align-items:center;gap:.7rem;font-size:.85rem;color:var(--text);font-weight:400}
+.sln-wyg-item::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-l);flex-shrink:0}
+.sln-wyg-item.star{color:var(--green-h);font-weight:500}
+.sln-wyg-item.star::before{background:var(--green);box-shadow:0 0 6px var(--green-b)}
 
 /* ROI */
 .roi{padding:clamp(3.2rem,6.4vw,5.6rem) 0;background:var(--bg);border-bottom:1px solid var(--border)}
-.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.4rem}
-.roi-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem 1.5rem;text-align:center;transition:border-color .25s,background .25s,box-shadow .25s;box-shadow:var(--shadow-card)}
-.roi-card:hover{background:#070a08;border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 0 14px rgba(122,158,122,.22)}
-.roi-card:hover h3{color:#f0f0f0}
-.roi-card:hover p{color:rgba(255,255,255,.65)}
-.roi-val{font-size:3.5rem;font-weight:700;color:var(--green);line-height:1}
-.roi-unit{font-size:1.5rem;font-weight:500}
-.roi-card h3{font-size:1rem;font-weight:500;color:var(--text);margin:.75rem 0 .4rem;transition:color .2s}
-.roi-card p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300;transition:color .2s}
-.roi-details{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
-.roi-detail{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:4px;transition:border-color .25s,background .25s,box-shadow .25s;box-shadow:var(--shadow-card)}
-.roi-detail:hover{background:#070a08;border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 0 14px rgba(122,158,122,.22)}
-.roi-detail:hover h4{color:#f0f0f0}
-.roi-detail:hover p{color:rgba(255,255,255,.65)}
-.roi-detail:hover .roi-detail-icon{background:rgba(122,158,122,.2);border-color:rgba(122,158,122,.4)}
-.roi-detail-icon{width:40px;height:40px;border-radius:4px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;color:var(--green)}
-.roi-detail h4{font-size:.875rem;font-weight:500;color:var(--text);margin-bottom:.3rem;transition:color .2s}
-.roi-detail p{font-size:.8rem;color:var(--text-l);line-height:1.65;font-weight:300;transition:color .2s}
+.roi .s-title strong{color:var(--green-d);font-weight:600}
+
+/* Direction C - Proof Gallery */
+.dc-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:.85rem;grid-auto-rows:minmax(180px,auto);margin-top:2.5rem}
+@media(max-width:1000px){.dc-grid{grid-template-columns:repeat(6,1fr)}}
+@media(max-width:640px){.dc-grid{grid-template-columns:1fr}}
+
+.dc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;display:flex;flex-direction:column;transition:all .25s;position:relative;overflow:hidden}
+.dc-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.dc-card-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;color:var(--text-l);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem}
+.dc-card-title{font-size:1rem;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:.55rem;letter-spacing:-.005em}
+.dc-card-title strong{font-weight:600}
+.dc-card-body{font-size:.8rem;color:var(--text-m);line-height:1.55;margin-bottom:1rem;flex:1;font-weight:300}
+.dc-card-metric{padding-top:.85rem;border-top:1px solid var(--border-s);display:flex;align-items:baseline;justify-content:space-between;gap:.75rem}
+.dc-card-metric-val{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:500;color:var(--green-h);letter-spacing:-.02em;line-height:1}
+.dc-card-metric-lbl{font-size:.7rem;color:var(--text-l);text-align:right;line-height:1.35;max-width:55%;font-weight:300}
+
+.dc-icon{width:32px;height:32px;border-radius:6px;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:.95rem;margin-bottom:.85rem;flex-shrink:0}
+
+/* Hero card - dark treatment */
+.dc-c-hero{grid-column:span 6;grid-row:span 2;background:#0a0d0a;color:#fff;border-color:#1a1a1a}
+.dc-c-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 30%,rgba(122,158,122,.15) 0%,transparent 55%);pointer-events:none}
+.dc-c-hero>*{position:relative;z-index:1}
+.dc-c-hero .dc-card-tag{color:#a4c4a4;font-weight:700}
+.dc-c-hero .dc-card-title{color:#fff;font-size:1.6rem;font-weight:400;line-height:1.25}
+.dc-c-hero .dc-card-title strong{font-weight:600;color:#a4c4a4}
+.dc-c-hero .dc-card-body{color:rgba(255,255,255,.7);font-size:.88rem;line-height:1.7;font-weight:300}
+.dc-c-hero .dc-card-metric{border-top-color:rgba(255,255,255,.1)}
+.dc-c-hero .dc-card-metric-val{color:#a4c4a4;font-size:2.2rem}
+.dc-c-hero .dc-card-metric-lbl{color:rgba(255,255,255,.5)}
+.dc-c-hero .dc-icon{background:rgba(122,158,122,.18);color:#a4c4a4}
+.dc-c-hero:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3);border-color:rgba(122,158,122,.3)}
+
+/* Card sizes in the 12-col grid */
+.dc-c-md{grid-column:span 3;grid-row:span 1}
+.dc-c-lg{grid-column:span 4;grid-row:span 1}
+.dc-c-sm{grid-column:span 3;grid-row:span 1}
+.dc-c-wide{grid-column:span 6;grid-row:span 1}
+
+@media(max-width:1000px){
+  .dc-c-hero{grid-column:span 6;grid-row:span 2}
+  .dc-c-md,.dc-c-sm,.dc-c-lg{grid-column:span 3}
+  .dc-c-wide{grid-column:span 6}
+}
+@media(max-width:640px){
+  .dc-c-hero,.dc-c-md,.dc-c-lg,.dc-c-sm,.dc-c-wide{grid-column:span 1;grid-row:span 1}
+}
+
+/* Bottom outcomes strip */
+.dc-outcomes{margin-top:2.5rem;padding:1.75rem clamp(1.5rem,4vw,2.5rem);background:var(--green-bg);border:1px solid var(--green-b);border-radius:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center}
+@media(max-width:720px){.dc-outcomes{grid-template-columns:repeat(2,1fr);gap:1.25rem}}
+.dc-outcome{padding:0 .5rem}
+.dc-out-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:500;color:var(--green-d);letter-spacing:-.02em;line-height:1}
+.dc-out-lbl{font-size:.7rem;color:var(--text-m);margin-top:.4rem;line-height:1.4;font-weight:400}
 
 /* APPROACH */
 .approach{padding:clamp(3.2rem,6.4vw,5.6rem) 0;background:var(--card);border-bottom:1px solid var(--border)}
@@ -627,7 +838,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 .ctrl-phase-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(122,158,122,.1);color:#7A9E7A;font-size:.7rem;font-weight:600;margin-bottom:.4rem}
 .ctrl-phase h4{font-size:.8rem;font-weight:500;color:rgba(255,255,255,.5);margin-bottom:.2rem}
 .ctrl-phase p{font-size:.7rem;color:rgba(255,255,255,.25);line-height:1.4;font-weight:300;max-width:200px;margin:0 auto}
-.ctrl-detail-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;max-width:900px;margin:2.5rem auto 0}
+.ctrl-detail-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;max-width:900px;margin:2.5rem auto 0}
 .ctrl-detail-card{background:rgba(255,255,255,.03);border:1px solid #1a1a1a;border-radius:4px;padding:1.5rem;transition:all .3s}
 .ctrl-detail-card:hover{border-color:rgba(122,158,122,.3);background:rgba(122,158,122,.04)}
 .ctrl-detail-card .plat-icon{font-size:1rem;color:#7A9E7A;margin-bottom:.75rem}
@@ -643,7 +854,6 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
   <div class="container">
     <a href="#" class="nav-logo"><img src="abivian_logo_white_transparent.png" alt="Abivian"></a>
     <div class="nav-links" id="navLinks">
-      <a href="#solution">Solution</a>
       <a href="#platform">Platform</a>
       <a href="#differentiator">Differentiator</a>
       <a href="#impact">Impact</a>
@@ -669,7 +879,7 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
         <p class="hero-sub hero-sub-anim">Reducing cost, complexity, time to market and risk exposure - with deterministic AI reasoning, full traceability, and audit-grade outputs.</p>
         <div class="hero-cta hero-cta-anim">
           <a href="#contact" class="btn-primary">Request a Demo <i class="bi bi-arrow-right"></i></a>
-          <a href="#solution" class="btn-secondary">See How It Works</a>
+          <a href="#platform" class="btn-secondary">See How It Works</a>
         </div>
       </div>
       <div class="hero-img-wrap hero-img-col">
@@ -694,404 +904,13 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
   </div>
 </section>
 
+
 <section class="mission" style="display:none" id="mission">
   <div class="container">
     <h2 class="mission-title">We remove <span class="friction-wrap">friction<span class="friction-line"></span></span> from Compliance</h2>
     <p class="mission-tagline">By reducing cost, complexity, time to market and risk exposure</p>
   </div>
 </section>
-
-<section class="crisis">
-  <div class="container">
-    <div class="reveal"><p class="s-label">The Problem</p><h2 class="s-title">Compliance has become an impossible burden.</h2><p class="s-sub">The regulations are real, the penalties are real, and the manual work is crushing teams. Here is what one case actually looks like.</p></div>
-    <div class="crisis-main-grid">
-      <!-- LEFT: black fact square -->
-      <div class="crisis-fact-sq reveal rd1">
-        <p class="crisis-fact-label">Real Case · OFAC Sanctions</p>
-        <h3 class="crisis-fact-title">One customer.<br>One compliance area.</h3>
-        <div class="crisis-stat">
-          <div class="cs-num" id="crisisN1" style="color:#7A9E7A">0</div>
-          <div class="cs-bar">
-            <div class="cs-label">documents to process</div>
-            <div class="cs-sub">Directives, laws, statutes, agency guidance</div>
-            <div class="cs-track"><div class="cs-fill" id="crisisP1" style="background:#7A9E7A"></div></div>
-          </div>
-        </div>
-        <div class="crisis-stat">
-          <div class="cs-num" id="crisisN2" style="color:#5B8FA8">0</div>
-          <div class="cs-bar">
-            <div class="cs-label">pages across 8 source types</div>
-            <div class="cs-sub">Every page must be read and verified</div>
-            <div class="cs-track"><div class="cs-fill" id="crisisP2" style="background:#5B8FA8"></div></div>
-          </div>
-        </div>
-        <div class="crisis-stat">
-          <div class="cs-num" id="crisisN3" style="color:#7A8FA8">0</div>
-          <div class="cs-bar">
-            <div class="cs-label">statutes (USC) alone</div>
-            <div class="cs-sub">Each requiring legal interpretation</div>
-            <div class="cs-track"><div class="cs-fill" id="crisisP3" style="background:#7A8FA8"></div></div>
-          </div>
-        </div>
-      </div>
-      <!-- RIGHT: dot canvas + Tolstoy reveal -->
-      <div class="reveal rd2">
-        <p class="crisis-canvas-label">Each dot is one page · AP Møller – Maersk · OFAC Sanctions</p>
-        <div class="crisis-canvas-wrap">
-          <canvas id="crisisCanvas" width="480" height="300"></canvas>
-          <div class="crisis-counter-overlay">
-            <div class="crisis-counter-val" id="crisisCounterVal">0</div>
-            <div class="crisis-counter-unit">pages to read, analyse &amp; verify</div>
-          </div>
-        </div>
-        <div class="crisis-tolstoy" id="crisisTolstoy">
-          <p class="crisis-tolstoy-text">That's like reading <em>War &amp; Peace</em> by Tolstoy <strong>9.5 times.</strong></p>
-          <p class="crisis-maersk-note">↳ Maersk runs dozens of cases like this - simultaneously, across jurisdictions.</p>
-        </div>
-      </div>
-    </div>
-    <div class="crisis-stats-strip reveal">
-      <div class="crisis-stat-cell">
-        <div class="crisis-stat-num" id="crisisS1">$0B</div>
-        <div class="crisis-stat-desc">Global regulatory fines in 2025</div>
-        <div class="crisis-stat-since">+420% since 2014 · Record year</div>
-      </div>
-      <div class="crisis-stat-cell">
-        <div class="crisis-stat-num">3–8%</div>
-        <div class="crisis-stat-desc">Of operating budgets spent on compliance</div>
-        <div class="crisis-stat-since">100K+ regulations · ~15% change annually</div>
-      </div>
-      <div class="crisis-stat-cell">
-        <div class="crisis-stat-num" id="crisisS3">0 mo</div>
-        <div class="crisis-stat-desc">Average compliance delay per case</div>
-        <div class="crisis-stat-since">$1.2M avg cost per product launch delay</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="solution" id="solution">
-  <div class="container">
-    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">Law in. Proof out.</h2><p class="s-sub">Every verdict is traceable back to its source. Regulation to requirement to evidence to decision - automatically, deterministically, every time.</p></div>
-
-    <div id="solChainWrap">
-      <div class="sol-phase-labels">
-        <div class="sol-phase-label" id="sph0">The Law</div>
-        <div style="flex:0 0 28px"></div>
-        <div class="sol-phase-label" id="sph1">Requirement</div>
-        <div style="flex:0 0 28px"></div>
-        <div class="sol-phase-label" id="sph2">Evidence</div>
-        <div style="flex:0 0 28px"></div>
-        <div class="sol-phase-label" id="sph3">Verdict</div>
-      </div>
-
-      <div class="sol-chain">
-        <div class="sol-node" id="s1n0">
-          <div class="sol-node-tag">Regulation</div>
-          <div class="sol-node-title">DORA Art. 9 - ICT security policies</div>
-          <div class="sol-node-excerpt">"Financial entities shall implement ICT security policies, procedures and tools to protect the confidentiality, integrity and availability of data."</div>
-        </div>
-        <div class="sol-arrow" id="s1a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node" id="s1n1">
-          <div class="sol-node-tag">Requirement</div>
-          <div class="sol-node-title">Access control policies must restrict ICT systems to authorised personnel only</div>
-          <div class="sol-node-excerpt">Extracted from Art. 9 §4(b) - applies to all ICT systems in scope of DORA</div>
-        </div>
-        <div class="sol-arrow" id="s1a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node" id="s1n2">
-          <div class="sol-node-tag">Evidence</div>
-          <div class="sol-node-title">ICT Security Framework v2.1 - §3.4 Access Management</div>
-          <div class="sol-node-excerpt">"Role-based access enforced across all production systems. MFA required. Access reviewed quarterly. Last review: Jan 2026."</div>
-        </div>
-        <div class="sol-arrow" id="s1a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#c8ddc8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node sol-met" id="s1n3">
-          <div class="sol-node-tag">Verdict</div>
-          <div class="sol-node-title">Requirement satisfied - evidence verified and sourced</div>
-          <div class="sol-node-excerpt">Full traceability from regulation to evidence. ISO 19011-aligned audit trail generated.</div>
-          <div class="sol-verdict sol-verdict-met" id="s1v"><div class="sol-verdict-dot"></div>MET</div>
-        </div>
-      </div>
-
-      <div class="sol-chain-divider">- second requirement, same case -</div>
-
-      <div class="sol-chain">
-        <div class="sol-node" id="s2n0">
-          <div class="sol-node-tag">Regulation</div>
-          <div class="sol-node-title">DORA Art. 17 - ICT-related incident management</div>
-          <div class="sol-node-excerpt">"Financial entities shall define, establish and implement an ICT-related incident management process to detect, manage and notify ICT-related incidents."</div>
-        </div>
-        <div class="sol-arrow" id="s2a0"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node" id="s2n1">
-          <div class="sol-node-tag">Requirement</div>
-          <div class="sol-node-title">Major incidents must be reported to competent authority within 4 hours</div>
-          <div class="sol-node-excerpt">Mandatory under DORA RTS - initial notification within 4 hours of classification as major</div>
-        </div>
-        <div class="sol-arrow" id="s2a1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node" id="s2n2">
-          <div class="sol-node-tag">Evidence</div>
-          <div class="sol-node-title">Incident Response Procedure v2.0 - §5.3 Reporting Timelines</div>
-          <div class="sol-node-excerpt">"Major incidents to be reported within 24 hours..." - does not meet DORA's 4-hour initial notification requirement.</div>
-        </div>
-        <div class="sol-arrow" id="s2a2"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#e8cf88" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sol-node sol-gap" id="s2n3">
-          <div class="sol-node-tag">Verdict</div>
-          <div class="sol-node-title">Gap identified - remediation required before audit</div>
-          <div class="sol-node-excerpt">Remediation plan generated. Owner assigned. Penalty exposure calculated. Linked to audit trail.</div>
-          <div class="sol-verdict sol-verdict-gap" id="s2v"><div class="sol-verdict-dot"></div>NOT MET</div>
-        </div>
-      </div>
-
-      <div class="sol-wyg">
-        <div class="sol-wyg-hdr">
-          <span class="sol-wyg-title">What you get</span>
-          <span class="sol-wyg-sub">Complete audit-ready outputs, automatically</span>
-        </div>
-        <div class="sol-wyg-grid">
-          <div class="sol-wyg-group" id="swg0">
-            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#7A9E7A"></div><span class="sol-wyg-gname">Discover</span></div>
-            <div class="sol-wyg-item" id="swi0"><div class="sol-wyg-idot"></div>Regulatory Graph</div>
-            <div class="sol-wyg-item" id="swi1"><div class="sol-wyg-idot"></div>Regulatory Posture</div>
-            <div class="sol-wyg-item" id="swi2"><div class="sol-wyg-idot"></div>Obligations Extraction</div>
-            <div class="sol-wyg-item" id="swi3"><div class="sol-wyg-idot"></div>Standards Identification</div>
-          </div>
-          <div class="sol-wyg-group" id="swg1">
-            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#5B8FA8"></div><span class="sol-wyg-gname">Verify</span></div>
-            <div class="sol-wyg-item" id="swi4"><div class="sol-wyg-idot"></div>Compliance Adherence Check</div>
-            <div class="sol-wyg-item" id="swi5"><div class="sol-wyg-idot"></div>Controls &amp; Verification API</div>
-            <div class="sol-wyg-item" id="swi6"><div class="sol-wyg-idot"></div>Verbatim Traceability</div>
-            <div class="sol-wyg-item" id="swi7"><div class="sol-wyg-idot"></div>Evidence Registry</div>
-          </div>
-          <div class="sol-wyg-group" id="swg2">
-            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#7A8FA8"></div><span class="sol-wyg-gname">Act</span></div>
-            <div class="sol-wyg-item" id="swi8"><div class="sol-wyg-idot"></div>Gap Analysis</div>
-            <div class="sol-wyg-item" id="swi9"><div class="sol-wyg-idot"></div>Risk Assessment</div>
-            <div class="sol-wyg-item" id="swi10"><div class="sol-wyg-idot"></div>Penalties Exposure</div>
-            <div class="sol-wyg-item" id="swi11"><div class="sol-wyg-idot"></div>Remediation &amp; Actions</div>
-            <div class="sol-wyg-item" id="swi12"><div class="sol-wyg-idot"></div>Compliance Workflows</div>
-          </div>
-          <div class="sol-wyg-group" id="swg3">
-            <div class="sol-wyg-ghdr"><div class="sol-wyg-gdot" style="background:#9E8A7A"></div><span class="sol-wyg-gname">Sustain</span></div>
-            <div class="sol-wyg-item" id="swi13"><div class="sol-wyg-idot"></div>Audit Trail</div>
-            <div class="sol-wyg-item" id="swi14"><div class="sol-wyg-idot"></div>Monitoring &amp; Change Alerts</div>
-            <div class="sol-wyg-item" id="swi15"><div class="sol-wyg-idot"></div>Query your Case</div>
-            <div class="sol-wyg-item" id="swi16"><div class="sol-wyg-idot"></div>Integrations &amp; Exports</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="reg-graph" id="reg-graph">
-  <div class="container">
-    <div class="reveal">
-      <p class="s-label">Live Example · US OFAC Sanctions</p>
-      <h2 class="s-title">See the regulatory graph in action</h2>
-      <p class="s-sub">This is a real output from Abivian - the complete US OFAC sanctions for two States regulatory landscape, mapped automatically.</p>
-    </div>
-    <div class="reg-graph-frame reveal rd1">
-      <iframe src="regulatory_graph.html" title="Abivian Regulatory Graph - US OFAC Sanctions" loading="lazy"></iframe>
-    </div>
-    <div class="reg-graph-hint reveal rd2">
-      <i class="bi bi-hand-index-thumb"></i> Click and drag nodes to explore. Click any node for details. Scroll to zoom.
-    </div>
-  </div>
-</section>
-
-
-<section class="radar-section" id="radar">
-  <div class="container">
-    <div class="reveal" style="text-align:center">
-      <p class="s-label">One Platform · All Regulations</p>
-      <h2 class="s-title" style="margin:0 auto;max-width:600px">Built for regulatory breadth.<br>What's on your radar?</h2>
-      <p class="s-sub" style="margin:.75rem auto 0;text-align:center;max-width:480px">From financial compliance to AI governance to sustainability - one deterministic engine covers the full regulatory landscape.</p>
-    </div>
-    <div class="radar-wrap reveal rd2" id="radarWrap">
-      <canvas class="radar-canvas" id="radarCanvas"></canvas>
-      <div class="radar-center">
-        <div class="radar-center-dot"></div>
-        <div class="radar-center-label">Abivian</div>
-      </div>
-    </div>
-    <div class="radar-stat-bar reveal rd3">
-      <div class="radar-stat rs-anim" style="--rs-d:0s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Frameworks</div></div>
-      <div class="radar-stat rs-anim" style="--rs-d:.15s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Domains</div></div>
-      <div class="radar-stat rs-anim" style="--rs-d:.3s"><div class="radar-stat-val"><span>1</span></div><div class="radar-stat-label">Engine</div></div>
-      <div class="radar-stat rs-anim" style="--rs-d:.45s"><div class="radar-stat-val"><span class="flicker">0%</span></div><div class="radar-stat-label">Friction</div></div>
-    </div>
-  </div>
-</section>
-
-
-<section class="platform" id="platform">
-  <div class="container">
-    <div class="reveal"><p class="s-label">The Platform</p><h2 class="s-title">End-to-end compliance resolution.</h2><p class="s-sub">From a blank case to a regulator-ready audit trail - every step is deterministic, traceable, and connected.</p></div>
-
-    <!-- ACT 1 -->
-    <div class="plat-act-block reveal rd1" style="margin-top:2.4rem">
-      <div class="plat-act-hdr">
-        <span class="plat-act-badge a1">Act 1</span>
-        <span class="plat-act-name">Map the landscape</span>
-        <span class="plat-act-sub">- understand exactly what applies to you</span>
-      </div>
-      <div class="plat-pipeline plat-a1">
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-lightning"></i></div>
-          <div class="plat-stage-num">01</div>
-          <div class="plat-stage-title">Case Setup</div>
-          <div class="plat-stage-body">Define product, jurisdiction, scope. Upload documentation. Abivian structures content and flags contradictions before reasoning begins.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Structured case context</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-search"></i></div>
-          <div class="plat-stage-num">02</div>
-          <div class="plat-stage-title">Regulatory Discovery</div>
-          <div class="plat-stage-body">Automatically identify every applicable regulation - directives, statutes, case law, agency guidance - verified from authoritative sources across all jurisdictions.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Living regulatory graph</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-diagram-3"></i></div>
-          <div class="plat-stage-num">03</div>
-          <div class="plat-stage-title">Regulatory Taxonomy</div>
-          <div class="plat-stage-body">Map the full hierarchy - EU directive chains, US federal structures, national transpositions - resolved independently per jurisdiction with cross-references intact.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Regulatory taxonomy map</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="plat-divider reveal">
-      <div class="plat-divider-line"></div>
-      <div class="plat-divider-text">landscape mapped - now assess your position</div>
-      <div class="plat-divider-line"></div>
-    </div>
-
-    <!-- ACT 2 -->
-    <div class="plat-act-block reveal rd1">
-      <div class="plat-act-hdr">
-        <span class="plat-act-badge a2">Act 2</span>
-        <span class="plat-act-name">Assess compliance</span>
-        <span class="plat-act-sub">- determine where you stand and close the gaps</span>
-      </div>
-      <div class="plat-pipeline plat-a2">
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-list-check"></i></div>
-          <div class="plat-stage-num">04</div>
-          <div class="plat-stage-title">Requirements Extraction</div>
-          <div class="plat-stage-body">Extract every obligation from hundreds of regulations. Clustered into thematic groups so your team navigates what matters - without drowning in volume.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Obligations registry</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-check-circle"></i></div>
-          <div class="plat-stage-num">05</div>
-          <div class="plat-stage-title">Resolution &amp; Verification</div>
-          <div class="plat-stage-body">Triangulate context, regulations, and standards. Every requirement resolved to MET or NOT MET - with verbatim regulatory text, sourced evidence, and full traceability.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>MET / NOT MET verdicts</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-wrench-adjustable"></i></div>
-          <div class="plat-stage-num">06</div>
-          <div class="plat-stage-title">Remediation</div>
-          <div class="plat-stage-body">Every NOT MET becomes a governed action. Prioritised by risk score and penalty exposure. Owners, deadlines, and residual risk tracked to closure.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Governed remediation plan</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="plat-divider reveal">
-      <div class="plat-divider-line"></div>
-      <div class="plat-divider-text">compliance assessed - now govern it continuously</div>
-      <div class="plat-divider-line"></div>
-    </div>
-
-    <!-- ACT 3 -->
-    <div class="plat-act-block reveal rd1">
-      <div class="plat-act-hdr">
-        <span class="plat-act-badge a3">Act 3</span>
-        <span class="plat-act-name">Govern continuously</span>
-        <span class="plat-act-sub">- stay audit-ready as the regulatory world changes</span>
-      </div>
-      <div class="plat-pipeline plat-a3">
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-shield-check"></i></div>
-          <div class="plat-stage-num">07</div>
-          <div class="plat-stage-title">Controls &amp; Risk</div>
-          <div class="plat-stage-body">Atomised controls derived from your regulatory graph. Each linked to compounded risk scores, penalty exposure, and detection probability - continuously testable.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Risk-linked control set</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-journal-check"></i></div>
-          <div class="plat-stage-num">08</div>
-          <div class="plat-stage-title">Audit Trail</div>
-          <div class="plat-stage-body">ISO 19011-aligned. Every decision, source, and evidence link documented. Complete traceability from regulation to resolution - ready for regulators on demand.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Audit-grade trail</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-broadcast"></i></div>
-          <div class="plat-stage-num">09</div>
-          <div class="plat-stage-title">Continuous Monitoring</div>
-          <div class="plat-stage-body">Real-time watch on every regulation in your graph. Changes, amendments, new requirements - caught and assessed before they impact your compliance posture.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Verified change reports</div>
-        </div>
-        <div class="plat-conn"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="#d8d8d8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="plat-stage">
-          <div class="plat-stage-icon"><i class="bi bi-chat-left-text"></i></div>
-          <div class="plat-stage-num">10</div>
-          <div class="plat-stage-title">Query &amp; Export</div>
-          <div class="plat-stage-body">Ask questions directly against your case. Export to audit packages, reports, and integration APIs. Your compliance intelligence, in the format you need.</div>
-          <div class="plat-stage-output"><div class="plat-stage-output-dot"></div>Reports &amp; integrations</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Output strip -->
-    <div class="plat-output-strip reveal">
-      <div class="plat-os-hdr">
-        <span class="plat-os-title">What you get</span>
-        <span class="plat-os-sub">Every output is sourced, traceable, and audit-ready</span>
-      </div>
-      <div class="plat-output-grid">
-        <div class="plat-output-col">
-          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#7A9E7A"></div><span class="plat-oc-name">Discover</span></div>
-          <div class="plat-oi">Regulatory Graph</div>
-          <div class="plat-oi">Regulatory Posture</div>
-          <div class="plat-oi">Obligations Extraction</div>
-          <div class="plat-oi">Standards Identification</div>
-        </div>
-        <div class="plat-output-col">
-          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#3a72c0"></div><span class="plat-oc-name">Verify</span></div>
-          <div class="plat-oi">Compliance Adherence Check</div>
-          <div class="plat-oi">Controls &amp; Verification API</div>
-          <div class="plat-oi">Verbatim Traceability</div>
-          <div class="plat-oi">Evidence Registry</div>
-        </div>
-        <div class="plat-output-col">
-          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#3a72c0"></div><span class="plat-oc-name">Act</span></div>
-          <div class="plat-oi">Gap Analysis</div>
-          <div class="plat-oi">Risk Assessment</div>
-          <div class="plat-oi">Penalties Exposure</div>
-          <div class="plat-oi">Remediation &amp; Actions</div>
-          <div class="plat-oi">Compliance Workflows</div>
-        </div>
-        <div class="plat-output-col">
-          <div class="plat-oc-hdr"><div class="plat-oc-dot" style="background:#7a52c8"></div><span class="plat-oc-name">Sustain</span></div>
-          <div class="plat-oi">Audit Trail</div>
-          <div class="plat-oi">Monitoring &amp; Change Alerts</div>
-          <div class="plat-oi">Query your Case</div>
-          <div class="plat-oi">Integrations &amp; Exports</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 
 
 <section class="reactions" id="reactions">
@@ -1116,6 +935,265 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
       <img src="NCC_logo.png"                 alt="NCC"            class="reactions-logo screen-invert">
       <img src="0to9_logo.png"                alt="0to9"           class="reactions-logo screen-invert" style="height:20px">
       <img src="Sakra_logo.png"               alt="Säkra"          class="reactions-logo invert" style="height:20px">
+    </div>
+  </div>
+</section>
+
+
+<section class="problem-movie" id="problem">
+  <video class="pm-video" id="problemMovie" muted loop playsinline preload="auto" poster="">
+    <source src="ad_movie.mp4" type="video/mp4">
+  </video>
+  <div class="pm-vignette"></div>
+  <div class="pm-content">
+    <p class="pm-label">The Problem</p>
+    <div class="pm-lines">
+      <h2 class="pm-line pm-l1">It never sleeps.</h2>
+      <h2 class="pm-line pm-l2">It never stops changing.</h2>
+      <h2 class="pm-line pm-l3">It's rewriting itself as you read this.</h2>
+      <h2 class="pm-line pm-l4">It's called compliance.</h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="platform" id="platform">
+  <div class="container">
+    <div class="reveal"><p class="s-label">The Solution</p><h2 class="s-title">The platform that never sleeps.</h2><p class="s-sub">Most platforms stop at the regulatory posture. Abivian takes it all the way into your operations.</p></div>
+
+    <!-- CHAPTER 1 - regulatory posture -->
+    <div class="sln-chapter reveal rd1">
+      <div class="sln-chapter-hdr">
+        <span class="sln-chapter-num">The Rules</span>
+        <span class="sln-chapter-title">Map your regulatory posture.</span>
+        <span class="sln-chapter-sub">Know exactly what applies, where you stand, and how to close the gaps.</span>
+      </div>
+
+      <div class="sln-c1-grid">
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-lightning"></i></div>
+            <span class="sln-cap-num">01</span>
+          </div>
+          <div class="sln-cap-title">Case Setup</div>
+          <div class="sln-cap-body">Choose jurisdictions, frameworks, and scope. Upload your policies, contracts, and business documentation. Abivian structures it all before reasoning begins.</div>
+        </div>
+
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-search"></i></div>
+            <span class="sln-cap-num">02</span>
+          </div>
+          <div class="sln-cap-title">Regulatory Discovery</div>
+          <div class="sln-cap-body">Automatically identify every applicable regulation - directives, statutes, agency guidance - verified from authoritative sources, across jurisdictions.</div>
+        </div>
+
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-diagram-3"></i></div>
+            <span class="sln-cap-num">03</span>
+          </div>
+          <div class="sln-cap-title">Regulatory Taxonomy</div>
+          <div class="sln-cap-body">Full hierarchy with temporal resolution - transpositions, amendments, and availability windows - so you know what's in force, where, and when.</div>
+        </div>
+
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-list-check"></i></div>
+            <span class="sln-cap-num">04</span>
+          </div>
+          <div class="sln-cap-title">Requirements Extraction</div>
+          <div class="sln-cap-body">Every obligation pulled from every regulation, clustered thematically so your team navigates what matters without drowning in volume.</div>
+        </div>
+
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-check-circle"></i></div>
+            <span class="sln-cap-num">05</span>
+          </div>
+          <div class="sln-cap-title">Resolution &amp; Verification</div>
+          <div class="sln-cap-body">Every requirement resolved MET or NOT MET against your documentation. Verbatim regulatory text, sourced evidence, full traceability.</div>
+        </div>
+
+        <div class="sln-cap">
+          <div class="sln-cap-top">
+            <div class="sln-cap-icon"><i class="bi bi-wrench-adjustable"></i></div>
+            <span class="sln-cap-num">06</span>
+          </div>
+          <div class="sln-cap-title">Remediation &amp; Templates</div>
+          <div class="sln-cap-body">Every gap becomes a governed action. Missing documentation for a new framework? Templates auto-populated with your context, ready to adopt.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE HINGE - operational divide -->
+    <div class="sln-hinge-wrap reveal">
+      <div class="sln-hinge">
+        <div class="sln-hinge-inner">
+          <p class="sln-hinge-label">The operational divide</p>
+          <p class="sln-hinge-stop">This is where most platforms stop.</p>
+          <p class="sln-hinge-go">Abivian <span class="accent">keeps going.</span></p>
+          <div class="sln-hinge-seam">
+            <div class="sln-hinge-seam-line"></div>
+            <div class="sln-hinge-seam-dot"></div>
+            <div class="sln-hinge-seam-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTER 2 - operational bridge -->
+    <div class="sln-chapter sln-chapter-c2 reveal rd1">
+      <div class="sln-chapter-hdr">
+        <span class="sln-chapter-num c2">The Reality</span>
+        <span class="sln-chapter-title">Bridge to operations.</span>
+        <span class="sln-chapter-sub">Where regulatory posture meets real systems - continuously, with evidence, with agents.</span>
+      </div>
+
+      <div class="sln-c2-grid">
+        <div class="sln-op">
+          <div class="sln-op-num">07</div>
+          <div class="sln-op-icon"><i class="bi bi-shield-check"></i></div>
+          <div class="sln-op-title">Controls &amp; Risk</div>
+          <div class="sln-op-body">Atomized, testable controls derived from your regulatory posture. Each linked to compounded risk scores, penalty exposure, and detection probability.</div>
+          <div class="sln-op-tag">Risk-linked control set</div>
+        </div>
+
+        <div class="sln-op hero">
+          <div class="sln-op-num">08</div>
+          <div class="sln-op-icon"><i class="bi bi-robot"></i></div>
+          <div class="sln-op-title">Control Agents</div>
+          <div class="sln-op-body">Autonomous agents run continuously against your data - collecting evidence, verifying controls, and flagging breaches before they reach an audit. Built around your compliance pain points.</div>
+          <div class="sln-op-tag">Continuous evidence &middot; Live verification</div>
+        </div>
+
+        <div class="sln-op">
+          <div class="sln-op-num">09</div>
+          <div class="sln-op-icon"><i class="bi bi-broadcast"></i></div>
+          <div class="sln-op-title">Continuous Monitoring</div>
+          <div class="sln-op-body">Real-time watch on every regulation in your graph. Changes, amendments, and new requirements caught and re-assessed before they impact your posture.</div>
+          <div class="sln-op-tag">Verified change reports</div>
+        </div>
+
+        <div class="sln-op">
+          <div class="sln-op-num">10</div>
+          <div class="sln-op-icon"><i class="bi bi-journal-check"></i></div>
+          <div class="sln-op-title">Audit Trail</div>
+          <div class="sln-op-body">ISO 19011-aligned. Every decision, source, and evidence link documented. Export to audit packages, reports, and APIs - regulator-ready on demand.</div>
+          <div class="sln-op-tag">Audit-grade trail</div>
+        </div>
+      </div>
+
+      <!-- The Orbit - continuous loop visualization -->
+      <div class="sln-orbit reveal rd2">
+        <div class="sln-orbit-trigger">
+          <i class="bi bi-broadcast"></i>
+          <span>When regulations change →</span>
+        </div>
+        <div class="sln-orbit-inner">
+          <div class="sln-orbit-copy">
+            <p class="sln-orbit-eyebrow">The loop re-fires</p>
+            <h3 class="sln-orbit-headline">The moment a regulation changes, <strong>the whole system responds.</strong></h3>
+            <p class="sln-orbit-body">Discovery re-runs. Requirements re-extract. Controls re-verify. Evidence re-collects. The operational bridge <em>holds</em> - automatically, without a ticket, without a human.</p>
+          </div>
+
+          <div class="sln-orbit-wrap" aria-hidden="true">
+            <svg class="sln-orbit-svg" viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="slnOrbitPulseGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#7A9E7A" stop-opacity="0"/>
+                  <stop offset="50%" stop-color="#a4c4a4" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#7A9E7A" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <circle class="sln-orbit-ring" cx="100" cy="100" r="78"/>
+              <circle class="sln-orbit-path" cx="100" cy="100" r="78" pathLength="400"/>
+            </svg>
+
+            <div class="sln-orbit-center">
+              <div class="sln-orbit-center-icon"><i class="bi bi-arrow-repeat"></i></div>
+              <div class="sln-orbit-center-label">The loop</div>
+            </div>
+
+            <div class="sln-orbit-node sln-orbit-n1">
+              <div class="sln-orbit-node-dot"></div>
+              <div class="sln-orbit-node-label">Discovery<br>re-runs</div>
+            </div>
+            <div class="sln-orbit-node sln-orbit-n2">
+              <div class="sln-orbit-node-dot"></div>
+              <div class="sln-orbit-node-label">Requirements<br>re-extract</div>
+            </div>
+            <div class="sln-orbit-node sln-orbit-n3">
+              <div class="sln-orbit-node-dot"></div>
+              <div class="sln-orbit-node-label">Controls<br>re-verify</div>
+            </div>
+            <div class="sln-orbit-node sln-orbit-n4">
+              <div class="sln-orbit-node-dot"></div>
+              <div class="sln-orbit-node-label">Evidence<br>re-collects</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What you get -->
+      <div class="sln-wyg reveal">
+        <div class="sln-wyg-hdr">
+          <span class="sln-wyg-title">What you get</span>
+          <span class="sln-wyg-sub">Every output sourced, traceable, and audit-ready</span>
+        </div>
+        <div class="sln-wyg-grid">
+          <div>
+            <div class="sln-wyg-col-hdr"><div class="sln-wyg-dot posture"></div>Your Regulatory Posture</div>
+            <div class="sln-wyg-items">
+              <div class="sln-wyg-item star">Company Context Graph</div>
+              <div class="sln-wyg-item">Regulatory Graph</div>
+              <div class="sln-wyg-item">Obligations Registry</div>
+              <div class="sln-wyg-item">MET / NOT MET Verdicts</div>
+              <div class="sln-wyg-item">Gap Analysis &amp; Risk Scores</div>
+              <div class="sln-wyg-item">Penalty Exposure</div>
+              <div class="sln-wyg-item">Auto-Populated Templates</div>
+            </div>
+          </div>
+          <div>
+            <div class="sln-wyg-col-hdr"><div class="sln-wyg-dot ops"></div>Your Operational Bridge</div>
+            <div class="sln-wyg-items">
+              <div class="sln-wyg-item star">Control Agents</div>
+              <div class="sln-wyg-item">Controls API</div>
+              <div class="sln-wyg-item">Live Evidence Registry</div>
+              <div class="sln-wyg-item">Regulatory Change Alerts</div>
+              <div class="sln-wyg-item">ISO 19011 Audit Trail</div>
+              <div class="sln-wyg-item">Query &amp; Export</div>
+              <div class="sln-wyg-item">Integrations &amp; Reports</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="ctrl-risk" id="controls">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <p class="s-label">Controls &amp; Risk</p>
+      <h2 class="s-title">Every requirement becomes a testable control.</h2>
+      <p class="s-sub">Abivian derives atomized controls from your regulatory posture and evaluates your operational data against them. Each control is linked to its regulatory source - and to what happens when it fails.</p>
+    </div>
+    <div class="ctrl-canvas-wrap reveal rd2" id="ctrlRiskWrap">
+      <canvas id="ctrlRiskCanvas"></canvas>
+    </div>
+    <div class="ctrl-phase-labels reveal rd3">
+      <div class="ctrl-phase"><div class="ctrl-phase-num">1</div><h4>Send</h4><p>Operational data - code, logs, descriptions, contracts, policies</p></div>
+      <div class="ctrl-phase"><div class="ctrl-phase-num">2</div><h4>Verify</h4><p>Controls derived from your regulatory posture evaluate every item</p></div>
+      <div class="ctrl-phase"><div class="ctrl-phase-num">3</div><h4>Act</h4><p>PASS or NOT PASS - failures linked to penalties, sanctions, and risk exposure</p></div>
+    </div>
+    <div class="ctrl-detail-cards">
+      <div class="ctrl-detail-card reveal rd1"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h4>Controls Methodology</h4><p>Derived from the regulatory graph, case context, extracted requirements, and regulatory consequences - creating atomized Controls that are self-contained and testable.</p><span class="ctrl-tag">Self-contained &amp; Testable</span></div>
+      <div class="ctrl-detail-card reveal rd2"><div class="plat-icon"><i class="bi bi-layers"></i></div><h4>Controls Linked to Risk</h4><p>Every Control inherits base risk from its regulatory source, then undergoes contextual risk assessment - compounded scores, gap analysis, detection probability, and multi-dimensional impact.</p><span class="ctrl-tag">Compounded Risk Scoring</span></div>
+      <div class="ctrl-detail-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h4>Controls API</h4><p>Continuously send operational data to verify against controls. Failures are immediately flagged with priority - transforming static compliance into a living, continuously updated posture.</p><span class="ctrl-tag">Continuous Verification</span></div>
+      <div class="ctrl-detail-card reveal rd4"><div class="plat-icon"><i class="bi bi-robot"></i></div><h4>Control Agents</h4><p>Autonomous agents built around your operational pain points. They run continuously against your systems - collecting evidence, verifying controls, and flagging breaches before they reach an audit. Human-in-the-loop where it matters.</p><span class="ctrl-tag">Autonomous &amp; Always-On</span></div>
     </div>
   </div>
 </section>
@@ -1244,63 +1322,167 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
 </section>
 
 
-<section class="ctrl-risk" id="controls">
+<section class="roi" id="impact">
   <div class="container">
     <div class="reveal" style="text-align:center">
-      <p class="s-label">Controls &amp; Risk</p>
-      <h2 class="s-title">Every requirement becomes a testable control.</h2>
-      <p class="s-sub">Abivian derives atomized controls from your regulatory posture and evaluates your operational data against them. Each control is linked to its regulatory source - and to what happens when it fails.</p>
+      <p class="s-label">The Proof</p>
+      <h2 class="s-title" style="margin:0 auto;max-width:720px">Nine ways Abivian pays for itself. <strong style="color:var(--green-d);font-weight:600">Each one measured.</strong></h2>
+      <p class="s-sub" style="margin:.75rem auto 0;max-width:620px;text-align:center">Every scenario below is a real use case. Every number is tied to a specific moment of compliance work - not a marketing average.</p>
     </div>
-    <div class="ctrl-canvas-wrap reveal rd2" id="ctrlRiskWrap">
-      <canvas id="ctrlRiskCanvas"></canvas>
+
+    <div class="dc-grid reveal rd1">
+
+      <!-- Hero: Horizon Readiness -->
+      <div class="dc-card dc-c-hero">
+        <div class="dc-card-tag">Hero scenario · Horizon Readiness</div>
+        <div class="dc-icon"><i class="bi bi-calendar2-event"></i></div>
+        <h3 class="dc-card-title">The <strong>full AMLR regime</strong> mapped, assessed, and operationalized - <strong>before the deadline hits.</strong></h3>
+        <p class="dc-card-body">119 obligations across 5 instruments. 212 items of Swedish transposition. 36 procedures. Abivian delivers the complete posture in a weekend - what would take a six-person compliance team months.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">~48 hrs</div>
+          <div class="dc-card-metric-lbl">End-to-end AMLR readiness · from cold start to operational plan</div>
+        </div>
+      </div>
+
+      <!-- Second Opinion -->
+      <div class="dc-card dc-c-md">
+        <div class="dc-card-tag">Scenario · Second Opinion</div>
+        <div class="dc-icon"><i class="bi bi-shield-check"></i></div>
+        <h3 class="dc-card-title">Validate a framework you've already implemented.</h3>
+        <p class="dc-card-body">DORA live? Abivian stacks your documentation against every obligation. Surfaces what you missed.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">+31%</div>
+          <div class="dc-card-metric-lbl">avg. additional gaps surfaced vs. internal audit</div>
+        </div>
+      </div>
+
+      <!-- New Jurisdiction -->
+      <div class="dc-card dc-c-md">
+        <div class="dc-card-tag">Scenario · Market Entry</div>
+        <div class="dc-icon"><i class="bi bi-globe"></i></div>
+        <h3 class="dc-card-title">Launch in a new jurisdiction.</h3>
+        <p class="dc-card-body">Product ready for Germany, Singapore, or the US? Abivian produces the compliance posture in parallel with launch prep.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">&minus;14 wks</div>
+          <div class="dc-card-metric-lbl">avg. time saved vs. manual pre-launch review</div>
+        </div>
+      </div>
+
+      <!-- Product Change -->
+      <div class="dc-card dc-c-sm">
+        <div class="dc-card-tag">Scenario · Product Change</div>
+        <div class="dc-icon"><i class="bi bi-arrow-left-right"></i></div>
+        <h3 class="dc-card-title">Modify a product. Re-check in hours.</h3>
+        <p class="dc-card-body">Change a feature or contract term. Abivian re-verifies the entire compliance envelope automatically.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">12 hrs</div>
+          <div class="dc-card-metric-lbl">full re-verification</div>
+        </div>
+      </div>
+
+      <!-- Subsidiaries -->
+      <div class="dc-card dc-c-sm">
+        <div class="dc-card-tag">Scenario · Group Consistency</div>
+        <div class="dc-icon"><i class="bi bi-diagram-2"></i></div>
+        <h3 class="dc-card-title">One parent. 14 subsidiaries. One posture.</h3>
+        <p class="dc-card-body">See which entities pass and which fail. Isolate group-wide gaps from local ones.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">14 → 1</div>
+          <div class="dc-card-metric-lbl">unified compliance view</div>
+        </div>
+      </div>
+
+      <!-- Operationalize -->
+      <div class="dc-card dc-c-sm">
+        <div class="dc-card-tag">Scenario · Operationalize</div>
+        <div class="dc-icon"><i class="bi bi-robot"></i></div>
+        <h3 class="dc-card-title">Pain point → Control → Agent.</h3>
+        <p class="dc-card-body">Every gap becomes a governed action. Control Agents deploy against your systems for continuous verification.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">18+</div>
+          <div class="dc-card-metric-lbl">agent patterns ready to deploy</div>
+        </div>
+      </div>
+
+      <!-- Monitor -->
+      <div class="dc-card dc-c-sm">
+        <div class="dc-card-tag">Scenario · Living Compliance</div>
+        <div class="dc-icon"><i class="bi bi-broadcast"></i></div>
+        <h3 class="dc-card-title">The loop never sleeps.</h3>
+        <p class="dc-card-body">Regulations change. The loop re-fires. You stay compliant without watching.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">24/7</div>
+          <div class="dc-card-metric-lbl">continuous re-verification</div>
+        </div>
+      </div>
+
+      <!-- Executive Brief -->
+      <div class="dc-card dc-c-lg">
+        <div class="dc-card-tag">Scenario · Executive Brief</div>
+        <div class="dc-icon"><i class="bi bi-file-earmark-text"></i></div>
+        <h3 class="dc-card-title">Board-ready summary. One click.</h3>
+        <p class="dc-card-body">Your posture, your gaps, your remediation plan - summarized for a non-technical audience. Built for the five-minute slot in the next board meeting.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">1 click</div>
+          <div class="dc-card-metric-lbl">from posture to C-suite narrative</div>
+        </div>
+      </div>
+
+      <!-- Audit -->
+      <div class="dc-card dc-c-wide">
+        <div class="dc-card-tag">Scenario · Audit Defense</div>
+        <div class="dc-icon"><i class="bi bi-journal-check"></i></div>
+        <h3 class="dc-card-title">Every verdict traceable. Every evidence sourced. Regulators get proof, not promises.</h3>
+        <p class="dc-card-body">ISO 19011-aligned audit trail, generated continuously as the system runs. When the auditor arrives, the packet is already assembled - page-level citations, verbatim regulatory text, every decision linked to its source.</p>
+        <div class="dc-card-metric">
+          <div class="dc-card-metric-val">100%</div>
+          <div class="dc-card-metric-lbl">traceability · page-level citations</div>
+        </div>
+      </div>
+
     </div>
-    <div class="ctrl-phase-labels reveal rd3">
-      <div class="ctrl-phase"><div class="ctrl-phase-num">1</div><h4>Send</h4><p>Operational data - code, logs, descriptions, contracts, policies</p></div>
-      <div class="ctrl-phase"><div class="ctrl-phase-num">2</div><h4>Verify</h4><p>Controls derived from your regulatory posture evaluate every item</p></div>
-      <div class="ctrl-phase"><div class="ctrl-phase-num">3</div><h4>Act</h4><p>PASS or NOT PASS - failures linked to penalties, sanctions, and risk exposure</p></div>
-    </div>
-    <div class="ctrl-detail-cards">
-      <div class="ctrl-detail-card reveal rd1"><div class="plat-icon"><i class="bi bi-diagram-3"></i></div><h4>Controls Methodology</h4><p>Derived from the regulatory graph, case context, extracted requirements, and regulatory consequences - creating atomized Controls that are self-contained and testable.</p><span class="ctrl-tag">Self-contained &amp; Testable</span></div>
-      <div class="ctrl-detail-card reveal rd2"><div class="plat-icon"><i class="bi bi-layers"></i></div><h4>Controls Linked to Risk</h4><p>Every Control inherits base risk from its regulatory source, then undergoes contextual risk assessment - compounded scores, gap analysis, detection probability, and multi-dimensional impact.</p><span class="ctrl-tag">Compounded Risk Scoring</span></div>
-      <div class="ctrl-detail-card reveal rd3"><div class="plat-icon"><i class="bi bi-broadcast"></i></div><h4>Controls API</h4><p>Continuously send operational data to verify against controls. Failures are immediately flagged with priority - transforming static compliance into a living, continuously updated posture.</p><span class="ctrl-tag">Continuous Verification</span></div>
+
+    <div class="dc-outcomes reveal rd2">
+      <div class="dc-outcome">
+        <div class="dc-out-val">90%</div>
+        <div class="dc-out-lbl">faster time to compliance</div>
+      </div>
+      <div class="dc-outcome">
+        <div class="dc-out-val">50%+</div>
+        <div class="dc-out-lbl">reduction in compliance cost</div>
+      </div>
+      <div class="dc-outcome">
+        <div class="dc-out-val">100%</div>
+        <div class="dc-out-lbl">audit-grade traceability</div>
+      </div>
+      <div class="dc-outcome">
+        <div class="dc-out-val">&infin;</div>
+        <div class="dc-out-lbl">iterations · the loop never sleeps</div>
+      </div>
     </div>
   </div>
 </section>
 
 
-<section class="roi" id="impact">
+<section class="radar-section" id="radar">
   <div class="container">
-    <div class="reveal"><p class="s-label">ROI & Impact</p><h2 class="s-title">Measurable results from day one</h2><p class="s-sub">Abivian doesn't just automate compliance - it transforms how your team spends time, money, and attention.</p></div>
-    <div class="roi-grid">
-      <div class="roi-card reveal rd1">
-        <div class="roi-val" data-count="90" data-suffix="%">0<span class="roi-unit">%</span></div>
-        <h3>Faster Time to Compliance</h3>
-        <p>What used to take 2–4 months of manual work is completed in 12–24 hours. Your team moves from reactive to proactive.</p>
-      </div>
-      <div class="roi-card reveal rd2">
-        <div class="roi-val" data-count="50" data-suffix="%+">0<span class="roi-unit">%+</span></div>
-        <h3>Reduction in Compliance Cost</h3>
-        <p>Less manual research, fewer external consultants, and no redundant work across jurisdictions. Budget freed for strategic priorities.</p>
-      </div>
-      <div class="roi-card reveal rd3">
-        <div class="roi-val" data-count="100" data-suffix="%">0<span class="roi-unit">%</span></div>
-        <h3>Audit Traceability</h3>
-        <p>Every requirement mapped to source with page-level citations. No gaps, no guesswork - ready for regulators on demand.</p>
+    <div class="reveal" style="text-align:center">
+      <p class="s-label">One Platform · All Regulations</p>
+      <h2 class="s-title" style="margin:0 auto;max-width:600px">Built for regulatory breadth.<br>What's on your radar?</h2>
+      <p class="s-sub" style="margin:.75rem auto 0;text-align:center;max-width:480px">From financial compliance to AI governance to sustainability - one deterministic engine covers the full regulatory landscape.</p>
+    </div>
+    <div class="radar-wrap reveal rd2" id="radarWrap">
+      <canvas class="radar-canvas" id="radarCanvas"></canvas>
+      <div class="radar-center">
+        <div class="radar-center-dot"></div>
+        <div class="radar-center-label">Abivian</div>
       </div>
     </div>
-    <div class="roi-details">
-      <div class="roi-detail reveal rd1">
-        <div class="roi-detail-icon"><i class="bi bi-clock-history"></i></div>
-        <div><h4>Eliminate compliance bottlenecks</h4><p>Product launches delayed by regulatory reviews? Abivian runs full compliance assessments in parallel - removing the 6-month delays that stall go-to-market.</p></div>
-      </div>
-      <div class="roi-detail reveal rd2">
-        <div class="roi-detail-icon"><i class="bi bi-people"></i></div>
-        <div><h4>Free your experts for high-value work</h4><p>Stop spending senior talent on manual document review. Abivian handles the heavy lifting so your compliance team focuses on judgment, strategy, and stakeholder engagement.</p></div>
-      </div>
-      <div class="roi-detail reveal rd3">
-        <div class="roi-detail-icon"><i class="bi bi-graph-down-arrow"></i></div>
-        <div><h4>Reduce regulatory risk exposure</h4><p>Continuous monitoring catches regulatory changes before they become violations. No more discovering gaps during audits - Abivian finds them first.</p></div>
-      </div>
+    <div class="radar-stat-bar reveal rd3">
+      <div class="radar-stat rs-anim" style="--rs-d:0s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Frameworks</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.15s"><div class="radar-stat-val"><span>ALL</span></div><div class="radar-stat-label">Domains</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.3s"><div class="radar-stat-val"><span>1</span></div><div class="radar-stat-label">Engine</div></div>
+      <div class="radar-stat rs-anim" style="--rs-d:.45s"><div class="radar-stat-val"><span class="flicker">0%</span></div><div class="radar-stat-label">Friction</div></div>
     </div>
   </div>
 </section>
@@ -1360,12 +1542,13 @@ footer{background:var(--subtle);border-top:1px solid var(--border);color:var(--t
   </div>
 </section>
 
+
 <footer>
   <div class="container">
     <div class="f-content">
       <div><div class="f-logo"><img src="logo.png" alt="Abivian"></div><p class="f-tag">Deterministic AI for Compliance</p></div>
       <div class="f-links">
-        <div class="f-col"><h4>Product</h4><a href="#solution">Solution</a><a href="#platform">Platform</a><a href="#differentiator">Why It's Different</a></div>
+        <div class="f-col"><h4>Product</h4><a href="#platform">Platform</a><a href="#differentiator">Why It's Different</a></div>
         <div class="f-col"><h4>Company</h4><a href="#impact">Impact</a><a href="#contact">Contact</a></div>
         <div class="f-col"><h4>Contact</h4><a href="/cdn-cgi/l/email-protection#e0898e868fa08182899689818ece838f8d"><span class="__cf_email__" data-cfemail="8ee7e0e8e1ceefece7f8e7efe0a0ede1e3">[email&#160;protected]</span></a></div>
       </div>
@@ -1382,7 +1565,7 @@ const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);const sh=document.querySelector('.scroll-hint');if(sh)sh.style.opacity=window.scrollY>60?'0':'';});
 const heroSection=document.querySelector('.hero');
 if(heroSection){const heroObs=new IntersectionObserver(([entry])=>{nav.classList.toggle('nav-dark',!entry.isIntersecting);},{threshold:0});heroObs.observe(heroSection);}
-const crisisSection=document.querySelector('.crisis');
+const crisisSection=document.querySelector('.problem-movie');
 if(crisisSection){let flapFlashed=false;const flapObs=new IntersectionObserver(([entry])=>{if(entry.isIntersecting&&!flapFlashed){flapFlashed=true;const txt=document.querySelector('.flap-tab-text');const arr=document.querySelector('.flap-tab-arrow');if(txt){txt.classList.remove('flash');txt.offsetHeight;txt.classList.add('flash');}if(arr){arr.classList.remove('flash');arr.offsetHeight;arr.classList.add('flash');}}},{threshold:0.3});flapObs.observe(crisisSection);}
 const navT=document.getElementById('navToggle'),navL=document.getElementById('navLinks');
 navT.addEventListener('click',()=>navL.classList.toggle('open'));
@@ -2122,6 +2305,26 @@ counters.forEach(el=>cObs.observe(el));
   obs.observe(canvas);
 })();
 
+// Problem movie - sync video and text overlays on first view
+(function(){
+  const sec=document.querySelector('.problem-movie');
+  const vid=document.getElementById('problemMovie');
+  if(!sec||!vid)return;
+  let primed=false;
+  const start=()=>{
+    if(primed)return;
+    primed=true;
+    try{vid.currentTime=0;}catch(_){}
+    const p=vid.play();
+    if(p&&typeof p.catch==='function')p.catch(()=>{});
+    sec.classList.add('pm-ready');
+  };
+  const obs=new IntersectionObserver(([entry])=>{if(entry.isIntersecting)start();},{threshold:0.35});
+  obs.observe(sec);
+  // Fallback: if user is already scrolled past on reload
+  if(sec.getBoundingClientRect().top<window.innerHeight*0.65)start();
+})();
+
 // Demo form – inline success state (Netlify Forms)
 (function(){
   const form=document.getElementById('demoForm');
@@ -2159,28 +2362,28 @@ counters.forEach(el=>cObs.observe(el));
       <svg viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="rgba(255,255,255,.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
     <div class="flap-eyebrow">60-second briefing</div>
-    <div class="flap-headline">One platform. Every regulation. Start to audit.</div>
-    <div class="flap-tagline">The 60-second version - because your time is exactly what we're here to protect.</div>
+    <div class="flap-headline">The platform that never sleeps.</div>
+    <div class="flap-tagline">Most platforms stop at the rules. Abivian keeps going - all the way to the systems that live by them.</div>
     <div class="flap-stat">
-      <div class="flap-stat-text">One customer. One compliance area. That's <em>11,590 pages</em> - like reading War &amp; Peace nine and a half times. Abivian processes it in <em>12 hours</em>.</div>
+      <div class="flap-stat-text">One customer, one compliance area — <em>11,590 pages of regulation</em> to read, interpret, and prove against. Like reading War &amp; Peace nine and a half times. Abivian does it in <em>12 hours</em>.</div>
     </div>
     <div class="flap-blocks">
       <div class="flap-block">
         <div class="flap-block-label">The problem</div>
-        <div class="flap-block-text">Every market you operate in adds regulations. GDPR, DORA, NIS2, SOX, OFAC - each one is hundreds of documents and thousands of obligations. <em>Managing this manually doesn't scale.</em></div>
+        <div class="flap-block-text">100,000+ regulations. About 15% change every year. <em>Most platforms hand you a posture - a map of what applies - and walk away.</em> Operations are left to figure out the rest.</div>
       </div>
       <div class="flap-block">
         <div class="flap-block-label">What we do</div>
-        <div class="flap-block-text">We handle compliance <em>end-to-end</em> - discovery, assessment, gap analysis, remediation, controls, audit trail - for <em>any framework, any jurisdiction</em>, automatically.</div>
+        <div class="flap-block-text">We map your regulatory posture across every framework and jurisdiction, <em>and we cross the operational divide</em> - with Control Agents running continuously against your systems, collecting evidence, verifying controls, and catching changes before they reach an audit.</div>
       </div>
       <div class="flap-block">
         <div class="flap-block-label">Why it's different</div>
-        <div class="flap-block-text"><em>Deterministic AI, not probabilistic guessing.</em> Every verdict is sourced. Every decision is traceable. The output stands up to regulators.</div>
+        <div class="flap-block-text"><em>Deterministic AI, not probabilistic guessing.</em> Every verdict is sourced. Every decision is traceable. When a regulation changes, the loop re-fires automatically - and the system holds.</div>
       </div>
     </div>
     <div class="flap-ctas">
       <a href="#contact" class="flap-btn-primary" onclick="flapClose()">Request a Demo</a>
-      <a href="#solution" class="flap-btn-ghost" onclick="flapClose()">Show me how a case works →</a>
+      <a href="#platform" class="flap-btn-ghost" onclick="flapClose()">Show me how a case works →</a>
     </div>
   </div>
 </div>
@@ -2201,4 +2404,18 @@ function flapOpen(){
 }
 function flapClose(){
   document.getElementById('flapPanel').classList.remove('open');
-  document.getElementById('flapOver
+  document.getElementById('flapOverlay').classList.remove('active');
+  document.getElementById('flapTab').style.opacity='';
+  document.getElementById('flapTab').style.pointerEvents='';
+  document.body.style.overflow='';
+}
+// Close on Escape key for keyboard users
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    const panel=document.getElementById('flapPanel');
+    if(panel&&panel.classList.contains('open'))flapClose();
+  }
+});
+</script>
+</body>
+</html>
